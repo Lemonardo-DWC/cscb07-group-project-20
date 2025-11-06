@@ -37,7 +37,7 @@ This app is kid-friendly and supports managing and monitoring asthma-related act
     - Planned schedules are configurable by parents.
 
 ### For Healthcare Providers:
-- Read-only access to reports from parents one-time a invite code/link.
+- Read-only access to reports from parents via a one-time invite code/link.
 
 ## Usage
 ```bash
