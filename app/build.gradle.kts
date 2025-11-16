@@ -1,15 +1,16 @@
 plugins {
     alias(libs.plugins.android.application)
+    id("com.google.gms.google-services")
 }
 
 android {
-    namespace = "com.example.myapplication"
+    namespace = "com.example.smartair"
     compileSdk {
         version = release(36)
     }
 
     defaultConfig {
-        applicationId = "com.example.myapplication"
+        applicationId = "com.example.smartair"
         minSdk = 35
         targetSdk = 36
         versionCode = 1
@@ -41,4 +42,22 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+
+    ///////////////   Firebase Dependencies   ///////////////
+
+    // Import the Firebase BoM
+    implementation(platform(libs.firebase.bom))
+
+    // TODO: Add the dependencies for Firebase products you want to use
+    // When using the BoM, don't specify versions in Firebase dependencies
+
+    // Analytics
+    implementation(libs.firebase.analytics)
+
+    // Authentication
+    implementation(libs.firebase.authentication)
+
+    // Realtime Database
+    implementation(libs.firebase.realtime.database)
 }

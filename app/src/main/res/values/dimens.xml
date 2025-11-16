@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Default Dimension Values -->
+    <!-- just initial development phase defaults, can change when we're focusing on UI appearance -->
+    <dimen name="default_padding">12dp</dimen>
+    <dimen name="fontSizeDefault">16sp</dimen>
+
+    <!-- Specific Dimension Values -->
+
+</resources>

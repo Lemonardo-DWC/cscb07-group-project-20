@@ -1,3 +1,43 @@
 <resources>
-    <string name="app_name">My Application</string>
+
+    <!--
+    Can update as needed throughout development phase, just remember to select and use the
+    refactor option when editing in Android Studio to reflect changes across the project.
+    Please double check that the change does not break any behaviour or functionality
+    -->
+
+    <!-- app name -->
+    <string name="app_name">Smart Air</string>
+
+    <!-- Global Strings -->
+    <string name="emailField">Email:</string>
+    <string name="emailHint">johnsmith123@example.com</string>
+    <string name="pwField">Password:</string>
+    <string name="pwFieldConfirm">Confirm Password:</string>
+    <string name="pwHint">password123</string>
+    <string name="register">Create New Account</string>
+    <string name="logout">Logout</string>
+
+    <!-- Login Fragment -->
+    <string name="login_screenID">Smart Air Login</string>
+    <string name="login_login">Login</string>
+    <string name="login_accountRecovery">Account Recovery</string>
+
+    <!-- Register Fragment -->
+    <string name="register_screenID">Create Smart Air Account</string>
+    <string name="register_spinnerLabel">Account Type:</string>
+
+    <string-array name="register_accountTypeSpinner">
+        <item>Parent</item>
+        <item>Child</item>
+        <item>Healthcare Provider</item>
+    </string-array>
+
+    <!-- Other Fragments -->
+    <string name="PLACEHOLDER">PLACEHOLDER</string>
+    <string name="LOGIN_SUCCESS">LOGIN SUCCESS</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

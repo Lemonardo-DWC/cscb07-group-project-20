@@ -2,4 +2,9 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Temporary development phase colors -->
+    <color name="bg1">#B4E0E0</color>
+    <color  name="bg2">#E0B4B4</color>
+
 </resources>

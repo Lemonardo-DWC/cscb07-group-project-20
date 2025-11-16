@@ -2,18 +2,58 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity"
+
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:background="@android:color/transparent">
 
+    <!--
+    NOTE:
+    This container is considered to be the parent of the
+    This is the container that will be hosting fragments
+
+    When this container is hosting other fragments, it is considered
+    as their parent
+    -->
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_container_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/white"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:layout_constraintWidth_max="411dp"
+        app:layout_constraintHeight_max="891dp"
+
+        tools:layout="@layout/fragment_login"> <!-- NOTE: tells the layout editor to put fragment_login into the container for PREVIEW purposes only-->
+    </androidx.fragment.app.FragmentContainerView>
+
+    <!--
+    NOTE:
+    layout constraints are required to indicate a view's position
+    and other properties such as width and height
+
+    At least one of each vertical and horizontal constraints are required
+    for each view item
+    -->
+
+    <!-- Just a simple app name display at the top -->
+    <!-- Can remove in final product -->
     <TextView
+        android:text="@string/app_name"
+        android:textSize="11sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
