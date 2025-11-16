@@ -63,13 +63,14 @@ public class LoginFragment extends Fragment {
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
 
             /// NOTE: back button handling in fragments takes precedence over
-            /// the back button handling of the activity
+            /// the back button handling of the activity when displayed. Useful
+            /// if certain screens require different behaviour for back button events
             @Override
             public void handleOnBackPressed() {
 
                 /// back button press on log in screen should exit the app
                 /// prevents users from going backwards into home and registration screens
-                /// by logging out or successful account creation
+                /// after logging out or successful account creation
                 requireActivity().finish();
             }
         };
@@ -91,11 +92,11 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                // sets variables to user input for their respective input fields
+                // sets variables to take on user input for their respective input fields
                 String email = emailEditText.getText().toString();
                 String password = pwEditText.getText().toString();
 
-                login(email, password);
+                login(email, password); // TODO: work in progress
             }
         });
 
@@ -103,7 +104,9 @@ public class LoginFragment extends Fragment {
         buttonAccountRecovery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFragment(new PlaceholderFragment()); // TODO: recovery screen stuff
+
+                // TODO: recovery screen stuff
+                ((MainActivity) getActivity()).loadFragment(new PlaceholderFragment());
             }
         });
 
@@ -111,18 +114,13 @@ public class LoginFragment extends Fragment {
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFragment(new RegisterFragment());
+
+                // TODO: work in progress
+                ((MainActivity) getActivity()).loadFragment(new RegisterFragment());
             }
         });
 
         return view;
-    }
-
-    private void loadFragment(Fragment fragment) {
-        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container_view, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
     }
 
     private void login(String email, String password) {
@@ -138,6 +136,8 @@ public class LoginFragment extends Fragment {
     }
 
     /// helper method to check valid inputs for email and password
+    /// should match password policy settings in FirebaseAuth:
+    /// https://console.firebase.google.com/u/0/project/cscb07-group-project/authentication/settings
     private boolean validateForm(String email, String password) {
 
         boolean valid = true;

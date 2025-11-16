@@ -84,13 +84,6 @@ public class RegisterFragment extends Fragment {
         return view;
     }
 
-    private void loadFragment(Fragment fragment) {
-        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container_view, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
-    }
-
     /// Helper Functions ///
     private void createAccount(String email, String password, String pwConfirmation) {
 
@@ -118,7 +111,8 @@ public class RegisterFragment extends Fragment {
                                 mAuth.signOut(); // signs user out with intent of having them verify their email first before logging in
                             }
 
-                            loadFragment(new LoginFragment()); // redirect to login screen
+                            // redirect to login screen
+                            ((MainActivity) getActivity()).loadFragment(new LoginFragment());
 
                         } else { // failed to create user
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());

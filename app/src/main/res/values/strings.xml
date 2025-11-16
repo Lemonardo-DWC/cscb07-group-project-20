@@ -3,13 +3,16 @@
     <!--
     Can update as needed throughout development phase, just remember to select and use the
     refactor option when editing in Android Studio to reflect changes across the project.
-    Please double check that the change does not break any behaviour or functionality
+    Please double check that any changes does not break any behaviour or functionality
     -->
 
     <!-- app name -->
     <string name="app_name">Smart Air</string>
 
     <!-- Global Strings -->
+    <!--
+    some commonly used strings, can update throughout development phase as needed
+    -->
     <string name="emailField">Email:</string>
     <string name="emailHint">johnsmith123@example.com</string>
     <string name="pwField">Password:</string>

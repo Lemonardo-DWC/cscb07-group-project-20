@@ -24,7 +24,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/login_loginField"/>
 
-    <!-- Login Section -->
+    <!-- Login Section (ViewGroup view) -->
     <!--
     essentially bundles multiple views into one view item
 
@@ -44,6 +44,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+        <!--
+        - margins can be used to add spacing between a view and its constraint
+            - for example, setting a margin of 20dp for the start of the view tells it to
+            position it 20dp to the right of the its relative constraint, which is the start
+            of the parent view in this case
+
+        - make sure margins and horizontal/vertical bias (if used) don't contradict constraints
+        -->
 
         <!-- Email Stuff -->
 

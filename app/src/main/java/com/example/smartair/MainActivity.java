@@ -77,7 +77,13 @@ public class MainActivity extends AppCompatActivity {
 
     /// fragment loader, replaces the host fragment_container_view with fragment argument
     /// and adds to back stack, allowing user to go back to previous fragment in general
-    private void loadFragment(Fragment fragment) {
+    ///
+    /// essentially used to update screen while allowing for back navigation
+    ///
+    /// fragments will access this method by invoking the following line to reduce redundancy
+    /// ((MainActivity) getActivity()).loadFragment(new fragment());
+    ///
+    protected void loadFragment(Fragment fragment) {
 
         /// this instance is useful for adding, replacing, removing, showing/hiding fragments
         /// as well as adding them to the back stack, however, has other operations as well

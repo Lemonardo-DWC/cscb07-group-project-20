@@ -58,19 +58,12 @@ public class SuccessFragment extends Fragment {
                 mAuth.signOut();
 
                 // transitions to login screen
-                loadFragment(new LoginFragment());
+                ((MainActivity) getActivity()).loadFragment(new LoginFragment());
             }
         });
 
         return view;
 
-    }
-
-    private void loadFragment(Fragment fragment) {
-        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container_view, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
     }
 
 }

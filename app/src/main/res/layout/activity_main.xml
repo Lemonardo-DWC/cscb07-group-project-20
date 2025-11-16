@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity"
@@ -11,11 +12,9 @@
 
     <!--
     NOTE:
-    This container is considered to be the parent of the
-    This is the container that will be hosting fragments
+    This is the container that will be hosting other fragments
 
-    When this container is hosting other fragments, it is considered
-    as their parent
+    When this container is hosting other fragments, it is considered their parent
     -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_container_view"
@@ -31,16 +30,42 @@
         app:layout_constraintWidth_max="411dp"
         app:layout_constraintHeight_max="891dp"
 
-        tools:layout="@layout/fragment_login"> <!-- NOTE: tells the layout editor to put fragment_login into the container for PREVIEW purposes only-->
+        tools:layout="@layout/fragment_login">
+        <!--
+        NOTE:   tools:layout="@layout/fragment_login"
+        FOR PREVIEW PURPOSES ONLY in the layout editor on the right side in android studio;
+        tells the layout editor to have this container host the login fragment
+
+        does not affect runtime behaviour
+
+        NOTE:
+        app:layout_constraintWidth_max="411dp"
+        app:layout_constraintHeight_max="891dp"
+
+        These lines make sure the fragment container never exceeds these dimensions, ensuring
+        uniform  appearance of the ui across different screen dimensions. As such, fragments
+        hosted by this container will have their max dimensions limited by these constraints
+        as well. Therefore, problems in fragment XML such as:
+            The text field login-pwEntryConfirm <EditText> is too wide
+        can be safely ignored in most cases
+        -->
     </androidx.fragment.app.FragmentContainerView>
 
     <!--
     NOTE:
-    layout constraints are required to indicate a view's position
-    and other properties such as width and height
+    for views inside ConstraintLayout view groups, layout constraints are required
+    to indicate a view's position and sometimes other properties such as width and height
 
-    At least one of each vertical and horizontal constraints are required
-    for each view item
+    generally, ConstraintLayouts are recommended if view groups are ever needed to
+    bundle together a bunch of smaller view items
+        - the login section in the login fragment is an example of this usage
+
+    At least one of each of vertical and horizontal constraints are required
+    for each view item when setting constraints, items inside view groups
+    will need to set their constraints relative to the ViewGroup view
+
+    Having too many constraint can complicate behaviour, so just set as little
+    as needed for correct behaviour
     -->
 
     <!-- Just a simple app name display at the top -->
@@ -55,5 +80,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"/>
+    <!--
+     A note on dimensions and positioning:
+     - "wrap_content" adjusts the dimensions based on content size
+     - 0dp tells the view to set dimensions based on constraints
+          - for example, the following constraints set dimensions needed for the left
+          edge of the view to be at the left edge of parent and the right edge to be
+          at the right edge of parent
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+    - layout_constraintHorizontal_bias="number in [0, 1]"
+        - !! needs to have two horizontal constraints in order to use this
+        - tells the view how to position relative to its horizontal constraints
+            - for example, 0 tells the view to align to the start of its constraint view item
+                         1 tells the view to align to the end of its constraint view item
+                         0.5 tells the view to position in the middle to both its horizontal
+                            constraints
+     -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
