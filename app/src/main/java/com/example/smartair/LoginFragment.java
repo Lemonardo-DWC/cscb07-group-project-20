@@ -24,7 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class LoginFragment extends Fragment {
+public class LoginFragment extends Fragment implements LoginView {
 
     FirebaseAuth mAuth;
 
@@ -36,6 +36,7 @@ public class LoginFragment extends Fragment {
 
     /// log description
     private String TAG = "User Login";
+    private LoginPresenter presenter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,9 +59,11 @@ public class LoginFragment extends Fragment {
 
         /// essentially loads the UI for the login fragment
         View view = inflater.inflate(R.layout.fragment_login, container, false);
+        presenter = new LoginPresenter(this);
 
         /// back button handling
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+
 
             /// NOTE: back button handling in fragments takes precedence over
             /// the back button handling of the activity when displayed. Useful
@@ -96,7 +99,8 @@ public class LoginFragment extends Fragment {
                 String email = emailEditText.getText().toString();
                 String password = pwEditText.getText().toString();
 
-                login(email, password);// TODO: work in progress
+                //login(email, password);// TODO: work in progress
+                presenter.validateInputs(email, password);
             }
         });
 
@@ -127,9 +131,10 @@ public class LoginFragment extends Fragment {
 
         Log.d(TAG, "userLogin:" + email); // log action
 
-        if (!validateForm(email, password)) { // entry validation
-            return;
-        }
+        //if (!validateForm(email, password)) { // entry validation
+            //return;
+        //}
+
 
         // TODO: login implementation
         mAuth.signInWithEmailAndPassword(email, password)
@@ -155,35 +160,51 @@ public class LoginFragment extends Fragment {
     /// helper method to check valid inputs for email and password
     /// should match password policy settings in FirebaseAuth:
     /// https://console.firebase.google.com/u/0/project/cscb07-group-project/authentication/settings
-    private boolean validateForm(String email, String password) {
 
-        boolean valid = true;
+    //private boolean validateForm(String email, String password) {
 
-        if(!isValidEmail(email)) {
+        //boolean valid = true;
 
-            //displays error message to user with the editText view
-            emailEditText.setError("Invalid email");
-            valid = false;
-        }
-
-        if(!isValidPassword(password)) {
+        //if(!isValidEmail(email)) {
 
             //displays error message to user with the editText view
-            pwEditText.setError("Password must be at least 6 characters");
-            valid = false;
-        }
+            //emailEditText.setError("Invalid email");
+            //valid = false;
+        //}
 
-        return valid;
-    }
+        //if(!isValidPassword(password)) {
+
+            //displays error message to user with the editText view
+            //pwEditText.setError("Password must be at least 6 characters");
+            //valid = false;
+        //}
+
+        //return valid;
+    //
 
     ///  helper method to check email input validity
-    private boolean isValidEmail(String email) {
-        return !email.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches();
-    }
+    //private boolean isValidEmail(String email) {
+        //return !email.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    //}
 
     ///  helper method to check password input validity
-    private boolean isValidPassword(String password) {
-        return password.length() >= 6;
+    //private boolean isValidPassword(String password) {
+        //return password.length() >= 6;
+    //}
+
+    @Override
+    public void showEmailError(String msg) {
+        emailEditText.setError(msg);
     }
 
+    @Override
+    public void showPasswordError(String msg) {
+        pwEditText.setError(msg);
+    }
+
+    @Override
+    public void loginSuccess() {
+        login(emailEditText.getText().toString(),
+                pwEditText.getText().toString());
+    }
 }
