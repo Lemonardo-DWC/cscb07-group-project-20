@@ -96,7 +96,7 @@ public class LoginFragment extends Fragment {
                 String email = emailEditText.getText().toString();
                 String password = pwEditText.getText().toString();
 
-                login(email, password); // TODO: work in progress
+                login(email, password);// TODO: work in progress
             }
         });
 
@@ -132,7 +132,24 @@ public class LoginFragment extends Fragment {
         }
 
         // TODO: login implementation
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(requireActivity(), task -> {
 
+                    if (task.isSuccessful()) {
+                        Log.d(TAG, "signInWithEmail:success");
+
+                        FirebaseUser user = mAuth.getCurrentUser();
+
+                        //Logging in Success, jump to Success Fragment
+                        ((MainActivity) getActivity()).loadFragment(new SuccessFragment());
+
+                    } else {
+                        Log.w(TAG, "signInWithEmail:failure", task.getException());
+                        Toast.makeText(getActivity(),
+                                "Authentication failed: " + task.getException().getMessage(),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     /// helper method to check valid inputs for email and password
