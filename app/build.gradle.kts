@@ -42,7 +42,10 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-
+    //add dependencies for Mockito for testing
+    testImplementation("org.mockito:mockito-core:5.12.0")
+    testImplementation("org.mockito:mockito-inline:5.2.0")
+    testImplementation("junit:junit:4.13.2")
 
     ///////////////   Firebase Dependencies   ///////////////
 
