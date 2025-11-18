@@ -47,12 +47,9 @@ public class LoginPresenterTest {
     @Test
     public void emptyPasswordAndEmailShowsError() {
         presenter.validateInputs("", "");
+        verify(view).showEmailError(anyString());
         verify(view).showPasswordError(anyString());
     }
 
-    @Test
-    public void InvalidEmailShowsError() {
-        presenter.validateInputs("abc", "");
-        verify(view).showPasswordError(anyString());
-    }
+
 }

@@ -99,7 +99,6 @@ public class LoginFragment extends Fragment implements LoginView {
                 String email = emailEditText.getText().toString();
                 String password = pwEditText.getText().toString();
 
-                //login(email, password);// TODO: work in progress
                 presenter.validateInputs(email, password);
             }
         });
@@ -131,24 +130,39 @@ public class LoginFragment extends Fragment implements LoginView {
 
         Log.d(TAG, "userLogin:" + email); // log action
 
-        //if (!validateForm(email, password)) { // entry validation
-            //return;
-        //}
+        if (!validateEmailForm(email) ){ // entry validation
+            return;
+        }
 
 
-        // TODO: login implementation
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(requireActivity(), task -> {
 
                     if (task.isSuccessful()) {
-                        Log.d(TAG, "signInWithEmail:success");
-
                         FirebaseUser user = mAuth.getCurrentUser();
+                        if (user != null) {
+                            user.reload(); // refresh verified status
 
-                        //Logging in Success, jump to Success Fragment
-                        ((MainActivity) getActivity()).loadFragment(new SuccessFragment());
+                            if (user.isEmailVerified()) {
+                                // Email verified → allow login
+                                MainActivity activity = (MainActivity) getActivity();
+                                if (activity != null) {
+                                    activity.loadFragment(new SuccessFragment());
+                                }
+                            } else {
+                                // Email not verified → force logout
+                                mAuth.signOut();
+                                Toast.makeText(
+                                        getActivity(),
+                                        "Please verify your email before logging in.",
+                                        Toast.LENGTH_LONG
+                                ).show();
+                            }
 
-                    } else {
+
+                        }
+                    }
+                    else {
                         Log.w(TAG, "signInWithEmail:failure", task.getException());
                         Toast.makeText(getActivity(),
                                 "Authentication failed: " + task.getException().getMessage(),
@@ -157,40 +171,16 @@ public class LoginFragment extends Fragment implements LoginView {
                 });
     }
 
-    /// helper method to check valid inputs for email and password
-    /// should match password policy settings in FirebaseAuth:
+    /// helper method to check valid inputs for email
     /// https://console.firebase.google.com/u/0/project/cscb07-group-project/authentication/settings
 
-    //private boolean validateForm(String email, String password) {
-
-        //boolean valid = true;
-
-        //if(!isValidEmail(email)) {
-
-            //displays error message to user with the editText view
-            //emailEditText.setError("Invalid email");
-            //valid = false;
-        //}
-
-        //if(!isValidPassword(password)) {
-
-            //displays error message to user with the editText view
-            //pwEditText.setError("Password must be at least 6 characters");
-            //valid = false;
-        //}
-
-        //return valid;
-    //
-
-    ///  helper method to check email input validity
-    //private boolean isValidEmail(String email) {
-        //return !email.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches();
-    //}
-
-    ///  helper method to check password input validity
-    //private boolean isValidPassword(String password) {
-        //return password.length() >= 6;
-    //}
+    private boolean validateEmailForm(String email) {
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            emailEditText.setError("Invalid email");
+            return false;
+        }
+        return true;
+    }
 
     @Override
     public void showEmailError(String msg) {

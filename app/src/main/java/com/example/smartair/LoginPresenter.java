@@ -18,7 +18,8 @@ public class LoginPresenter {
 
     public void validateInputs(String email, String password) {
         boolean hasError = false;
-        if (email == null || email.isEmpty() || !email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+        if (email == null || email.isEmpty() ) {
+        // Email format validation moved to Fragment (Presenter must stay Android-free for unit testing)
             view.showEmailError("Invalid email");
             hasError = true;
         }
