@@ -17,8 +17,6 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 public class RegisterFragment extends Fragment {
-
-    UserManager userManager;
     RegisterViewModel rvm;
 
     private EditText emailEditText, pwEditText, pwConfirmEditText;
@@ -26,8 +24,6 @@ public class RegisterFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        userManager = new UserManager();
     }
 
     @Nullable
@@ -59,11 +55,12 @@ public class RegisterFragment extends Fragment {
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = emailEditText.getText().toString();
+                String email = emailEditText.getText().toString().trim();
                 String pw = pwEditText.getText().toString();
                 String pwConfirmation = pwConfirmEditText.getText().toString();
+                String accountType = accountTypeSpinner.getSelectedItem().toString();
 
-                rvm.register(email, pw, pwConfirmation);
+                rvm.register(email, pw, pwConfirmation, accountType);
             }
         });
 
@@ -90,9 +87,7 @@ public class RegisterFragment extends Fragment {
 
         // account creation
         rvm.registerResult.observe(getViewLifecycleOwner(), result -> {
-            if (result.equals(AppConstants.SUCCESS)) {
-                ((MainActivity) requireActivity()).loadFragment(new LoginFragment());
-            } else {
+            if (result.equals(AppConstants.FAIL)) {
                 Toast.makeText(
                         getContext(),
                         "Could not create account",
@@ -106,10 +101,10 @@ public class RegisterFragment extends Fragment {
             if (result.equals(AppConstants.SUCCESS)) {
                 Toast.makeText(
                         getContext(),
-                        "Verification email send to: " + userManager.getCurrentUser().getEmail(),
+                        "Verification email sent to: " + rvm.userEmail.getValue(),
                         Toast.LENGTH_SHORT
                 ).show();
-                userManager.logout();
+                ((MainActivity) requireActivity()).loadFragment(new LoginFragment());
             } else {
                 Toast.makeText(
                         getContext(),

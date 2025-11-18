@@ -1,5 +1,6 @@
 package com.example.smartair;
 
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.util.Patterns;
 
@@ -9,10 +10,13 @@ import androidx.lifecycle.ViewModel;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class RegisterViewModel extends ViewModel {
 
     private final UserManager userManager = new UserManager();
+    private final DataManager dataManager = new DataManager();
     private final String TAG = "User Registration";
 
 
@@ -36,7 +40,11 @@ public class RegisterViewModel extends ViewModel {
             = new MutableLiveData<String>();
     public LiveData<String> sendEmailVerificationResult = _sendEmailVerificationResult;
 
-    public void register(String email, String password, String passwordConfirmation) {
+    private final MutableLiveData<String> _userEmail
+            = new MutableLiveData<String>();
+    public LiveData<String> userEmail = _userEmail;
+
+    public void register(String email, String password, String passwordConfirmation, String accountType) {
         Log.d(TAG, "createUser: " + email);
 
         if(!isValidInputs(email, password, passwordConfirmation)) {
@@ -45,11 +53,14 @@ public class RegisterViewModel extends ViewModel {
 
         userManager.register(email, password).addOnCompleteListener(task -> {
             if(task.isSuccessful()) {
-                FirebaseAuth mAuth = FirebaseAuth.getInstance();
-                FirebaseUser user = mAuth.getCurrentUser();
+                FirebaseUser user = userManager.getCurrentUser();
+                DatabaseReference userReference
+                        = dataManager.getReference("users").child(user.getUid());
 
                 Log.d(TAG, "createUserWithEmailAndPassword: SUCCESS");
                 _registerResult.setValue(AppConstants.SUCCESS);
+
+                dataManager.setupUser(userReference, email, accountType);
 
                 if(user != null) {
                     sendEmailVerification(user);
@@ -95,8 +106,10 @@ public class RegisterViewModel extends ViewModel {
                 .addOnCompleteListener(
                         task -> {
                             if (task.isSuccessful()) {
+                                _userEmail.setValue(user.getEmail());
                                 _sendEmailVerificationResult.setValue(AppConstants.SUCCESS);
                             } else {
+                                _userEmail.setValue(null);
                                 _sendEmailVerificationResult.setValue(AppConstants.FAIL);
                             }
                         }
