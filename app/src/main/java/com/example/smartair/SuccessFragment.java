@@ -15,16 +15,18 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 
 public class SuccessFragment extends Fragment {
 
-    FirebaseAuth mAuth;
+    // temp
+    UserManager userManager = new UserManager();
+    DataManager dataManager = new DataManager();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mAuth = FirebaseAuth.getInstance();
     }
 
     @Nullable
@@ -47,6 +49,7 @@ public class SuccessFragment extends Fragment {
 
         /// Button variables ///
         Button buttonLogout = view.findViewById(R.id.buttonLogout);
+        Button buttonDeleteAccount = view.findViewById(R.id.buttonDeleteAccount);
 
         /// Button behaviour ///
 
@@ -55,9 +58,21 @@ public class SuccessFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // sign user out of account
-                mAuth.signOut();
+                userManager.logout();
 
                 // transitions to login screen
+                ((MainActivity) requireActivity()).loadFragment(new LoginFragment());
+            }
+        });
+
+        // delete account button
+        buttonDeleteAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseUser user = userManager.getCurrentUser();
+                dataManager.deleteUser(dataManager.getReference(user.getUid()));
+                userManager.delete();
+
                 ((MainActivity) requireActivity()).loadFragment(new LoginFragment());
             }
         });

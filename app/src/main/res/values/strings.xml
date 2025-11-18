@@ -20,6 +20,7 @@
     <string name="pwHint">password123</string>
     <string name="register">Create New Account</string>
     <string name="logout">Logout</string>
+    <string name="deleteAccount">Delete Account</string>
 
     <!-- Login Fragment -->
     <string name="login_screenID">Smart Air Login</string>
