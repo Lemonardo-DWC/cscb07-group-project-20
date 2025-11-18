@@ -41,7 +41,7 @@ public class RegisterFragment extends Fragment {
         /// Spinner variables and behaviour
         Spinner accountTypeSpinner = view.findViewById(R.id.register_accountTypeSpinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                getContext(),
+                requireContext(),
                 R.array.register_accountTypeSpinner,
                 android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
