@@ -58,7 +58,7 @@ public class SuccessFragment extends Fragment {
                 mAuth.signOut();
 
                 // transitions to login screen
-                ((MainActivity) getActivity()).loadFragment(new LoginFragment());
+                ((MainActivity) requireActivity()).loadFragment(new LoginFragment());
             }
         });
 
