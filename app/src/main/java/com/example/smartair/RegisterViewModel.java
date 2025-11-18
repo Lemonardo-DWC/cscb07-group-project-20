@@ -44,6 +44,10 @@ public class RegisterViewModel extends ViewModel {
             = new MutableLiveData<String>();
     public LiveData<String> userEmail = _userEmail;
 
+    public void logout() {
+        userManager.logout();
+    }
+
     public void register(String email, String password, String passwordConfirmation, String accountType) {
         Log.d(TAG, "createUser: " + email);
 
