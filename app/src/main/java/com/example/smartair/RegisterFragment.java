@@ -48,9 +48,9 @@ public class RegisterFragment extends Fragment {
         accountTypeSpinner.setAdapter(adapter);
 
         /// EditText variables
-        emailEditText = view.findViewById(R.id.login_emailEntry);
-        pwEditText = view.findViewById(R.id.login_pwEntry);
-        pwConfirmEditText = view.findViewById(R.id.login_pwEntryConfirm);
+        emailEditText = view.findViewById(R.id.register_emailEntry);
+        pwEditText = view.findViewById(R.id.register_pwEntry);
+        pwConfirmEditText = view.findViewById(R.id.register_pwEntryConfirm);
 
         /// Button variables
         Button buttonRegister = view.findViewById(R.id.buttonRegister);
