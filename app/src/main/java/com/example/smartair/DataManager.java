@@ -15,8 +15,14 @@ public class DataManager {
         return database.getReference(path);
     }
 
-    public <T> void writeTo(String path, T value) {
-        database.getReference(path).setValue(value);
+    public <T> void writeTo(DatabaseReference reference, T value) {
+        reference.setValue(value);
+    }
+
+    public void setupUser(DatabaseReference reference, String email, String accountType) {
+        writeTo(reference.child("email"), email);
+        writeTo(reference.child("accountType"), accountType);
+    }
     }
 
 }
