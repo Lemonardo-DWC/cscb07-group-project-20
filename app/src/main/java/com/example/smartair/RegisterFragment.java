@@ -112,6 +112,7 @@ public class RegisterFragment extends Fragment {
                         Toast.LENGTH_SHORT
                 ).show();
             }
+            rvm.logout();
         });
 
     }
