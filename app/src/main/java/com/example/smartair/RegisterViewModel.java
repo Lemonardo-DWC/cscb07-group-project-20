@@ -113,6 +113,8 @@ public class RegisterViewModel extends ViewModel {
                                 _userEmail.setValue(user.getEmail());
                                 _sendEmailVerificationResult.setValue(AppConstants.SUCCESS);
                             } else {
+                                dataManager.deleteUser(dataManager.getReference(user.getUid()));
+                                userManager.delete();
                                 _userEmail.setValue(null);
                                 _sendEmailVerificationResult.setValue(AppConstants.FAIL);
                             }
