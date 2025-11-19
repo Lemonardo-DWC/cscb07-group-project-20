@@ -2,7 +2,9 @@ package com.example.smartair;
 
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -38,6 +40,23 @@ public class UserManager {
         } else {
             return Tasks.forException(new Exception("No user logged in"));
         }
+    }
+
+    public Task<Void> reauthenticate(String password) {
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        if (user == null) {
+            return Tasks.forException(new Exception("No user logged in"));
+        }
+
+        if (password == null || password.length() < 6) {
+            return Tasks.forException(new Exception("Invalid password input"));
+        }
+
+        AuthCredential credential
+                = EmailAuthProvider.getCredential(user.getEmail(), password);
+
+        return user.reauthenticate(credential);
     }
 
 }

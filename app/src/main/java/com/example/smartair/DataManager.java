@@ -24,8 +24,8 @@ public class DataManager {
         writeTo(reference.child("accountType"), accountType);
     }
 
-    public void deleteUser(DatabaseReference reference) {
-        reference.removeValue();
+    public void deleteUserData(String userUID) {
+        getReference("users").child(userUID).removeValue();
     }
 
 }
