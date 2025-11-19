@@ -21,7 +21,6 @@ public class RecoveryFragment extends Fragment {
 
     private EditText emailEntry;
     private Button sendButton;
-
     private FirebaseAuth mAuth;
 
     @Nullable
@@ -32,7 +31,7 @@ public class RecoveryFragment extends Fragment {
         emailEntry = view.findViewById(R.id.recovery_emailEntry);
         sendButton = view.findViewById(R.id.buttonSendRecovery);
 
-        // 初始化 Firebase Auth
+        // Initializing Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
         sendButton.setOnClickListener(v -> sendPasswordReset());
@@ -42,7 +41,7 @@ public class RecoveryFragment extends Fragment {
 
     private void sendPasswordReset() {
         String email = emailEntry.getText().toString().trim();
-
+        //check if email is validate
         if (email.isEmpty()) {
             emailEntry.setError("Email cannot be empty");
             return;
