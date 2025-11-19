@@ -109,7 +109,9 @@ public class LoginFragment extends Fragment implements LoginView {
             public void onClick(View v) {
 
                 // TODO: recovery screen stuff
-                ((MainActivity) requireActivity()).loadFragment(new PlaceholderFragment());
+
+                ((MainActivity) requireActivity()).loadFragment(new RecoveryFragment());
+
             }
         });
 
