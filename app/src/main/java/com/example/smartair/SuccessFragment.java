@@ -6,17 +6,14 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
+import android.widget.EditText;
+import android.widget.Toast;
 
 public class SuccessFragment extends Fragment {
 
@@ -47,6 +44,9 @@ public class SuccessFragment extends Fragment {
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
 
+        /// EditText variables ///
+        EditText deletionConfirmationPassword = view.findViewById(R.id.temp_deletionConfirmationEntry);
+
         /// Button variables ///
         Button buttonLogout = view.findViewById(R.id.buttonLogout);
         Button buttonDeleteAccount = view.findViewById(R.id.buttonDeleteAccount);
@@ -69,11 +69,37 @@ public class SuccessFragment extends Fragment {
         buttonDeleteAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseUser user = userManager.getCurrentUser();
-                dataManager.deleteUser(dataManager.getReference(user.getUid()));
-                userManager.delete();
+                userManager.reauthenticate(
+                        deletionConfirmationPassword.getText().toString()
+                ).addOnCompleteListener(reAuthTask -> {
+                    if (!reAuthTask.isSuccessful()) {
+                        Toast.makeText(
+                                requireContext(),
+                                "Failed to reauthenticate user",
+                                Toast.LENGTH_SHORT
+                        ).show();
+                        return;
+                    }
 
-                ((MainActivity) requireActivity()).loadFragment(new LoginFragment());
+                    String userUID = userManager.getCurrentUser().getUid();
+
+                    userManager.delete().addOnCompleteListener(deleteTask -> {
+                        if (deleteTask.isSuccessful()) {
+                            dataManager.deleteUserData(userUID);
+                            ((MainActivity) requireActivity()).loadFragment(new LoginFragment());
+                            Log.d("Account Deletion", "Account deletion success");
+                        } else {
+                            Toast.makeText(
+                                    requireContext(),
+                                    "Failed to delete account, please try again",
+                                    Toast.LENGTH_SHORT
+                            ).show();
+                        }
+                    });
+
+                });
+
+
             }
         });
 
