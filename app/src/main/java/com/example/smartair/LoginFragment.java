@@ -24,7 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class LoginFragment extends Fragment {
+public class LoginFragment extends Fragment implements LoginView {
 
     FirebaseAuth mAuth;
 
@@ -36,6 +36,7 @@ public class LoginFragment extends Fragment {
 
     /// log description
     private String TAG = "User Login";
+    private LoginPresenter presenter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,9 +59,11 @@ public class LoginFragment extends Fragment {
 
         /// essentially loads the UI for the login fragment
         View view = inflater.inflate(R.layout.fragment_login, container, false);
+        presenter = new LoginPresenter(this);
 
         /// back button handling
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+
 
             /// NOTE: back button handling in fragments takes precedence over
             /// the back button handling of the activity when displayed. Useful
@@ -96,7 +99,7 @@ public class LoginFragment extends Fragment {
                 String email = emailEditText.getText().toString();
                 String password = pwEditText.getText().toString();
 
-                login(email, password); // TODO: work in progress
+                presenter.validateInputs(email, password);
             }
         });
 
@@ -106,7 +109,7 @@ public class LoginFragment extends Fragment {
             public void onClick(View v) {
 
                 // TODO: recovery screen stuff
-                ((MainActivity) getActivity()).loadFragment(new PlaceholderFragment());
+                ((MainActivity) requireActivity()).loadFragment(new PlaceholderFragment());
             }
         });
 
@@ -116,7 +119,7 @@ public class LoginFragment extends Fragment {
             public void onClick(View v) {
 
                 // TODO: work in progress
-                ((MainActivity) getActivity()).loadFragment(new RegisterFragment());
+                ((MainActivity) requireActivity()).loadFragment(new RegisterFragment());
             }
         });
 
@@ -127,46 +130,55 @@ public class LoginFragment extends Fragment {
 
         Log.d(TAG, "userLogin:" + email); // log action
 
-        if (!validateForm(email, password)) { // entry validation
-            return;
-        }
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(requireActivity(), task -> {
 
-        // TODO: login implementation
+                    if (task.isSuccessful()) {
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        if (user != null) {
+                            user.reload(); // refresh verified status
 
+                            if (user.isEmailVerified()) {
+                                // Email verified → allow login
+                                MainActivity activity = (MainActivity) getActivity();
+                                if (activity != null) {
+                                    activity.loadFragment(new SuccessFragment());
+                                }
+                            } else {
+                                // Email not verified → force logout
+                                mAuth.signOut();
+                                Toast.makeText(
+                                        requireActivity(),
+                                        "Please verify your email before logging in.",
+                                        Toast.LENGTH_LONG
+                                ).show();
+                            }
+
+
+                        }
+                    }
+                    else {
+                        Log.w(TAG, "signInWithEmail:failure", task.getException());
+                        Toast.makeText(requireActivity(),
+                                "Authentication failed: " + task.getException().getMessage(),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
-    /// helper method to check valid inputs for email and password
-    /// should match password policy settings in FirebaseAuth:
-    /// https://console.firebase.google.com/u/0/project/cscb07-group-project/authentication/settings
-    private boolean validateForm(String email, String password) {
-
-        boolean valid = true;
-
-        if(!isValidEmail(email)) {
-
-            //displays error message to user with the editText view
-            emailEditText.setError("Invalid email");
-            valid = false;
-        }
-
-        if(!isValidPassword(password)) {
-
-            //displays error message to user with the editText view
-            pwEditText.setError("Password must be at least 6 characters");
-            valid = false;
-        }
-
-        return valid;
+    @Override
+    public void showEmailError(String msg) {
+        emailEditText.setError(msg);
     }
 
-    ///  helper method to check email input validity
-    private boolean isValidEmail(String email) {
-        return !email.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    @Override
+    public void showPasswordError(String msg) {
+        pwEditText.setError(msg);
     }
 
-    ///  helper method to check password input validity
-    private boolean isValidPassword(String password) {
-        return password.length() >= 6;
+    @Override
+    public void loginSuccess() {
+        login(emailEditText.getText().toString(),
+                pwEditText.getText().toString());
     }
-
 }

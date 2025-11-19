@@ -1,0 +1,44 @@
+/**
+ * LoginPresenter.java
+ *
+ * Handles all input validation logic for the Login screen following the MVP pattern.
+ * This class receives user input from the View, validates it, and updates the View accordingly.
+ *
+ */
+package com.example.smartair;
+
+import android.util.Patterns;
+
+public class LoginPresenter {
+    private final LoginView view;
+
+    public LoginPresenter(LoginView view) {
+        this.view = view;
+    }
+
+    public void validateInputs(String email, String password) {
+        boolean hasError = false;
+        String EMAIL_REGEX =
+                "[a-zA-Z0-9+._%\\-]{1,256}" +
+                        "@" +
+                        "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+                        "(" +
+                        "\\." +
+                        "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
+                        ")+";
+        if (email == null || email.isEmpty() || !email.matches(EMAIL_REGEX)) {
+
+            view.showEmailError("Invalid email");
+            hasError = true;
+        }
+
+        if (password == null || password.length() < 6) {
+            view.showPasswordError("Password must be at least 6 characters");
+            hasError = true;
+        }
+
+        if (!hasError) {
+            view.loginSuccess();
+        }
+    }
+}
