@@ -109,7 +109,7 @@ public class LoginFragment extends Fragment implements LoginView {
             public void onClick(View v) {
 
                 // TODO: recovery screen stuff
-                ((MainActivity) getActivity()).loadFragment(new PlaceholderFragment());
+                ((MainActivity) requireActivity()).loadFragment(new PlaceholderFragment());
             }
         });
 
@@ -119,7 +119,7 @@ public class LoginFragment extends Fragment implements LoginView {
             public void onClick(View v) {
 
                 // TODO: work in progress
-                ((MainActivity) getActivity()).loadFragment(new RegisterFragment());
+                ((MainActivity) requireActivity()).loadFragment(new RegisterFragment());
             }
         });
 
@@ -129,11 +129,6 @@ public class LoginFragment extends Fragment implements LoginView {
     private void login(String email, String password) {
 
         Log.d(TAG, "userLogin:" + email); // log action
-
-        if (!validateEmailForm(email) ){ // entry validation
-            return;
-        }
-
 
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(requireActivity(), task -> {
@@ -153,7 +148,7 @@ public class LoginFragment extends Fragment implements LoginView {
                                 // Email not verified → force logout
                                 mAuth.signOut();
                                 Toast.makeText(
-                                        getActivity(),
+                                        requireActivity(),
                                         "Please verify your email before logging in.",
                                         Toast.LENGTH_LONG
                                 ).show();
@@ -164,22 +159,11 @@ public class LoginFragment extends Fragment implements LoginView {
                     }
                     else {
                         Log.w(TAG, "signInWithEmail:failure", task.getException());
-                        Toast.makeText(getActivity(),
+                        Toast.makeText(requireActivity(),
                                 "Authentication failed: " + task.getException().getMessage(),
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
-    }
-
-    /// helper method to check valid inputs for email
-    /// https://console.firebase.google.com/u/0/project/cscb07-group-project/authentication/settings
-
-    private boolean validateEmailForm(String email) {
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            emailEditText.setError("Invalid email");
-            return false;
-        }
-        return true;
     }
 
     @Override

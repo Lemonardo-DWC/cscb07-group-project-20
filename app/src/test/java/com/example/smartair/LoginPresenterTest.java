@@ -51,5 +51,10 @@ public class LoginPresenterTest {
         verify(view).showPasswordError(anyString());
     }
 
+    @Test
+    public void InvalidEmailShowsError() {
+        presenter.validateInputs("abc@gmail..com", "123456");
+        verify(view).showEmailError(anyString());
+    }
 
 }
