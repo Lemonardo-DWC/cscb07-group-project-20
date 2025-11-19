@@ -33,7 +33,6 @@
 
     <string-array name="register_accountTypeSpinner">
         <item>Parent</item>
-        <item>Child</item>
         <item>Healthcare Provider</item>
     </string-array>
 
