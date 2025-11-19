@@ -67,11 +67,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart(){
         super.onStart();
 
-        /// gets instance of currently logged in user, null if currently no user logged in
-        /// jumps to home screen if there instance is non-null
+        /// gets instance of currently logged in user and update local user information
+        /// from FirebaseAuth server, null if currently no user logged in
+        /// jumps to home screen if the instance is non-null
         /// TODO: direct to appropriate home screen based on account type (parent, child, provider)
-        if (mAuth.getCurrentUser() != null) {
-            loadFragment(new SuccessFragment());
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            user.reload().addOnCompleteListener(task -> {
+                if (mAuth.getCurrentUser() != null) {
+                    loadFragment(new SuccessFragment());
+                }
+            });
         }
     }
 
