@@ -1,5 +1,7 @@
 package com.example.smartair;
 
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -19,8 +21,19 @@ public class DataManager {
         reference.setValue(value);
     }
 
-    public void setupUser(DatabaseReference reference, String email, String accountType) {
-        writeTo(reference.child("email"), email);
+    public Task<String> getAccountType(String uid) {
+        DatabaseReference ref = getReference("users").child(uid).child("accountType");
+        return ref.get().continueWith(task -> {
+           if (task.isSuccessful() && task.getResult() != null) {
+               DataSnapshot snapshot = task.getResult();
+               return snapshot.getValue(String.class);
+           } else {
+               return null;
+           }
+        });
+    }
+
+    public void setupUser(DatabaseReference reference, String accountType) {
         writeTo(reference.child("accountType"), accountType);
     }
 
