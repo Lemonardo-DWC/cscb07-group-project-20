@@ -1,6 +1,5 @@
 package com.example.smartair;
 
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.util.Patterns;
 
@@ -8,10 +7,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class RegisterViewModel extends ViewModel {
 
@@ -59,7 +56,7 @@ public class RegisterViewModel extends ViewModel {
             if(task.isSuccessful()) {
                 FirebaseUser user = userManager.getCurrentUser();
                 DatabaseReference userReference
-                        = dataManager.getReference("users").child(user.getUid());
+                        = dataManager.getReference(AppConstants.USERPATH).child(user.getUid());
 
                 Log.d(TAG, "createUserWithEmailAndPassword: SUCCESS");
                 _registerResult.setValue(AppConstants.SUCCESS);
@@ -71,7 +68,7 @@ public class RegisterViewModel extends ViewModel {
                 }
 
             } else {
-                Log.w(TAG, "createUserWithEmailAndPassword: FAIL", task.getException());
+                Log.d(TAG, "createUserWithEmailAndPassword: FAIL", task.getException());
                 _registerResult.setValue(AppConstants.FAIL);
             }
         });
