@@ -2,6 +2,12 @@ package com.example.smartair;
 
 public class AppConstants {
 
+    /// Login error messages
+    public static final String INVALID_EMAIL_PASS = "Invalid email/username or password";
+    public static final String VERIFY_EMAIL = "Please verify your email first";
+    public static final String CANT_LOAD_ACCOUNT_TYPE = "Could not load account type";
+    public static final String LOGIN_ERROR = "Login error occurred, please try again";
+
     ///  result
     public static final String SUCCESS = "SUCCESS";
     public static final String FAIL = "FAIL";
@@ -30,4 +36,14 @@ public class AppConstants {
     public static final String MALE = "male";
     public static final String FEMALE = "female";
     public static final String OTHER = "other";
+
+    /// other constants
+    public static final String EMAIL_REGEX
+            = "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
+                "\\@" +
+                "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+                "(" +
+                "\\." +
+                "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
+                ")+";
 }
