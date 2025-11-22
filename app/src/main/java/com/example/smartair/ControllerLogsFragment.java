@@ -60,10 +60,9 @@ public class ControllerLogsFragment extends Fragment {
         Button buttonSave = view.findViewById(R.id.button2);
 
         editTextNumber.setText("1");
-        String finalChildId = (childId != null) ? childId : "testChild001";
-//        String finalChildId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
         FirebaseDatabase db = FirebaseDatabase.getInstance();
-        DatabaseReference logRef = db.getReference("users").child(finalChildId).child("controllerLogs");
+        DatabaseReference logRef = db.getReference("users").child(childId).child("controllerLogs");
 
 
         buttonSave.setOnClickListener(v -> {
