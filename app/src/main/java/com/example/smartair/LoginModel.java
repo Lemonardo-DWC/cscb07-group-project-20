@@ -65,7 +65,7 @@ public class LoginModel implements LoginContract.Model {
         userManager.logout();
 
         // log in
-        userManager.login(username + "@smartair.user.app", password)
+        userManager.login(username + AppConstants.SYNTH_EMAIL_DOMAIN, password)
                 .addOnCompleteListener(loginTask -> {
 
             // listen for task success

@@ -46,4 +46,6 @@ public class AppConstants {
                 "\\." +
                 "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
                 ")+";
+
+    public static final String SYNTH_EMAIL_DOMAIN = "@smartair.user.app";
 }

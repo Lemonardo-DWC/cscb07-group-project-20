@@ -78,7 +78,8 @@ public class RegisterViewModel extends ViewModel {
     private boolean isValidInputs(String email, String password, String passwordConfirmation) {
         boolean valid = true;
 
-        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()
+                || email.contains(AppConstants.SYNTH_EMAIL_DOMAIN)) {
             _emailError.setValue("Invalid Email");
             valid = false;
         } else {
