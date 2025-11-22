@@ -5,7 +5,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
@@ -18,7 +17,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import java.sql.Array;
 import java.util.ArrayList;
 
 public class AddChildFragment extends Fragment {
@@ -42,7 +40,8 @@ public class AddChildFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_add_child, container, false);
 
         // instantiate AddChildViewModel
-        acvm = new ViewModelProvider(this).get(AddChildViewModel.class);
+        AddChildViewModelFactory factory = new AddChildViewModelFactory(requireContext());
+        acvm = new ViewModelProvider(this, factory).get(AddChildViewModel.class);
 
         // editText variables
         usernameEntry = view.findViewById(R.id.usernameEntry);

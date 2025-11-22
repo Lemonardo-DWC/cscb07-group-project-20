@@ -1,5 +1,6 @@
 package com.example.smartair;
 
+import android.content.Context;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -7,16 +8,17 @@ import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.regex.Pattern;
 
 
 public class AddChildViewModel extends ViewModel {
     private final UserManager userManager = new UserManager();
+    private final FirebaseAuth secondaryAuth;
     private final DataManager dataManager = new DataManager();
     private final String TAG = "Add Child Account";
 
@@ -63,7 +65,10 @@ public class AddChildViewModel extends ViewModel {
             = new MediatorLiveData<Boolean>(false);
     public LiveData<Boolean> formValidity = _formValidity;
 
-    public AddChildViewModel() {
+    public AddChildViewModel(Context context) {
+        AuthProvider provider = new AuthProvider(context);
+        secondaryAuth = provider.getAuthInstance();
+
         _formValidity.addSource(usernameError, e -> checkValidity());
         _formValidity.addSource(usernameValidity, e -> checkValidity());
         _formValidity.addSource(passwordError, e -> checkValidity());
@@ -217,39 +222,37 @@ public class AddChildViewModel extends ViewModel {
                             String birthday, String sex,
                             String parentPassword) {
 
-        String parentEmail = userManager.getCurrentUser().getEmail();
         String parentUid = userManager.getCurrentUser().getUid();
         String childSynthEmail = getSyntheticEmail(username);
 
-        userManager.register(childSynthEmail, password)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Log.d(TAG, "createChildWithUsernameAndPassword: SUCCESS");
+        secondaryAuth.createUserWithEmailAndPassword(childSynthEmail, password)
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                Log.d(TAG, "createChildWithUsernameAndPassword: SUCCESS");
 
-                        FirebaseUser childUser = userManager.getCurrentUser();
-                        String childUid = childUser.getUid();
+                                FirebaseUser childUser = secondaryAuth.getCurrentUser();
+                                String childUid = childUser.getUid();
 
-                        DatabaseReference childUserRef
-                                = dataManager.getReference(AppConstants.USERPATH)
-                                    .child(childUid);
+                                DatabaseReference childUserRef
+                                        = dataManager.getReference(AppConstants.USERPATH)
+                                        .child(childUid);
 
-                        dataManager.setupChild(childUserRef, AppConstants.CHILD, parentUid,
-                                childUid, username, childSynthEmail,
-                                getTitleCase(firstName), getTitleCase(middleName),
-                                getTitleCase(lastName), birthday, sex.toLowerCase());
+                                dataManager.setupChild(childUserRef, AppConstants.CHILD, parentUid,
+                                        childUid, username, childSynthEmail,
+                                        getTitleCase(firstName), getTitleCase(middleName),
+                                        getTitleCase(lastName), birthday, sex.toLowerCase());
 
-                        userManager.logout();
-                        userManager.login(parentEmail, parentPassword);
+                                secondaryAuth.signOut();
 
-                        _createChildResult.setValue(AppConstants.SUCCESS);
+                                _createChildResult.setValue(AppConstants.SUCCESS);
 
-                    } else {
+                            } else {
 
-                        Log.i(TAG, "createChildWithUsernameAndPassword: FAIL");
-                        _createChildResult.setValue(AppConstants.FAIL);
+                                Log.i(TAG, "createChildWithUsernameAndPassword: FAIL");
+                                _createChildResult.setValue(AppConstants.FAIL);
 
-                    }
-                });
+                            }
+                        });
 
     }
 
