@@ -18,7 +18,6 @@
     <string name="emailField">Email:</string>
     <string name="emailHint">johnsmith123@example.com</string>
     <string name="usernameEmailField">Email/Username:</string>
-    <string name="usernameEmailHint">johnsmith123@example.com or myUsername123</string>
     <string name="pwField">Password:</string>
     <string name="pwFieldConfirm">Confirm Password:</string>
     <string name="pwHint">password123</string>
@@ -26,16 +25,15 @@
     <string name="logout">Logout</string>
     <string name="deleteAccount">Delete Account</string>
     <string name="firstNameField">First name:</string>
-    <string name="childFirstNameHint">Child\'s first name</string>
     <string name="middleNameField">Middle name(s):</string>
-    <string name="childMiddleNameHint">Child\'s middle name(s)</string>
     <string name="lastNameField">Last name:</string>
-    <string name="childLastNameHint">Child\'s last name</string>
     <string name="birthdayField">Birthday:</string>
     <string name="dayField">Day:</string>
     <string name="monthField">Month:</string>
     <string name="yearField">Year:</string>
     <string name="sexField">Sex:</string>
+    <string name="required">Required</string>
+    <string name="optional">Optional</string>
 
     <string-array name="sexOptions">
         <item>Male</item>
