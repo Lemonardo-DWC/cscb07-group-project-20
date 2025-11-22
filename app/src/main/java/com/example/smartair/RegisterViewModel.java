@@ -61,7 +61,7 @@ public class RegisterViewModel extends ViewModel {
                 Log.d(TAG, "createUserWithEmailAndPassword: SUCCESS");
                 _registerResult.setValue(AppConstants.SUCCESS);
 
-                dataManager.setupUser(userReference, accountType);
+                dataManager.setupUser(userReference, email, accountType);
 
                 if(user != null) {
                     sendEmailVerification(user);
