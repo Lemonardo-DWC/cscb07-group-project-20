@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,50 +10,61 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center_vertical">
+        android:background="@android:color/system_on_primary_container_dark"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
 
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#CF0404"
+            android:text="Check Symptoms" />
 
         <Button
             android:id="@+id/button1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="#F34E1B"
             android:text="Daily Check-In" />
 
         <Button
             android:id="@+id/buttonControllerLogs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="#FBC02D"
             android:text="Record Controller Medicine" />
 
         <Button
             android:id="@+id/button3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="#388E3C"
             android:text="Record Rescue Log" />
 
-        <Button
-            android:id="@+id/button4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Check Symptoms" />
 
         <Button
             android:id="@+id/button5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="#0097A7"
             android:text="PEF Logs" />
 
         <Button
             android:id="@+id/button6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="#303F9F"
             android:text="Button" />
 
         <Button
             android:id="@+id/button9"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="#7B1FA2"
             android:text="Button" />
+
+
     </LinearLayout>
+
 </FrameLayout>
