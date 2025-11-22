@@ -354,7 +354,7 @@ public class AddChildViewModel extends ViewModel {
     }
 
     private String getSyntheticEmail(String username) {
-        return username + "@smartair.user.app";
+        return username + AppConstants.SYNTH_EMAIL_DOMAIN;
     }
 
     private String getTitleCase(String string) {
