@@ -34,7 +34,8 @@ public class DataManager {
         });
     }
 
-    public void setupUser(DatabaseReference reference, String accountType) {
+    public void setupUser(DatabaseReference reference, String email, String accountType) {
+        writeTo(reference, email);
         writeTo(reference.child(AppConstants.ACCOUNTTYPE), accountType);
     }
 
@@ -84,10 +85,10 @@ public class DataManager {
         writeTo(childParentListRef.child(parentUid), parentUid);
 
         // link parent to child
-        DatabaseReference parentChildList
+        DatabaseReference parentChildListRef
                 = getReference(AppConstants.USERPATH).child(parentUid)
                     .child(AppConstants.CHILDRENLIST).child(childUid);
-        writeTo(parentChildList, childUid);
+        writeTo(parentChildListRef, childUid);
 
 
     }
