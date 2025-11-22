@@ -182,8 +182,7 @@ public class AddChildFragment extends Fragment {
 
                 acvm.createChild(username, password,
                         firstName, middleName, lastName,
-                        birthday, sex,
-                        parentPassword);
+                        birthday, sex);
 
             }
         });

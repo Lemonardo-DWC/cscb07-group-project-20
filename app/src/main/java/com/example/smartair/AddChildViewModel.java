@@ -219,8 +219,7 @@ public class AddChildViewModel extends ViewModel {
 
     public void createChild(String username, String password,
                             String firstName, String middleName, String lastName,
-                            String birthday, String sex,
-                            String parentPassword) {
+                            String birthday, String sex) {
 
         String parentUid = userManager.getCurrentUser().getUid();
         String childSynthEmail = getSyntheticEmail(username);
