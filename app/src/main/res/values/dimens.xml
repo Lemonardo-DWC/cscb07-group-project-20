@@ -4,7 +4,7 @@
     <!-- Default Dimension Values -->
     <!-- just initial development phase defaults, can change when we're focusing on UI appearance -->
     <dimen name="default_padding">12dp</dimen>
-    <dimen name="fontSizeDefault">16sp</dimen>
+    <dimen name="fontSizeDefault">14sp</dimen>
 
     <!-- Specific Dimension Values -->
     <!-- Can also just explicitly provide value in layout arguments for developmental phase -->

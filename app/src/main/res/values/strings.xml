@@ -13,13 +13,33 @@
     <!--
     some commonly used strings, can update throughout development phase as needed
     -->
+    <string name="usernameField">Username:</string>
+    <string name="usernameHint">myUsernameExample123</string>
     <string name="emailField">Email:</string>
     <string name="emailHint">johnsmith123@example.com</string>
+    <string name="usernameEmailField">Email/Username:</string>
     <string name="pwField">Password:</string>
     <string name="pwFieldConfirm">Confirm Password:</string>
     <string name="pwHint">password123</string>
     <string name="register">Create New Account</string>
     <string name="logout">Logout</string>
+    <string name="deleteAccount">Delete Account</string>
+    <string name="firstNameField">First name:</string>
+    <string name="middleNameField">Middle name(s):</string>
+    <string name="lastNameField">Last name:</string>
+    <string name="birthdayField">Birthday:</string>
+    <string name="dayField">Day:</string>
+    <string name="monthField">Month:</string>
+    <string name="yearField">Year:</string>
+    <string name="sexField">Sex:</string>
+    <string name="required">Required</string>
+    <string name="optional">Optional</string>
+
+    <string-array name="sexOptions">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Other</item>
+    </string-array>
 
     <!-- Login Fragment -->
     <string name="login_screenID">Smart Air Login</string>
@@ -32,9 +52,12 @@
 
     <string-array name="register_accountTypeSpinner">
         <item>Parent</item>
-        <item>Child</item>
         <item>Healthcare Provider</item>
     </string-array>
+
+    <!-- Manage Child Fragment -->
+    <string name="manageChilde_addChild_screenID">Add Child</string>
+    <string name="manageChild_addChild">Add Child</string>
 
     <!-- Other Fragments -->
     <string name="PLACEHOLDER">PLACEHOLDER</string>

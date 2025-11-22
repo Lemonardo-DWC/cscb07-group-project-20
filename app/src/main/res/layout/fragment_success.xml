@@ -8,15 +8,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    android:background="@android:color/transparent">
+    android:background="@color/bg2">
 
     <!-- Temporary home screen -->
     <!--
     Used to confirm log in success
+    Includes delete account feature
     Includes sign out feature
     -->
 
     <TextView
+        android:id="@+id/temp_loginSuccess"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/LOGIN_SUCCESS"
@@ -28,6 +30,43 @@
         app:layout_constraintBottom_toBottomOf="parent"
         />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/manageChildrenMenu"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/default_padding"
+        android:background="@color/bg1"
+        android:layout_marginTop="40dp"
+        android:layout_marginHorizontal="15dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/manageChildrenTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Manage Children"
+            android:padding="@dimen/default_padding"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <Button
+            android:id="@+id/buttonManageChildren"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Manage Children"
+            android:padding="@dimen/default_padding"
+
+            app:layout_constraintTop_toBottomOf="@id/manageChildrenTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <Button
         android:id="@+id/buttonLogout"
         android:layout_width="wrap_content"
@@ -38,5 +77,53 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Account Deletion -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/temp_accountDeletion"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/bg1"
+        android:padding="@dimen/default_padding"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="30dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/temp_loginSuccess">
+
+        <TextView
+            android:id="@+id/temp_deletionConfirmationField"
+            android:text="Please enter your password to confirm account deletion:"
+
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <EditText
+            android:id="@+id/temp_deletionConfirmationEntry"
+            android:hint="Enter your password here"
+            android:inputType="textPassword"
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+
+            app:layout_constraintTop_toBottomOf="@id/temp_deletionConfirmationField"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <Button
+            android:id="@+id/buttonDeleteAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/deleteAccount"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/temp_deletionConfirmationEntry"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
