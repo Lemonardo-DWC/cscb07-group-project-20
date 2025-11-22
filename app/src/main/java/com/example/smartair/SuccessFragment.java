@@ -36,17 +36,44 @@ public class SuccessFragment extends Fragment {
 
         ///  temp manage children menu
         FirebaseUser user = userManager.getCurrentUser();
-        user.reload();
 
-        dataManager.getAccountType(user.getUid()).addOnCompleteListener(task -> {
-           if (task.isSuccessful()) {
-               if (!task.getResult().equals(AppConstants.PARENT)) {
-                   view.findViewById(R.id.manageChildrenMenu).setVisibility(View.INVISIBLE);
-               }
-           } else {
-               Log.e("DataManager", "Unable to read account type");
-           }
+        user.reload().addOnCompleteListener(reloadTask -> {
+            dataManager.getAccountType(user.getUid()).addOnCompleteListener(task -> {
+                if (task.getResult() != null) {
+                    if (task.isSuccessful()) {
+                        if (!task.getResult().equals(AppConstants.PARENT)) {
+                            view.findViewById(R.id.manageChildrenMenu).setVisibility(View.INVISIBLE);
+                        }
+                    } else {
+                        userManager.logout();
+
+                        Toast.makeText(
+                                requireContext(),
+                                "An error has occured, please log in again",
+                                Toast.LENGTH_SHORT
+                        ).show();
+
+                        Log.e("DataManager", "Unable to read account type");
+
+                        ((MainActivity) requireActivity()).loadFragment(new LoginFragment());
+                    }
+                } else {
+                    userManager.logout();
+
+                    Toast.makeText(
+                            requireContext(),
+                            "An error has occured, please log in again",
+                            Toast.LENGTH_SHORT
+                    ).show();
+
+                    Log.e("DataManager", "Unable to read account type");
+
+                    ((MainActivity) requireActivity()).loadFragment(new LoginFragment());
+                }
+            });
+
         });
+
 
         /// back button handling ///
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {

@@ -2,6 +2,7 @@ package com.example.smartair;
 
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
@@ -70,9 +71,26 @@ public class MainActivity extends AppCompatActivity {
         /// gets instance of currently logged in user, null if currently no user logged in
         /// jumps to home screen if there instance is non-null
         /// TODO: direct to appropriate home screen based on account type (parent, child, provider)
-        if (mAuth.getCurrentUser() != null) {
-            loadFragment(new SuccessFragment());
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        if (user != null){
+            user.reload().addOnCompleteListener(reloadTask -> {
+                if(reloadTask.isSuccessful()) {
+                    if (mAuth.getCurrentUser() != null) {
+                        loadFragment(new SuccessFragment());
+                    }
+                } else {
+                    mAuth.signOut();
+                    Toast.makeText(
+                            this,
+                            "An error has occured, please sign in again",
+                            Toast.LENGTH_SHORT
+                    ).show();
+                }
+            });
         }
+
+
     }
 
     /// fragment loader, replaces the host fragment_container_view with fragment argument
