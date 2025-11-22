@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         /// loads the login fragment if this is the first creation of the activity
         /// brand new launches of the app will have a null savedInstanceState
         if(savedInstanceState == null){
-            loadFragment(new ChildHomeFragment());
+            loadFragment(new LoginFragment());
         }
 
         /// general back button handling instance

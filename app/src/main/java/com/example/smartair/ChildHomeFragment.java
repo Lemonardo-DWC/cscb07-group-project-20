@@ -11,11 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ChildHomeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.google.firebase.auth.FirebaseAuth;
+
+
 public class ChildHomeFragment extends Fragment {
 
 
@@ -26,13 +24,7 @@ public class ChildHomeFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static ChildHomeFragment newInstance(String childId) {
-        ChildHomeFragment fragment = new ChildHomeFragment();
-        Bundle args = new Bundle();
-        args.putString("childId", childId);
-        fragment.setArguments(args);
-        return fragment;
-    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,30 +52,20 @@ public class ChildHomeFragment extends Fragment {
 
 
 
-        String finalChildId = (childId != null) ? childId : "testChild002";   // test case
+        childId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
 
         controllerLogs.setOnClickListener(v -> {
-            ControllerLogsFragment next = new ControllerLogsFragment();
-            Bundle args = new Bundle();
-            args.putString("childId", finalChildId);
-            next.setArguments(args);
-            ((MainActivity) requireActivity()).loadFragment(next);
+            ((MainActivity) requireActivity()).loadFragment(new ControllerLogsFragment());
         });
 
 //        SymptomCheckFragment.setOnClickListener(v -> {
 //            SymptomCheckFragment next = new SymptomCheckFragment();
-//            Bundle args = new Bundle();
-//            args.putString("childId", finalChildId);
-//            next.setArguments(args);
 //            ((MainActivity) requireActivity()).loadFragment(next);
 //        });
 //
 //        ChildPEFFragment.setOnClickListener(v -> {
 //            ChildPEFFragment next = new ChildPEFFragment();
-//            Bundle args = new Bundle();
-//            args.putString("childId", finalChildId);
-//            next.setArguments(args);
 //            ((MainActivity) requireActivity()).loadFragment(next);
 //        });
 

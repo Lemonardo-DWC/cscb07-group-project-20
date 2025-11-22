@@ -28,13 +28,6 @@ public class ControllerLogsFragment extends Fragment {
     public ControllerLogsFragment() {
     }
 
-    public static ControllerLogsFragment newInstance(String childId) {
-        ControllerLogsFragment fragment = new ControllerLogsFragment();
-        Bundle args = new Bundle();
-        args.putString("childId", childId);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,7 +53,7 @@ public class ControllerLogsFragment extends Fragment {
         Button buttonSave = view.findViewById(R.id.button2);
 
         editTextNumber.setText("1");
-
+        childId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         DatabaseReference logRef = db.getReference("users").child(childId).child("controllerLogs");
 
