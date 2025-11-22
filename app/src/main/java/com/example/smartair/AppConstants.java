@@ -15,6 +15,7 @@ public class AppConstants {
     /// database constants
     public static final String USERPATH = "users";
     public static final String USERNAMEPATH = "usernames";
+    public static final String EMAIL = "email";
     public static final String ACCOUNTTYPE = "accountType";
     public static final String BASICINFORMATION = "basicInformation";
     public static final String FIRSTNAME = "firstName";

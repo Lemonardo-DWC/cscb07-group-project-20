@@ -35,7 +35,7 @@ public class DataManager {
     }
 
     public void setupUser(DatabaseReference reference, String email, String accountType) {
-        writeTo(reference, email);
+        writeTo(reference.child(AppConstants.EMAIL), email);
         writeTo(reference.child(AppConstants.ACCOUNTTYPE), accountType);
     }
 
@@ -60,7 +60,7 @@ public class DataManager {
                            String birthday, String sex) {
 
         // user path setup
-        writeTo(userReference, email);
+        writeTo(userReference.child(AppConstants.EMAIL), email);
         writeTo(userReference.child(AppConstants.ACCOUNTTYPE), accountType);
 
         DatabaseReference basicInfoRef = userReference.child(AppConstants.BASICINFORMATION);
