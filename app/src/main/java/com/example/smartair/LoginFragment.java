@@ -118,6 +118,19 @@ public class LoginFragment extends Fragment implements LoginContract.View {
 
     @Override
     public void loginSuccess(String accountType) {
-        ((MainActivity) requireActivity()).loadFragment(new SuccessFragment());
+        switch(accountType){
+            case AppConstants.PARENT:
+                ((MainActivity) requireActivity()).loadFragment(new SuccessFragment());
+                break;
+
+            case AppConstants.CHILD:
+                // redirect to child home screen
+                break;
+
+            case AppConstants.PROVIDER:
+                // redirect to provider home screen
+                break;
+
+        }
     }
 }

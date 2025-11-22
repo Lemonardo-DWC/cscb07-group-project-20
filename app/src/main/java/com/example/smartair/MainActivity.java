@@ -16,11 +16,14 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.sql.DataTruncation;
+
 public class MainActivity extends AppCompatActivity {
 
     /// This will be used for authentication operations such as getting instances of current user,
     /// signing in and out, account creation, etc.
-    FirebaseAuth mAuth;
+    UserManager userManager;
+    DataManager dataManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +39,10 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        /// initialize FirebaseAuth instance, FirebaseAuth operations will be accessed through
-        /// this instance
-        mAuth = FirebaseAuth.getInstance();
+        /// initialize UserManager, DataManager instance, used for FirebaseAuth and FirebaseDatabase
+        /// operations
+        userManager = new UserManager();
+        dataManager = new DataManager();
 
         /// loads the login fragment if this is the first creation of the activity
         /// brand new launches of the app will have a null savedInstanceState
@@ -72,19 +76,44 @@ public class MainActivity extends AppCompatActivity {
         /// from FirebaseAuth server, null if currently no user logged in
         /// jumps to home screen if the instance is non-null
         /// TODO: direct to appropriate home screen based on account type (parent, child, provider)
-        FirebaseUser user = mAuth.getCurrentUser();
+        FirebaseUser user = userManager.getCurrentUser();
 
         if (user != null){
             user.reload().addOnCompleteListener(reloadTask -> {
                 if(reloadTask.isSuccessful()) {
-                    if (mAuth.getCurrentUser() != null) {
-                        loadFragment(new SuccessFragment());
-                    }
+
+                    dataManager.getAccountType(user.getUid())
+                                    .addOnSuccessListener(accountType -> {
+
+                                        switch (accountType) {
+                                            case AppConstants.PARENT:
+                                                loadFragment(new SuccessFragment());
+                                                break;
+
+                                            case AppConstants.CHILD:
+                                                // TODO: redirect to child homescreen
+                                                break;
+
+                                            case AppConstants.PROVIDER:
+                                                // TODO: redirect to provider homescreen
+                                                break;
+                                        }
+
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        userManager.logout();
+                                        Toast.makeText(
+                                                this,
+                                                "Error: ould not determine account type",
+                                                Toast.LENGTH_SHORT
+                                        ).show();
+                                    });
+
                 } else {
-                    mAuth.signOut();
+                    userManager.logout();
                     Toast.makeText(
                             this,
-                            "An error has occured, please sign in again",
+                            "An error has occurred, please sign in again",
                             Toast.LENGTH_SHORT
                     ).show();
                 }
