@@ -60,7 +60,7 @@ public class AddChildViewModel extends ViewModel {
     public LiveData<String> createChildResult = _createChildResult;
 
     private final MediatorLiveData<Boolean> _formValidity
-            = new MediatorLiveData<Boolean>();
+            = new MediatorLiveData<Boolean>(false);
     public LiveData<Boolean> formValidity = _formValidity;
 
     public AddChildViewModel() {
@@ -224,7 +224,7 @@ public class AddChildViewModel extends ViewModel {
         userManager.register(childSynthEmail, password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        Log.i(TAG, "createChildWithUsernameAndPassword: SUCCESS");
+                        Log.d(TAG, "createChildWithUsernameAndPassword: SUCCESS");
 
                         FirebaseUser childUser = userManager.getCurrentUser();
                         String childUid = childUser.getUid();
@@ -271,16 +271,19 @@ public class AddChildViewModel extends ViewModel {
 
         if (username.contains("@")) {
             _usernameError.setValue("Username cannot contain '@'");
+            _usernameValidity.setValue(false);
             return;
         }
 
         if (username.contains(" ")) {
             _usernameError.setValue("Username cannot contain spaces");
+            _usernameValidity.setValue(false);
             return;
         }
 
         if (username.length() < 6) {
             _usernameError.setValue("Username must be at least 6 characters");
+            _usernameValidity.setValue(false);
             return;
         }
 
