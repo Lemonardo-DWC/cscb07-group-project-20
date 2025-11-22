@@ -11,5 +11,3 @@
 - [ ] I have commented my code, particularly in hard-to-understand areas
 - [ ] I have made corresponding changes to the documentation
 - [ ] My changes generate no new warnings or errors
-- [ ] I have added tests that prove my fix works as intended
-- [ ] All new and existing unit tests pass locally with my changes
