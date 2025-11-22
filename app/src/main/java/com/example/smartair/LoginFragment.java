@@ -124,11 +124,11 @@ public class LoginFragment extends Fragment implements LoginContract.View {
                 break;
 
             case AppConstants.CHILD:
-                // redirect to child home screen
+                // TODO: redirect to child home screen
                 break;
 
             case AppConstants.PROVIDER:
-                // redirect to provider home screen
+                // TODO: redirect to provider home screen
                 break;
 
         }
