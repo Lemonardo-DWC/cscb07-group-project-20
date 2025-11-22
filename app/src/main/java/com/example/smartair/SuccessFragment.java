@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseUser;
+
 public class SuccessFragment extends Fragment {
 
     // temp
@@ -31,6 +33,47 @@ public class SuccessFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_success, container, false);
+
+        ///  temp manage children menu
+        FirebaseUser user = userManager.getCurrentUser();
+
+        user.reload().addOnCompleteListener(reloadTask -> {
+            dataManager.getAccountType(user.getUid()).addOnCompleteListener(task -> {
+                if (task.getResult() != null) {
+                    if (task.isSuccessful()) {
+                        if (!task.getResult().equals(AppConstants.PARENT)) {
+                            view.findViewById(R.id.manageChildrenMenu).setVisibility(View.INVISIBLE);
+                        }
+                    } else {
+                        userManager.logout();
+
+                        Toast.makeText(
+                                requireContext(),
+                                "An error has occured, please log in again",
+                                Toast.LENGTH_SHORT
+                        ).show();
+
+                        Log.e("DataManager", "Unable to read account type");
+
+                        ((MainActivity) requireActivity()).loadFragment(new LoginFragment());
+                    }
+                } else {
+                    userManager.logout();
+
+                    Toast.makeText(
+                            requireContext(),
+                            "An error has occured, please log in again",
+                            Toast.LENGTH_SHORT
+                    ).show();
+
+                    Log.e("DataManager", "Unable to read account type");
+
+                    ((MainActivity) requireActivity()).loadFragment(new LoginFragment());
+                }
+            });
+
+        });
+
 
         /// back button handling ///
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
@@ -50,6 +93,7 @@ public class SuccessFragment extends Fragment {
         /// Button variables ///
         Button buttonLogout = view.findViewById(R.id.buttonLogout);
         Button buttonDeleteAccount = view.findViewById(R.id.buttonDeleteAccount);
+        Button buttonManageChildren = view.findViewById(R.id.buttonManageChildren);
 
         /// Button behaviour ///
 
@@ -100,6 +144,13 @@ public class SuccessFragment extends Fragment {
                 });
 
 
+            }
+        });
+
+        buttonManageChildren.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) requireActivity()).loadFragment(new ManageChildFragment());
             }
         });
 

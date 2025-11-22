@@ -17,9 +17,11 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 public class RegisterFragment extends Fragment {
-    RegisterViewModel rvm;
+    private RegisterViewModel rvm;
 
     private EditText emailEditText, pwEditText, pwConfirmEditText;
+
+    private Spinner accountTypeSpinner;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,7 +37,7 @@ public class RegisterFragment extends Fragment {
         rvm = new ViewModelProvider(this).get(RegisterViewModel.class);
 
         /// Spinner variables and behaviour
-        Spinner accountTypeSpinner = view.findViewById(R.id.register_accountTypeSpinner);
+        accountTypeSpinner = view.findViewById(R.id.register_accountTypeSpinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 requireContext(),
                 R.array.register_accountTypeSpinner,
@@ -58,7 +60,7 @@ public class RegisterFragment extends Fragment {
                 String email = emailEditText.getText().toString().trim();
                 String pw = pwEditText.getText().toString();
                 String pwConfirmation = pwConfirmEditText.getText().toString();
-                String accountType = accountTypeSpinner.getSelectedItem().toString();
+                String accountType = accountTypeSpinner.getSelectedItem().toString().toLowerCase();
 
                 rvm.register(email, pw, pwConfirmation, accountType);
             }

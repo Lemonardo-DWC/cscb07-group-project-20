@@ -1,5 +1,7 @@
 package com.example.smartair;
 
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -19,13 +21,75 @@ public class DataManager {
         reference.setValue(value);
     }
 
-    public void setupUser(DatabaseReference reference, String email, String accountType) {
-        writeTo(reference.child("email"), email);
-        writeTo(reference.child("accountType"), accountType);
+    public Task<String> getAccountType(String uid) {
+        DatabaseReference ref
+                = getReference(AppConstants.USERPATH).child(uid).child(AppConstants.ACCOUNTTYPE);
+        return ref.get().continueWith(task -> {
+           if (task.isSuccessful() && task.getResult() != null) {
+               DataSnapshot snapshot = task.getResult();
+               return snapshot.getValue(String.class);
+           } else {
+               return null;
+           }
+        });
+    }
+
+    public void setupUser(DatabaseReference reference, String accountType) {
+        writeTo(reference.child(AppConstants.ACCOUNTTYPE), accountType);
     }
 
     public void deleteUserData(String userUID) {
-        getReference("users").child(userUID).removeValue();
+        getReference(AppConstants.USERPATH).child(userUID).removeValue();
+    }
+
+    public Task<Boolean> exists(DatabaseReference reference) {
+        return reference.get().continueWith(task -> {
+           if(!task.isSuccessful() || task.getResult() == null) {
+               return false;
+           }
+           DataSnapshot snapshot = task.getResult();
+           return snapshot.exists();
+        });
+    }
+
+    public void setupChild(DatabaseReference userReference,
+                           String accountType, String parentUid, String childUid,
+                           String username, String email,
+                           String firstName, String middleName, String lastName,
+                           String birthday, String sex) {
+
+        // user path setup
+        writeTo(userReference.child(AppConstants.ACCOUNTTYPE), accountType);
+
+        DatabaseReference basicInfoRef = userReference.child(AppConstants.BASICINFORMATION);
+        writeTo(basicInfoRef.child(AppConstants.FIRSTNAME), firstName);
+        writeTo(basicInfoRef.child(AppConstants.MIDDLENAME), middleName);
+        writeTo(basicInfoRef.child(AppConstants.LASTNAME), lastName);
+        writeTo(basicInfoRef.child(AppConstants.BIRTHDAY), birthday);
+        writeTo(basicInfoRef.child(AppConstants.SEX), sex);
+
+        // username path setup
+        writeTo(getReference(AppConstants.USERNAMEPATH).child(username), email);
+
+        // link parent child
+        DatabaseReference childParentListRef = userReference.child(AppConstants.PARENTLIST);
+        linkParentChild(childParentListRef, parentUid, childUid);
+
+    }
+
+    public void linkParentChild(DatabaseReference childParentListRef,
+                                String parentUid, String childUid) {
+
+        // link child to parent
+        writeTo(childParentListRef.child(parentUid), parentUid);
+
+        // link parent to child
+        DatabaseReference parentChildList
+                = getReference(AppConstants.USERPATH).child(parentUid)
+                    .child(AppConstants.CHILDRENLIST).child(childUid);
+        writeTo(parentChildList, childUid);
+
+
     }
 
 }

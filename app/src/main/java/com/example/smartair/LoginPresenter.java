@@ -7,38 +7,61 @@
  */
 package com.example.smartair;
 
-import android.util.Patterns;
+import java.util.regex.Pattern;
 
-public class LoginPresenter {
-    private final LoginView view;
+public class LoginPresenter implements LoginContract.Presenter {
 
-    public LoginPresenter(LoginView view) {
+    private final LoginContract.View view;
+    private final LoginContract.Model model;
+
+    public LoginPresenter(LoginContract.View view, LoginContract.Model model) {
         this.view = view;
+        this.model = model;
     }
 
-    public void validateInputs(String email, String password) {
-        boolean hasError = false;
-        String EMAIL_REGEX =
-                "[a-zA-Z0-9+._%\\-]{1,256}" +
-                        "@" +
-                        "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
-                        "(" +
-                        "\\." +
-                        "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
-                        ")+";
-        if (email == null || email.isEmpty() || !email.matches(EMAIL_REGEX)) {
+    @Override
+    public void requestLogin(String usernameEmail, String password) {
 
-            view.showEmailError("Invalid email");
-            hasError = true;
+        if (isEmailEntry(usernameEmail)) {
+
+            // email login
+            Pattern emailPattern = Pattern.compile(AppConstants.EMAIL_REGEX);
+
+            if (!emailPattern.matcher(usernameEmail).matches() || password.length() < 6) {
+                view.showLoginError(AppConstants.INVALID_EMAIL_PASS);
+            } else {
+                model.emailLogin(usernameEmail, password, getCallback());
+            }
+
+        } else {
+
+            // username login
+            if(password.length() < 6) {
+                view.showLoginError(AppConstants.INVALID_EMAIL_PASS);
+            } else {
+                model.usernameLogin(usernameEmail, password, getCallback());
+            }
+
         }
 
-        if (password == null || password.length() < 6) {
-            view.showPasswordError("Password must be at least 6 characters");
-            hasError = true;
-        }
-
-        if (!hasError) {
-            view.loginSuccess();
-        }
     }
+
+    private LoginContract.LoginCallback getCallback() {
+        return new LoginContract.LoginCallback() {
+            @Override
+            public void onSuccess(String accountType) {
+                view.loginSuccess(accountType);
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                view.showLoginError(msg);
+            }
+        };
+    }
+
+    private boolean isEmailEntry(String usernameEmail) {
+        return usernameEmail.contains("@");
+    }
+
 }
