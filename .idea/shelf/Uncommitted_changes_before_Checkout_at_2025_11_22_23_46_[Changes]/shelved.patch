@@ -1,0 +1,61 @@
+Index: .idea/deploymentTargetSelector.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"deploymentTargetSelector\">\r\n    <selectionStates>\r\n      <SelectionState runConfigName=\"app\">\r\n        <option name=\"selectionMode\" value=\"DROPDOWN\" />\r\n        <DropdownSelection timestamp=\"2025-11-21T00:29:51.713569800Z\">\r\n          <Target type=\"DEFAULT_BOOT\">\r\n            <handle>\r\n              <DeviceId pluginId=\"LocalEmulator\" identifier=\"path=C:\\Users\\35638\\.android\\avd\\Medium_Phone.avd\" />\r\n            </handle>\r\n          </Target>\r\n        </DropdownSelection>\r\n        <DialogSelection />\r\n      </SelectionState>\r\n    </selectionStates>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/deploymentTargetSelector.xml b/.idea/deploymentTargetSelector.xml
+--- a/.idea/deploymentTargetSelector.xml	(revision e337205a0551ae4f78859463f0804a7fcc628913)
++++ b/.idea/deploymentTargetSelector.xml	(date 1763868711228)
+@@ -4,7 +4,7 @@
+     <selectionStates>
+       <SelectionState runConfigName="app">
+         <option name="selectionMode" value="DROPDOWN" />
+-        <DropdownSelection timestamp="2025-11-21T00:29:51.713569800Z">
++        <DropdownSelection timestamp="2025-11-23T03:31:18.125577400Z">
+           <Target type="DEFAULT_BOOT">
+             <handle>
+               <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\35638\.android\avd\Medium_Phone.avd" />
+Index: app/src/main/java/com/example/smartair/ChildHomeFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.smartair;\r\n\r\nimport android.os.Bundle;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.annotation.Nullable;\r\nimport androidx.fragment.app.Fragment;\r\n\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.Button;\r\n\r\nimport com.google.firebase.auth.FirebaseAuth;\r\n\r\n\r\npublic class ChildHomeFragment extends Fragment {\r\n\r\n\r\n    private String childId;\r\n\r\n\r\n    public ChildHomeFragment() {\r\n        // Required empty public constructor\r\n    }\r\n\r\n\r\n\r\n    @Override\r\n    public void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        if (getArguments() != null) {\r\n            childId = getArguments().getString(\"childId\");\r\n        }\r\n    }\r\n\r\n    @Override\r\n    public View onCreateView(LayoutInflater inflater, ViewGroup container,\r\n                             Bundle savedInstanceState) {\r\n        // Inflate the layout for this fragment\r\n        return inflater.inflate(R.layout.fragment_child_home, container, false);\r\n    }\r\n\r\n    @Override\r\n    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {\r\n        super.onViewCreated(view, savedInstanceState);\r\n\r\n        Button controllerLogs = view.findViewById(R.id.buttonControllerLogs);\r\n//        Button SymptomCheckFragment = view.findViewById(R.id.button4);\r\n//        Button ChildPEFFragment = view.findViewById(R.id.button5);\r\n//        Button rescueLogs = view.findViewById(R.id.button2);\r\n\r\n\r\n\r\n        childId = FirebaseAuth.getInstance().getCurrentUser().getUid();\r\n\r\n\r\n        controllerLogs.setOnClickListener(v -> {\r\n            ((MainActivity) requireActivity()).loadFragment(new ControllerLogsFragment());\r\n        });\r\n\r\n//        SymptomCheckFragment.setOnClickListener(v -> {\r\n//            SymptomCheckFragment next = new SymptomCheckFragment();\r\n//            ((MainActivity) requireActivity()).loadFragment(next);\r\n//        });\r\n//\r\n//        ChildPEFFragment.setOnClickListener(v -> {\r\n//            ChildPEFFragment next = new ChildPEFFragment();\r\n//            ((MainActivity) requireActivity()).loadFragment(next);\r\n//        });\r\n\r\n\r\n    }\r\n\r\n}\r\n
+===================================================================
+diff --git a/app/src/main/java/com/example/smartair/ChildHomeFragment.java b/app/src/main/java/com/example/smartair/ChildHomeFragment.java
+--- a/app/src/main/java/com/example/smartair/ChildHomeFragment.java	(revision e337205a0551ae4f78859463f0804a7fcc628913)
++++ b/app/src/main/java/com/example/smartair/ChildHomeFragment.java	(date 1763872677615)
+@@ -26,13 +26,6 @@
+ 
+ 
+ 
+-    @Override
+-    public void onCreate(Bundle savedInstanceState) {
+-        super.onCreate(savedInstanceState);
+-        if (getArguments() != null) {
+-            childId = getArguments().getString("childId");
+-        }
+-    }
+ 
+     @Override
+     public View onCreateView(LayoutInflater inflater, ViewGroup container,
+@@ -48,7 +41,7 @@
+         Button controllerLogs = view.findViewById(R.id.buttonControllerLogs);
+ //        Button SymptomCheckFragment = view.findViewById(R.id.button4);
+ //        Button ChildPEFFragment = view.findViewById(R.id.button5);
+-//        Button rescueLogs = view.findViewById(R.id.button2);
++        Button rescueLogs = view.findViewById(R.id.button4);
+ 
+ 
+ 
+@@ -58,7 +51,9 @@
+         controllerLogs.setOnClickListener(v -> {
+             ((MainActivity) requireActivity()).loadFragment(new ControllerLogsFragment());
+         });
+-
++        rescueLogs.setOnClickListener(v -> {
++            ((MainActivity) requireActivity()).loadFragment(new RescueLogsFragment());
++        });
+ //        SymptomCheckFragment.setOnClickListener(v -> {
+ //            SymptomCheckFragment next = new SymptomCheckFragment();
+ //            ((MainActivity) requireActivity()).loadFragment(next);

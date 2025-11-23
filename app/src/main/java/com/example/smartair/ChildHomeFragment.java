@@ -26,13 +26,6 @@ public class ChildHomeFragment extends Fragment {
 
 
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            childId = getArguments().getString("childId");
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,6 +39,7 @@ public class ChildHomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         Button controllerLogs = view.findViewById(R.id.buttonControllerLogs);
+        Button rescueLogs = view.findViewById(R.id.button3);
 //        Button SymptomCheckFragment = view.findViewById(R.id.button4);
 //        Button ChildPEFFragment = view.findViewById(R.id.button5);
 //        Button rescueLogs = view.findViewById(R.id.button2);
@@ -58,6 +52,10 @@ public class ChildHomeFragment extends Fragment {
         controllerLogs.setOnClickListener(v -> {
             ((MainActivity) requireActivity()).loadFragment(new ControllerLogsFragment());
         });
+        rescueLogs.setOnClickListener(v -> {
+            ((MainActivity) requireActivity()).loadFragment(new RescueLogsFragment());
+        });
+
 
 //        SymptomCheckFragment.setOnClickListener(v -> {
 //            SymptomCheckFragment next = new SymptomCheckFragment();

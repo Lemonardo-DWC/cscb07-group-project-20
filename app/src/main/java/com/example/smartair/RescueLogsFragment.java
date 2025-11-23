@@ -2,56 +2,44 @@ package com.example.smartair;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link RescueLogsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.google.android.material.button.MaterialButtonGroup;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+import java.util.Map;
+
+
 public class RescueLogsFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private String childId;
 
     public RescueLogsFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment RescueLogsFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static RescueLogsFragment newInstance(String param1, String param2) {
-        RescueLogsFragment fragment = new RescueLogsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            childId = getArguments().getString("childId");
         }
     }
 
@@ -60,5 +48,78 @@ public class RescueLogsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_rescue_logs, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        EditText editTextNumber = view.findViewById(R.id.editTextNumber);
+        Button buttonSave = view.findViewById(R.id.button2);
+        RadioGroup groupBef = view.findViewById(R.id.preBreathGroup);
+        RadioGroup groupAft = view.findViewById(R.id.aftBreathGroup);
+        RadioGroup groupFeel= view.findViewById(R.id.postStatusGroup);
+
+        editTextNumber.setText("1");
+        childId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        DatabaseReference logRef = db.getReference("users").child(childId).child("rescueLogs");
+
+        buttonSave.setOnClickListener(v -> {
+
+            String doseTxt = editTextNumber.getText().toString().trim();
+            TextView text1=view.findViewById(R.id.textView2);
+            int num1 = groupBef.getCheckedRadioButtonId();
+            if (num1 == -1) {
+                text1.setError("Please select an option.");
+                return;
+            }
+            RadioButton selectedButton1 = view.findViewById(num1);
+            String selectedString1 = selectedButton1.getText().toString();
+
+            TextView text2=view.findViewById(R.id.textView3);
+            int num2 = groupAft.getCheckedRadioButtonId();
+            if (num2 == -1) {
+                text2.setError("Please select an option.");
+                return;
+            }
+            RadioButton selectedButton2 = view.findViewById(num2);
+            String selectedString2 = selectedButton2.getText().toString();
+
+            TextView text3=view.findViewById(R.id.postStatusLabel);
+            int num3 = groupFeel.getCheckedRadioButtonId();
+            if (num3 == -1) {
+                text3.setError("Please select an option.");
+                return;
+            }
+            RadioButton selectedButton3 = view.findViewById(num3);
+            String selectedString3 = selectedButton3.getText().toString();
+
+            int dose = 1;
+            try {
+                dose = Integer.parseInt(doseTxt);
+            } catch (Exception e) {
+                editTextNumber.setError("Enter a number");
+                return;
+            }
+            if (dose<=0) {
+                editTextNumber.setError("Puffs must be at least 1");
+                return;
+            }
+
+
+            Map<String, Object> log = new HashMap<>();
+            log.put("dose", dose);
+            log.put("preBreathRating", selectedString1);
+            log.put("postBreathRating", selectedString2);
+            log.put("postStatus", selectedString3);
+            log.put("timestamp", System.currentTimeMillis());
+
+            logRef.push().setValue(log)
+                    .addOnSuccessListener(unused ->
+                            Toast.makeText(getContext(), "Saved!", Toast.LENGTH_SHORT).show())
+                    .addOnFailureListener(e ->
+                            Toast.makeText(getContext(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+        });
     }
 }

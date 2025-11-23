@@ -1,0 +1,449 @@
+Index: app/src/main/java/com/example/smartair/ChildHomeFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.smartair;\r\n\r\nimport android.os.Bundle;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.annotation.Nullable;\r\nimport androidx.fragment.app.Fragment;\r\n\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.Button;\r\n\r\nimport com.google.firebase.auth.FirebaseAuth;\r\n\r\n\r\npublic class ChildHomeFragment extends Fragment {\r\n\r\n\r\n    private String childId;\r\n\r\n\r\n    public ChildHomeFragment() {\r\n        // Required empty public constructor\r\n    }\r\n\r\n\r\n\r\n    @Override\r\n    public void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        if (getArguments() != null) {\r\n            childId = getArguments().getString(\"childId\");\r\n        }\r\n    }\r\n\r\n    @Override\r\n    public View onCreateView(LayoutInflater inflater, ViewGroup container,\r\n                             Bundle savedInstanceState) {\r\n        // Inflate the layout for this fragment\r\n        return inflater.inflate(R.layout.fragment_child_home, container, false);\r\n    }\r\n\r\n    @Override\r\n    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {\r\n        super.onViewCreated(view, savedInstanceState);\r\n\r\n        Button controllerLogs = view.findViewById(R.id.buttonControllerLogs);\r\n//        Button SymptomCheckFragment = view.findViewById(R.id.button4);\r\n//        Button ChildPEFFragment = view.findViewById(R.id.button5);\r\n//        Button rescueLogs = view.findViewById(R.id.button2);\r\n\r\n\r\n\r\n        childId = FirebaseAuth.getInstance().getCurrentUser().getUid();\r\n\r\n\r\n        controllerLogs.setOnClickListener(v -> {\r\n            ((MainActivity) requireActivity()).loadFragment(new ControllerLogsFragment());\r\n        });\r\n\r\n//        SymptomCheckFragment.setOnClickListener(v -> {\r\n//            SymptomCheckFragment next = new SymptomCheckFragment();\r\n//            ((MainActivity) requireActivity()).loadFragment(next);\r\n//        });\r\n//\r\n//        ChildPEFFragment.setOnClickListener(v -> {\r\n//            ChildPEFFragment next = new ChildPEFFragment();\r\n//            ((MainActivity) requireActivity()).loadFragment(next);\r\n//        });\r\n\r\n\r\n    }\r\n\r\n}\r\n
+===================================================================
+diff --git a/app/src/main/java/com/example/smartair/ChildHomeFragment.java b/app/src/main/java/com/example/smartair/ChildHomeFragment.java
+--- a/app/src/main/java/com/example/smartair/ChildHomeFragment.java	(revision e337205a0551ae4f78859463f0804a7fcc628913)
++++ b/app/src/main/java/com/example/smartair/ChildHomeFragment.java	(date 1763866020489)
+@@ -46,6 +46,7 @@
+         super.onViewCreated(view, savedInstanceState);
+ 
+         Button controllerLogs = view.findViewById(R.id.buttonControllerLogs);
++        Button rescueLogs = view.findViewById(R.id.button3);
+ //        Button SymptomCheckFragment = view.findViewById(R.id.button4);
+ //        Button ChildPEFFragment = view.findViewById(R.id.button5);
+ //        Button rescueLogs = view.findViewById(R.id.button2);
+@@ -58,6 +59,10 @@
+         controllerLogs.setOnClickListener(v -> {
+             ((MainActivity) requireActivity()).loadFragment(new ControllerLogsFragment());
+         });
++        rescueLogs.setOnClickListener(v -> {
++            ((MainActivity) requireActivity()).loadFragment(new RescueLogsFragment());
++        });
++
+ 
+ //        SymptomCheckFragment.setOnClickListener(v -> {
+ //            SymptomCheckFragment next = new SymptomCheckFragment();
+Index: app/src/main/java/com/example/smartair/ControllerLogsFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.smartair;\r\n\r\nimport android.os.Bundle;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.Button;\r\nimport android.widget.CheckBox;\r\nimport android.widget.EditText;\r\nimport android.widget.Toast;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.annotation.Nullable;\r\nimport androidx.fragment.app.Fragment;\r\n\r\n\r\nimport com.google.firebase.auth.FirebaseAuth;\r\nimport com.google.firebase.database.DatabaseReference;\r\nimport com.google.firebase.database.FirebaseDatabase;\r\n\r\nimport java.util.HashMap;\r\nimport java.util.Map;\r\n\r\npublic class ControllerLogsFragment extends Fragment {\r\n\r\n    private String childId;\r\n\r\n    public ControllerLogsFragment() {\r\n    }\r\n\r\n\r\n    @Override\r\n    public void onCreate(@Nullable Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        if (getArguments() != null) {\r\n            childId = getArguments().getString(\"childId\");\r\n        }\r\n    }\r\n\r\n    @Override\r\n    public View onCreateView(LayoutInflater inflater, ViewGroup container,\r\n                             Bundle savedInstanceState) {\r\n        View view = inflater.inflate(R.layout.fragment_controller_logs, container, false);\r\n\r\n        return view;\r\n    }\r\n    @Override\r\n    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {\r\n        super.onViewCreated(view, savedInstanceState);\r\n\r\n        CheckBox checkBox = view.findViewById(R.id.checkBox);\r\n        EditText editTextNumber = view.findViewById(R.id.editTextNumber);\r\n        Button buttonSave = view.findViewById(R.id.button2);\r\n\r\n        editTextNumber.setText(\"1\");\r\n        childId = FirebaseAuth.getInstance().getCurrentUser().getUid();\r\n        FirebaseDatabase db = FirebaseDatabase.getInstance();\r\n        DatabaseReference logRef = db.getReference(\"users\").child(childId).child(\"controllerLogs\");\r\n\r\n\r\n        buttonSave.setOnClickListener(v -> {\r\n\r\n            boolean took = checkBox.isChecked();\r\n            String doseTxt = editTextNumber.getText().toString().trim();\r\n\r\n            int dose = 1;\r\n\r\n            if (!took) {\r\n                Toast.makeText(getContext(), \"Please take your controller medicine first.\", Toast.LENGTH_SHORT).show();\r\n                return;\r\n            }\r\n            try {\r\n                dose = Integer.parseInt(doseTxt);\r\n            } catch (Exception e) {\r\n                editTextNumber.setError(\"Enter a number\");\r\n                return;\r\n            }\r\n\r\n            Map<String, Object> log = new HashMap<>();\r\n            log.put(\"dose\", dose);\r\n            log.put(\"timestamp\", System.currentTimeMillis());\r\n\r\n            logRef.push().setValue(log)\r\n                    .addOnSuccessListener(unused ->\r\n                            Toast.makeText(getContext(), \"Saved!\", Toast.LENGTH_SHORT).show())\r\n                    .addOnFailureListener(e ->\r\n                            Toast.makeText(getContext(), \"Error: \" + e.getMessage(), Toast.LENGTH_SHORT).show());\r\n        });\r\n    }\r\n}\r\n\r\n
+===================================================================
+diff --git a/app/src/main/java/com/example/smartair/ControllerLogsFragment.java b/app/src/main/java/com/example/smartair/ControllerLogsFragment.java
+--- a/app/src/main/java/com/example/smartair/ControllerLogsFragment.java	(revision e337205a0551ae4f78859463f0804a7fcc628913)
++++ b/app/src/main/java/com/example/smartair/ControllerLogsFragment.java	(date 1763865567287)
+@@ -75,6 +75,10 @@
+                 editTextNumber.setError("Enter a number");
+                 return;
+             }
++            if (dose<=0) {
++                editTextNumber.setError("Puffs must be at least 1");
++                return;
++            }
+ 
+             Map<String, Object> log = new HashMap<>();
+             log.put("dose", dose);
+Index: app/src/main/res/layout/fragment_rescue_logs.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<FrameLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    tools:context=\".RescueLogsFragment\">\r\n\r\n\r\n</FrameLayout>
+===================================================================
+diff --git a/app/src/main/res/layout/fragment_rescue_logs.xml b/app/src/main/res/layout/fragment_rescue_logs.xml
+--- a/app/src/main/res/layout/fragment_rescue_logs.xml	(revision e337205a0551ae4f78859463f0804a7fcc628913)
++++ b/app/src/main/res/layout/fragment_rescue_logs.xml	(date 1763859750977)
+@@ -1,9 +1,230 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
++<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
++    android:autofillHints="1"
+     tools:context=".RescueLogsFragment">
+ 
++    <androidx.constraintlayout.widget.ConstraintLayout
++        android:layout_width="371dp"
++        android:layout_height="400dp"
++        android:layout_marginTop="168dp"
++        android:background="@color/bg1"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toTopOf="parent">
++
++
++        <EditText
++            android:id="@+id/editTextNumber"
++            android:layout_width="53dp"
++            android:layout_height="50dp"
++            android:layout_marginStart="192dp"
++            android:layout_marginTop="16dp"
++            android:ems="10"
++            android:gravity="center"
++            android:hint="e.g.1"
++            android:inputType="number"
++            android:text="1"
++            android:textAppearance="@style/TextAppearance.AppCompat.Large"
++            app:layout_constraintStart_toStartOf="parent"
++            app:layout_constraintTop_toTopOf="parent" />
++
++        <TextView
++            android:id="@+id/textView"
++            android:layout_width="354dp"
++            android:layout_height="61dp"
++            android:layout_marginTop="4dp"
++            android:fallbackLineSpacing="true"
++            android:text="Q1: How many rescue puffs did you take this time?"
++            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
++            app:layout_constraintEnd_toEndOf="parent"
++            app:layout_constraintHorizontal_bias="0.111"
++            app:layout_constraintStart_toStartOf="parent"
++            app:layout_constraintTop_toTopOf="parent" />
++
++        <View
++            android:layout_width="match_parent"
++            android:layout_height="1dp"
++            android:background="#C2185B"
++            app:layout_constraintStart_toStartOf="parent"
++            app:layout_constraintTop_toBottomOf="@+id/textView" />
++
++        <Button
++            android:id="@+id/button2"
++            style="@style/Widget.Material3.Button"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:layout_marginStart="264dp"
++            android:text="Save"
++            app:layout_constraintBottom_toBottomOf="parent"
++            app:layout_constraintStart_toStartOf="parent"
++            app:layout_constraintVertical_bias="0.86" />
++
++        <TextView
++            android:id="@+id/textView2"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:text="Q2: Before using the inhaler, how hard is it to breathe?"
++            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
++            app:layout_constraintEnd_toEndOf="parent"
++            app:layout_constraintHorizontal_bias="1.0"
++            app:layout_constraintStart_toStartOf="parent"
++            app:layout_constraintTop_toBottomOf="@+id/textView" />
++
++        <RadioGroup
++            android:id="@+id/preBreathGroup"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:orientation="horizontal"
++            app:layout_constraintTop_toBottomOf="@+id/textView2"
++            app:layout_constraintStart_toStartOf="parent">
++
++            <RadioButton
++                android:id="@+id/breath0"
++                android:layout_width="wrap_content"
++                android:layout_height="wrap_content"
++                android:text="0" />
++
++            <RadioButton
++                android:id="@+id/breath1"
++                android:layout_width="wrap_content"
++                android:layout_height="wrap_content"
++                android:text="1" />
++
++            <RadioButton
++                android:id="@+id/breath2"
++                android:layout_width="wrap_content"
++                android:layout_height="wrap_content"
++                android:text="2" />
++
++            <RadioButton
++                android:id="@+id/breath3"
++                android:layout_width="wrap_content"
++                android:layout_height="wrap_content"
++                android:text="3" />
++
++        </RadioGroup>
++
++        <TextView
++            android:id="@+id/breathHint"
++            android:layout_width="362dp"
++            android:layout_height="20dp"
++            android:text="0 = very easy,  1 = a little hard,  2 = hard,  3 = very hard"
++            android:textColor="#777777"
++            android:textSize="12sp"
++            app:layout_constraintEnd_toEndOf="parent"
++            app:layout_constraintTop_toBottomOf="@+id/preBreathGroup" />
++
++        <View
++            android:layout_width="match_parent"
++            android:layout_height="1dp"
++            android:background="#C2185B"
++            app:layout_constraintStart_toStartOf="parent"
++            app:layout_constraintTop_toBottomOf="@+id/breathHint" />
++
++        <TextView
++            android:id="@+id/textView3"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:text="Q3: After using the inhaler, how hard is it to breathe?"
++            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
++            app:layout_constraintEnd_toEndOf="parent"
++            app:layout_constraintHorizontal_bias="1.0"
++            app:layout_constraintStart_toStartOf="parent"
++            app:layout_constraintTop_toBottomOf="@+id/breathHint" />
++
++        <RadioGroup
++            android:id="@+id/aftBreathGroup"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:orientation="horizontal"
++            app:layout_constraintTop_toBottomOf="@+id/textView3"
++            app:layout_constraintStart_toStartOf="parent">
++
++            <RadioButton
++                android:id="@+id/breath4"
++                android:layout_width="wrap_content"
++                android:layout_height="wrap_content"
++                android:text="0" />
++
++            <RadioButton
++                android:id="@+id/breath5"
++                android:layout_width="wrap_content"
++                android:layout_height="wrap_content"
++                android:text="1" />
++
++            <RadioButton
++                android:id="@+id/breath6"
++                android:layout_width="wrap_content"
++                android:layout_height="wrap_content"
++                android:text="2" />
++
++            <RadioButton
++                android:id="@+id/breath7"
++                android:layout_width="wrap_content"
++                android:layout_height="wrap_content"
++                android:text="3" />
++
++        </RadioGroup>
++
++        <TextView
++            android:id="@+id/breathHint2"
++            android:layout_width="362dp"
++            android:layout_height="20dp"
++            android:text="0 = very easy,  1 = a little hard,  2 = hard,  3 = very hard"
++            android:textColor="#777777"
++            android:textSize="12sp"
++            app:layout_constraintEnd_toEndOf="parent"
++            app:layout_constraintTop_toBottomOf="@+id/aftBreathGroup" />
++
++        <View
++            android:layout_width="match_parent"
++            android:layout_height="1dp"
++            android:background="#C2185B"
++            app:layout_constraintStart_toStartOf="parent"
++            app:layout_constraintTop_toBottomOf="@+id/breathHint2" />
++
++        <TextView
++            android:id="@+id/postStatusLabel"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:text="Q4: After using the inhaler, how do you feel now?"
++            android:textSize="16sp"
++            app:layout_constraintTop_toBottomOf="@+id/breathHint2"
++            app:layout_constraintStart_toStartOf="parent" />
++
++        <RadioGroup
++            android:id="@+id/postStatusGroup"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:orientation="horizontal"
++            app:layout_constraintTop_toBottomOf="@+id/postStatusLabel"
++            app:layout_constraintStart_toStartOf="parent">
++
++            <RadioButton
++                android:id="@+id/statusBetter"
++                android:text="Better"
++                android:layout_width="wrap_content"
++                android:layout_height="wrap_content"/>
++
++            <RadioButton
++                android:id="@+id/statusSame"
++                android:text="Same"
++                android:layout_width="wrap_content"
++                android:layout_height="wrap_content"/>
++
++            <RadioButton
++                android:id="@+id/statusWorse"
++                android:text="Worse"
++                android:layout_width="wrap_content"
++                android:layout_height="wrap_content"/>
++
++        </RadioGroup>
++
++
++    </androidx.constraintlayout.widget.ConstraintLayout>
+ 
+-</FrameLayout>
+\ No newline at end of file
++</androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+Index: app/src/main/java/com/example/smartair/RescueLogsFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.smartair;\r\n\r\nimport android.os.Bundle;\r\n\r\nimport androidx.fragment.app.Fragment;\r\n\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\n\r\n/**\r\n * A simple {@link Fragment} subclass.\r\n * Use the {@link RescueLogsFragment#newInstance} factory method to\r\n * create an instance of this fragment.\r\n */\r\npublic class RescueLogsFragment extends Fragment {\r\n\r\n    // TODO: Rename parameter arguments, choose names that match\r\n    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER\r\n    private static final String ARG_PARAM1 = \"param1\";\r\n    private static final String ARG_PARAM2 = \"param2\";\r\n\r\n    // TODO: Rename and change types of parameters\r\n    private String mParam1;\r\n    private String mParam2;\r\n\r\n    public RescueLogsFragment() {\r\n        // Required empty public constructor\r\n    }\r\n\r\n    /**\r\n     * Use this factory method to create a new instance of\r\n     * this fragment using the provided parameters.\r\n     *\r\n     * @param param1 Parameter 1.\r\n     * @param param2 Parameter 2.\r\n     * @return A new instance of fragment RescueLogsFragment.\r\n     */\r\n    // TODO: Rename and change types and number of parameters\r\n    public static RescueLogsFragment newInstance(String param1, String param2) {\r\n        RescueLogsFragment fragment = new RescueLogsFragment();\r\n        Bundle args = new Bundle();\r\n        args.putString(ARG_PARAM1, param1);\r\n        args.putString(ARG_PARAM2, param2);\r\n        fragment.setArguments(args);\r\n        return fragment;\r\n    }\r\n\r\n    @Override\r\n    public void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        if (getArguments() != null) {\r\n            mParam1 = getArguments().getString(ARG_PARAM1);\r\n            mParam2 = getArguments().getString(ARG_PARAM2);\r\n        }\r\n    }\r\n\r\n    @Override\r\n    public View onCreateView(LayoutInflater inflater, ViewGroup container,\r\n                             Bundle savedInstanceState) {\r\n        // Inflate the layout for this fragment\r\n        return inflater.inflate(R.layout.fragment_rescue_logs, container, false);\r\n    }\r\n}
+===================================================================
+diff --git a/app/src/main/java/com/example/smartair/RescueLogsFragment.java b/app/src/main/java/com/example/smartair/RescueLogsFragment.java
+--- a/app/src/main/java/com/example/smartair/RescueLogsFragment.java	(revision e337205a0551ae4f78859463f0804a7fcc628913)
++++ b/app/src/main/java/com/example/smartair/RescueLogsFragment.java	(date 1763865482084)
+@@ -2,56 +2,43 @@
+ 
+ import android.os.Bundle;
+ 
++import androidx.annotation.NonNull;
++import androidx.annotation.Nullable;
+ import androidx.fragment.app.Fragment;
+ 
+ import android.view.LayoutInflater;
+ import android.view.View;
+ import android.view.ViewGroup;
++import android.widget.Button;
++import android.widget.EditText;
++import android.widget.RadioButton;
++import android.widget.RadioGroup;
++import android.widget.Toast;
++
++import com.google.android.material.button.MaterialButtonGroup;
++import com.google.firebase.auth.FirebaseAuth;
++import com.google.firebase.database.DatabaseReference;
++import com.google.firebase.database.FirebaseDatabase;
+ 
+-/**
+- * A simple {@link Fragment} subclass.
+- * Use the {@link RescueLogsFragment#newInstance} factory method to
+- * create an instance of this fragment.
+- */
++import java.util.HashMap;
++import java.util.Map;
++
++
+ public class RescueLogsFragment extends Fragment {
+ 
+-    // TODO: Rename parameter arguments, choose names that match
+-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+-    private static final String ARG_PARAM1 = "param1";
+-    private static final String ARG_PARAM2 = "param2";
+-
+-    // TODO: Rename and change types of parameters
+-    private String mParam1;
+-    private String mParam2;
++    private String childId;
+ 
+     public RescueLogsFragment() {
+         // Required empty public constructor
+     }
+ 
+-    /**
+-     * Use this factory method to create a new instance of
+-     * this fragment using the provided parameters.
+-     *
+-     * @param param1 Parameter 1.
+-     * @param param2 Parameter 2.
+-     * @return A new instance of fragment RescueLogsFragment.
+-     */
+-    // TODO: Rename and change types and number of parameters
+-    public static RescueLogsFragment newInstance(String param1, String param2) {
+-        RescueLogsFragment fragment = new RescueLogsFragment();
+-        Bundle args = new Bundle();
+-        args.putString(ARG_PARAM1, param1);
+-        args.putString(ARG_PARAM2, param2);
+-        fragment.setArguments(args);
+-        return fragment;
+-    }
++
+ 
+     @Override
+     public void onCreate(Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
+         if (getArguments() != null) {
+-            mParam1 = getArguments().getString(ARG_PARAM1);
+-            mParam2 = getArguments().getString(ARG_PARAM2);
++            childId = getArguments().getString("childId");
+         }
+     }
+ 
+@@ -61,4 +48,74 @@
+         // Inflate the layout for this fragment
+         return inflater.inflate(R.layout.fragment_rescue_logs, container, false);
+     }
++
++    @Override
++    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
++        super.onViewCreated(view, savedInstanceState);
++
++        EditText editTextNumber = view.findViewById(R.id.editTextNumber);
++        Button buttonSave = view.findViewById(R.id.button2);
++        RadioGroup groupBef = view.findViewById(R.id.preBreathGroup);
++        RadioGroup groupAft = view.findViewById(R.id.aftBreathGroup);
++        RadioGroup groupFeel= view.findViewById(R.id.postStatusGroup);
++
++        editTextNumber.setText("1");
++        childId = FirebaseAuth.getInstance().getCurrentUser().getUid();
++        FirebaseDatabase db = FirebaseDatabase.getInstance();
++        DatabaseReference logRef = db.getReference("users").child(childId).child("rescueLogs");
++
++        buttonSave.setOnClickListener(v -> {
++
++            String doseTxt = editTextNumber.getText().toString().trim();
++            int num1 = groupBef.getCheckedRadioButtonId();
++            if (num1 == -1) {
++                editTextNumber.setError("Please select an option.");
++                return;
++            }
++            RadioButton selectedButton1 = view.findViewById(num1);
++            String selectedString1 = selectedButton1.getText().toString();
++
++            int num2 = groupAft.getCheckedRadioButtonId();
++            if (num2 == -1) {
++                editTextNumber.setError("Please select an option.");
++                return;
++            }
++            RadioButton selectedButton2 = view.findViewById(num2);
++            String selectedString2 = selectedButton2.getText().toString();
++
++            int num3 = groupFeel.getCheckedRadioButtonId();
++            if (num3 == -1) {
++                editTextNumber.setError("Please select an option.");
++                return;
++            }
++            RadioButton selectedButton3 = view.findViewById(num3);
++            String selectedString3 = selectedButton3.getText().toString();
++
++            int dose = 1;
++            try {
++                dose = Integer.parseInt(doseTxt);
++            } catch (Exception e) {
++                editTextNumber.setError("Enter a number");
++                return;
++            }
++            if (dose<=0) {
++                editTextNumber.setError("Puffs must be at least 1");
++                return;
++            }
++
++
++            Map<String, Object> log = new HashMap<>();
++            log.put("dose", dose);
++            log.put("preBreathRating", selectedString1);
++            log.put("postBreathRating", selectedString2);
++            log.put("postStatus", selectedString3);
++            log.put("timestamp", System.currentTimeMillis());
++
++            logRef.push().setValue(log)
++                    .addOnSuccessListener(unused ->
++                            Toast.makeText(getContext(), "Saved!", Toast.LENGTH_SHORT).show())
++                    .addOnFailureListener(e ->
++                            Toast.makeText(getContext(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
++        });
++    }
+ }
+\ No newline at end of file

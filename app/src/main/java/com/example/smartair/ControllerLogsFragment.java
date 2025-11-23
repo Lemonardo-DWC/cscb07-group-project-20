@@ -75,6 +75,10 @@ public class ControllerLogsFragment extends Fragment {
                 editTextNumber.setError("Enter a number");
                 return;
             }
+            if (dose<=0) {
+                editTextNumber.setError("Puffs must be at least 1");
+                return;
+            }
 
             Map<String, Object> log = new HashMap<>();
             log.put("dose", dose);
