@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
             /// gets instance of currently logged in user and update local user information
             /// from FirebaseAuth server, null if currently no user logged in
-            /// jumps to home screen if the instance is non-null
+            /// jumps to appropriate home screen if the instance is non-null
             /// TODO: direct to appropriate home screen based on account type (parent, child, provider)
             FirebaseUser user = userManager.getCurrentUser();
 
