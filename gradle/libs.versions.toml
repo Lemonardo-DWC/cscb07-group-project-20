@@ -23,6 +23,8 @@ firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "fir
 firebase-analytics = {module = "com.google.firebase:firebase-analytics" }
 firebase-authentication = { module = "com.google.firebase:firebase-auth" }
 firebase-realtime-database = {module = "com.google.firebase:firebase-database" }
+firebase-functions = {module = "com.google.firebase:firebase-functions"}
+firebase-messaging = {module = "com.google.firebase:firebase-messaging"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
