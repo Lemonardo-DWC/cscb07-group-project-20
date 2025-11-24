@@ -59,4 +59,8 @@ public class UserManager {
         return user.reauthenticate(credential);
     }
 
+    public Task<Void> sendEmailVerification(FirebaseUser user) {
+        return user.sendEmailVerification();
+    }
+
 }

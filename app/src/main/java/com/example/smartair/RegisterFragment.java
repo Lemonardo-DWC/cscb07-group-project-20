@@ -19,6 +19,7 @@ import android.widget.Toast;
 public class RegisterFragment extends Fragment {
     private RegisterViewModel rvm;
 
+    private EditText firstNameEntry, middleNameEntry, lastNameEntry;
     private EditText emailEditText, pwEditText, pwConfirmEditText;
 
     private Spinner accountTypeSpinner;
@@ -46,6 +47,9 @@ public class RegisterFragment extends Fragment {
         accountTypeSpinner.setAdapter(adapter);
 
         /// EditText variables
+        firstNameEntry = view.findViewById(R.id.register_firstNameEntry);
+        middleNameEntry = view.findViewById(R.id.register_middleNameEntry);
+        lastNameEntry = view.findViewById(R.id.register_lastNameEntry);
         emailEditText = view.findViewById(R.id.register_emailEntry);
         pwEditText = view.findViewById(R.id.register_pwEntry);
         pwConfirmEditText = view.findViewById(R.id.register_pwEntryConfirm);
@@ -57,12 +61,16 @@ public class RegisterFragment extends Fragment {
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String firstName = firstNameEntry.getText().toString().trim();
+                String middleName = middleNameEntry.getText().toString().trim();
+                String lastName = lastNameEntry.getText().toString().trim();
                 String email = emailEditText.getText().toString().trim();
                 String pw = pwEditText.getText().toString();
                 String pwConfirmation = pwConfirmEditText.getText().toString();
                 String accountType = accountTypeSpinner.getSelectedItem().toString().toLowerCase();
 
-                rvm.register(email, pw, pwConfirmation, accountType);
+                rvm.requestRegistration(firstName, middleName, lastName,
+                                        email, pw, pwConfirmation, accountType);
             }
         });
 
@@ -73,8 +81,17 @@ public class RegisterFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        /// Monitor registration form inputs
-        // input validity
+        /// Monitor registration form inputs and set error messages accordingly
+        rvm.firstNameError.observe(getViewLifecycleOwner(), msg -> {
+            firstNameEntry.setError(msg);
+        });
+        rvm.middleNameError.observe(getViewLifecycleOwner(), msg -> {
+            middleNameEntry.setError(msg);
+        });
+        rvm.lastNameError.observe(getViewLifecycleOwner(), msg -> {
+            lastNameEntry.setError(msg);
+        });
+
         rvm.emailError.observe(getViewLifecycleOwner(), msg -> {
             emailEditText.setError(msg);
         });
@@ -87,20 +104,8 @@ public class RegisterFragment extends Fragment {
             pwConfirmEditText.setError(msg);
         });
 
-        // account creation
-        rvm.registerResult.observe(getViewLifecycleOwner(), result -> {
-            if (result.equals(AppConstants.FAIL)) {
-                Toast.makeText(
-                        getContext(),
-                        "Could not create account",
-                        Toast.LENGTH_SHORT
-                ).show();
-            }
-        });
-
-        // send email verification
-        rvm.sendEmailVerificationResult.observe(getViewLifecycleOwner(), result -> {
-            if (result.equals(AppConstants.SUCCESS)) {
+        rvm.registrationSuccess.observe(getViewLifecycleOwner(), success -> {
+            if(success) {
                 Toast.makeText(
                         getContext(),
                         "Verification email sent to: " + rvm.userEmail.getValue(),
@@ -114,7 +119,6 @@ public class RegisterFragment extends Fragment {
                         Toast.LENGTH_SHORT
                 ).show();
             }
-            rvm.logout();
         });
 
     }

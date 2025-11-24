@@ -57,7 +57,7 @@
 
     <!-- Manage Child Fragment -->
     <string name="manageChilde_addChild_screenID">Add Child</string>
-    <string name="manageChild_addChild">Add Child</string>
+    <string name="manageChild_createChildAccount">Create Child Account</string>
 
     <!-- Other Fragments -->
     <string name="PLACEHOLDER">PLACEHOLDER</string>
