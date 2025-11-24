@@ -22,8 +22,9 @@ import java.util.ArrayList;
 public class AddChildFragment extends Fragment {
 
     AddChildViewModel acvm;
-    EditText usernameEntry, passwordEntry, firstNameEntry, middleNameEntry, lastNameEntry
-            , parentPasswordEntry;
+    EditText usernameEntry, passwordEntry, firstNameEntry, middleNameEntry, lastNameEntry;
+
+    SpinnerHelper spinnerHelper = new SpinnerHelper();
     Spinner daySpinner, monthSpinner, yearSpinner, sexSpinner;
 
     ArrayAdapter<String> dayAdapter;
@@ -49,14 +50,13 @@ public class AddChildFragment extends Fragment {
         firstNameEntry = view.findViewById(R.id.firstNameEntry);
         middleNameEntry = view.findViewById(R.id.middleNameEntry);
         lastNameEntry = view.findViewById(R.id.lastNameEntry);
-        parentPasswordEntry = view.findViewById(R.id.parentPasswordEntry);
 
         // spinner set up
         yearSpinner = view.findViewById(R.id.yearSpinner);
         ArrayAdapter<String> yearAdapter = new ArrayAdapter<String>(
                 requireContext(),
                 android.R.layout.simple_spinner_item,
-                acvm.getYearRange()
+                spinnerHelper.getYearRange()
         );
         yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         yearSpinner.setAdapter(yearAdapter);
@@ -65,7 +65,7 @@ public class AddChildFragment extends Fragment {
         ArrayAdapter<String> monthAdapter = new ArrayAdapter<String>(
                 requireContext(),
                 android.R.layout.simple_spinner_item,
-                acvm.getMonthRange());
+                spinnerHelper.getMonthRange());
         monthAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         monthSpinner.setAdapter(monthAdapter);
 
@@ -73,9 +73,10 @@ public class AddChildFragment extends Fragment {
         dayAdapter = new ArrayAdapter<String>(
                 requireContext(),
                 android.R.layout.simple_spinner_item,
-                acvm.getDayRange((String) yearSpinner.getSelectedItem(), (String) monthSpinner.getSelectedItem())
+                spinnerHelper.getDayRange((String) yearSpinner.getSelectedItem(),
+                                            (String) monthSpinner.getSelectedItem())
         );
-        daySpinner.setAdapter((dayAdapter));
+        daySpinner.setAdapter(dayAdapter);
 
         sexSpinner = view.findViewById(R.id.sexSpinner);
         ArrayAdapter<CharSequence> sexAdapter = ArrayAdapter.createFromResource(
@@ -93,14 +94,20 @@ public class AddChildFragment extends Fragment {
                 String selectedMonth = (String) monthSpinner.getSelectedItem();
                 String selectedYear = (String) yearSpinner.getSelectedItem();
                 String selectedDay = (String) daySpinner.getSelectedItem();
-                ArrayList<String> newDayRange = acvm.getDayRange(selectedYear, selectedMonth);
+                ArrayList<String> newDayRange
+                        = spinnerHelper.getDayRange(selectedYear, selectedMonth);
 
                 dayAdapter.clear();
                 dayAdapter.addAll(newDayRange);
                 dayAdapter.notifyDataSetChanged();
 
-                if (Integer.parseInt(selectedDay) > acvm.getMaxDayIndex(selectedYear, selectedMonth)){
-                    daySpinner.setSelection(acvm.getMaxDayIndex(selectedYear, selectedMonth));
+                if (Integer.parseInt(selectedDay)
+                        > spinnerHelper.getMaxDayIndex(selectedYear, selectedMonth)){
+
+                    daySpinner.setSelection(
+                            spinnerHelper.getMaxDayIndex(selectedYear, selectedMonth)
+                    );
+
                 } else {
                     daySpinner.setSelection(Integer.parseInt(selectedDay) - 1);
                 }
@@ -122,11 +129,8 @@ public class AddChildFragment extends Fragment {
                 String firstName = firstNameEntry.getText().toString().trim();
                 String middleName = middleNameEntry.getText().toString().trim();
                 String lastName = lastNameEntry.getText().toString().trim();
-                String parentPassword = parentPasswordEntry.getText().toString();
 
-                acvm.createChildRequest(username, password,
-                                        firstName, middleName, lastName,
-                                        parentPassword);
+                acvm.createChildRequest(username, password, firstName, middleName, lastName);
 
             }
         });
@@ -158,10 +162,6 @@ public class AddChildFragment extends Fragment {
             lastNameEntry.setError(msg);
         });
 
-        acvm.parentPasswordError.observe(getViewLifecycleOwner(), msg -> {
-            parentPasswordEntry.setError(msg);
-        });
-
         acvm.formValidity.observe(getViewLifecycleOwner(), valid -> {
             if (valid) {
 
@@ -172,13 +172,12 @@ public class AddChildFragment extends Fragment {
                 String lastName = lastNameEntry.getText().toString().trim();
                 String birthday = (
                         daySpinner.getSelectedItem()
-                                + "/"
-                                + monthSpinner.getSelectedItem()
-                                + "/"
-                                + yearSpinner.getSelectedItem()
+                        + "/"
+                        + monthSpinner.getSelectedItem()
+                        + "/"
+                        + yearSpinner.getSelectedItem()
                 );
                 String sex = sexSpinner.getSelectedItem().toString();
-                String parentPassword = parentPasswordEntry.getText().toString();
 
                 acvm.createChild(username, password,
                         firstName, middleName, lastName,

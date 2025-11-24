@@ -34,9 +34,13 @@ public class DataManager {
         });
     }
 
-    public void setupUser(DatabaseReference reference, String email, String accountType) {
+    public void setupUser(DatabaseReference reference, String email, String accountType,
+                          String firstName, String middleName, String lastName) {
         writeTo(reference.child(AppConstants.EMAIL), email);
         writeTo(reference.child(AppConstants.ACCOUNTTYPE), accountType);
+        writeTo(reference.child(AppConstants.FIRSTNAME), firstName);
+        writeTo(reference.child(AppConstants.MIDDLENAME), middleName);
+        writeTo(reference.child(AppConstants.LASTNAME), lastName);
     }
 
     public void deleteUserData(String userUID) {

@@ -38,6 +38,87 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <!-- Name Entries -->
+        <!-- first name-->
+        <TextView
+            android:id="@+id/register_firstNameField"
+            android:text="@string/firstNameField"
+            android:textSize="@dimen/fontSizeDefault"
+            android:padding="@dimen/default_padding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <EditText
+            android:id="@+id/register_firstNameEntry"
+            android:hint="@string/required"
+            android:inputType="text"
+            android:importantForAutofill="no"
+            android:padding="@dimen/default_padding"
+            android:textSize="@dimen/fontSizeDefault"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+
+            app:layout_constraintBaseline_toBaselineOf="@id/register_firstNameField"
+            app:layout_constraintStart_toEndOf="@id/register_firstNameField"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- middle name-->
+        <TextView
+            android:id="@+id/register_middleNameField"
+            android:text="@string/middleNameField"
+            android:textSize="@dimen/fontSizeDefault"
+            android:padding="@dimen/default_padding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/register_firstNameField"/>
+
+        <EditText
+            android:id="@+id/register_middleNameEntry"
+            android:hint="@string/optional"
+            android:inputType="text"
+            android:importantForAutofill="no"
+            android:padding="@dimen/default_padding"
+            android:textSize="@dimen/fontSizeDefault"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+
+            app:layout_constraintBaseline_toBaselineOf="@id/register_middleNameField"
+            app:layout_constraintStart_toEndOf="@id/register_middleNameField"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- last name-->
+        <TextView
+            android:id="@+id/register_lastNameField"
+            android:text="@string/lastNameField"
+            android:textSize="@dimen/fontSizeDefault"
+            android:padding="@dimen/default_padding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/register_middleNameField"/>
+
+        <EditText
+            android:id="@+id/register_lastNameEntry"
+            android:hint="@string/required"
+            android:inputType="text"
+            android:importantForAutofill="no"
+            android:padding="@dimen/default_padding"
+            android:textSize="@dimen/fontSizeDefault"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+
+            app:layout_constraintBaseline_toBaselineOf="@id/register_lastNameField"
+            app:layout_constraintStart_toEndOf="@id/register_lastNameField"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
         <!-- Email Entries -->
         <TextView
             android:id="@+id/register_emailField"
@@ -46,9 +127,10 @@
             android:padding="@dimen/default_padding"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
 
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent" /><!-- Email Field -->
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/register_lastNameField"/><!-- Email Field -->
 
         <EditText
             android:id="@+id/register_emailEntry"
@@ -72,7 +154,7 @@
             android:padding="@dimen/default_padding"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
 
             app:layout_constraintTop_toBottomOf="@id/register_emailField"
             app:layout_constraintStart_toStartOf="parent" /><!-- PW Field -->
@@ -98,7 +180,7 @@
             android:padding="@dimen/default_padding"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
 
             app:layout_constraintTop_toBottomOf="@id/register_pwField"
             app:layout_constraintStart_toStartOf="parent" /><!-- Confirm PW Field -->
@@ -122,7 +204,7 @@
             android:id="@+id/register_spinnerLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:padding="@dimen/default_padding"
             android:text="@string/register_spinnerLabel"
             android:textSize="@dimen/fontSizeDefault"
