@@ -58,19 +58,28 @@ public class MainActivity extends AppCompatActivity {
 
                         dataManager.getAccountType(user.getUid())
                                 .addOnSuccessListener(accountType -> {
+                                    if(accountType != null){
+                                        switch (accountType) {
+                                            case AppConstants.PARENT:
+                                                loadFragment(new SuccessFragment());
+                                                break;
 
-                                    switch (accountType) {
-                                        case AppConstants.PARENT:
-                                            loadFragment(new SuccessFragment());
-                                            break;
+                                            case AppConstants.CHILD:
+                                                // TODO: redirect to child homescreen
+                                                break;
 
-                                        case AppConstants.CHILD:
-                                            // TODO: redirect to child homescreen
-                                            break;
-
-                                        case AppConstants.PROVIDER:
-                                            // TODO: redirect to provider homescreen
-                                            break;
+                                            case AppConstants.PROVIDER:
+                                                // TODO: redirect to provider homescreen
+                                                break;
+                                        }
+                                    } else {
+                                        userManager.logout();
+                                        Toast.makeText(
+                                                this,
+                                                "Error: could not determine account type",
+                                                Toast.LENGTH_SHORT
+                                        ).show();
+                                        loadFragment(new LoginFragment());
                                     }
 
                                 })
@@ -78,9 +87,10 @@ public class MainActivity extends AppCompatActivity {
                                     userManager.logout();
                                     Toast.makeText(
                                             this,
-                                            "Error: could not determine account type",
+                                            "Error: could not find user",
                                             Toast.LENGTH_SHORT
                                     ).show();
+                                    loadFragment(new LoginFragment());
                                 });
 
                     } else {
