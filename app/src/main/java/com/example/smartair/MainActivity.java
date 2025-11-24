@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this); // lets UI extend behind system bars, not too important
+        EdgeToEdge.enable(this); // lets UI extend behind system bars
         setContentView(R.layout.activity_main); // sets the layout XML to be used as activity's UI
 
         /// sets boundaries for UI content, prevents content from going behind system displays
@@ -45,10 +45,61 @@ public class MainActivity extends AppCompatActivity {
         /// loads the login fragment if this is the first creation of the activity
         /// brand new launches of the app will have a null savedInstanceState
         if(savedInstanceState == null){
-            loadFragment(new LoginFragment());
+
+            /// gets instance of currently logged in user and update local user information
+            /// from FirebaseAuth server, null if currently no user logged in
+            /// jumps to home screen if the instance is non-null
+            /// TODO: direct to appropriate home screen based on account type (parent, child, provider)
+            FirebaseUser user = userManager.getCurrentUser();
+
+            if (user != null){
+                user.reload().addOnCompleteListener(reloadTask -> {
+                    if(reloadTask.isSuccessful()) {
+
+                        dataManager.getAccountType(user.getUid())
+                                .addOnSuccessListener(accountType -> {
+
+                                    switch (accountType) {
+                                        case AppConstants.PARENT:
+                                            loadFragment(new SuccessFragment());
+                                            break;
+
+                                        case AppConstants.CHILD:
+                                            // TODO: redirect to child homescreen
+                                            break;
+
+                                        case AppConstants.PROVIDER:
+                                            // TODO: redirect to provider homescreen
+                                            break;
+                                    }
+
+                                })
+                                .addOnFailureListener(e -> {
+                                    userManager.logout();
+                                    Toast.makeText(
+                                            this,
+                                            "Error: could not determine account type",
+                                            Toast.LENGTH_SHORT
+                                    ).show();
+                                });
+
+                    } else {
+                        userManager.logout();
+                        Toast.makeText(
+                                this,
+                                "An error has occurred, please sign in again",
+                                Toast.LENGTH_SHORT
+                        ).show();
+                        loadFragment(new LoginFragment());
+                    }
+                });
+            } else {
+                loadFragment(new LoginFragment());
+            }
+
         }
 
-        /// general back button handling instance
+        /// general back button handling callback instance
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
@@ -69,55 +120,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart(){
         super.onStart();
-
-        /// gets instance of currently logged in user and update local user information
-        /// from FirebaseAuth server, null if currently no user logged in
-        /// jumps to home screen if the instance is non-null
-        /// TODO: direct to appropriate home screen based on account type (parent, child, provider)
-        FirebaseUser user = userManager.getCurrentUser();
-
-        if (user != null){
-            user.reload().addOnCompleteListener(reloadTask -> {
-                if(reloadTask.isSuccessful()) {
-
-                    dataManager.getAccountType(user.getUid())
-                                    .addOnSuccessListener(accountType -> {
-
-                                        switch (accountType) {
-                                            case AppConstants.PARENT:
-                                                loadFragment(new SuccessFragment());
-                                                break;
-
-                                            case AppConstants.CHILD:
-                                                // TODO: redirect to child homescreen
-                                                break;
-
-                                            case AppConstants.PROVIDER:
-                                                // TODO: redirect to provider homescreen
-                                                break;
-                                        }
-
-                                    })
-                                    .addOnFailureListener(e -> {
-                                        userManager.logout();
-                                        Toast.makeText(
-                                                this,
-                                                "Error: could not determine account type",
-                                                Toast.LENGTH_SHORT
-                                        ).show();
-                                    });
-
-                } else {
-                    userManager.logout();
-                    Toast.makeText(
-                            this,
-                            "An error has occurred, please sign in again",
-                            Toast.LENGTH_SHORT
-                    ).show();
-                }
-            });
-        }
-
 
     }
 
