@@ -13,10 +13,8 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.sql.DataTruncation;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -104,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                                         userManager.logout();
                                         Toast.makeText(
                                                 this,
-                                                "Error: ould not determine account type",
+                                                "Error: could not determine account type",
                                                 Toast.LENGTH_SHORT
                                         ).show();
                                     });

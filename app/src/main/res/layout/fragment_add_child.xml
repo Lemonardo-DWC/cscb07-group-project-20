@@ -70,6 +70,7 @@
             android:padding="@dimen/default_padding"
             android:textSize="16sp"
             android:text="@string/pwField"
+            android:layout_marginTop="10dp"
 
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/usernameField"/>
@@ -99,7 +100,7 @@
             android:layout_marginTop="10dp"
 
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/passwordEntry"/>
+            app:layout_constraintTop_toBottomOf="@id/passwordField"/>
 
         <EditText
             android:id="@+id/firstNameEntry"
@@ -279,32 +280,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBaseline_toBaselineOf="@id/sexField"/>
 
-        <TextView
-            android:id="@+id/parentPasswordField"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:padding="@dimen/default_padding"
-            android:layout_marginTop="10dp"
-            android:text="Please enter parent account password:"
-            android:textSize="16sp"
-
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/sexField"/>
-
-        <EditText
-            android:id="@+id/parentPasswordEntry"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:padding="@dimen/default_padding"
-            android:hint="@string/required"
-            android:inputType="textPassword"
-            android:importantForAutofill="no"
-
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/parentPasswordField"/>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -314,7 +289,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="@string/manageChild_addChild"
+        android:text="@string/manageChild_createChildAccount"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

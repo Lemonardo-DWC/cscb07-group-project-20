@@ -8,6 +8,11 @@ public class AppConstants {
     public static final String CANT_LOAD_ACCOUNT_TYPE = "Could not load account type";
     public static final String LOGIN_ERROR = "Login error occurred, please try again";
 
+    /// registration error messages
+    public static final String INVALID_EMAIL = "Invalid email";
+    public static final String INVALID_PASS = "Password must be at least 6 characters";
+    public static final String PASSWORD_MISMATCH = "Passwords do not match";
+
     ///  result
     public static final String SUCCESS = "SUCCESS";
     public static final String FAIL = "FAIL";
@@ -47,6 +52,9 @@ public class AppConstants {
                 "\\." +
                 "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
                 ")+";
+
+    public static final String NAME_REGEX
+            = "^(?=.{1,50}$)[A-Za-zÀ-ÖØ-öø-ÿ]+([.' -][A-Za-zÀ-ÖØ-öø-ÿ]+)*[.'-]?$";
 
     public static final String SYNTH_EMAIL_DOMAIN = "@smartair.user.app";
 }
