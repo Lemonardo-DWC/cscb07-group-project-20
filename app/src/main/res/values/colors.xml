@@ -5,6 +5,9 @@
 
     <!-- Temporary development phase colors, update as needed -->
     <color name="bg1">#B4E0E0</color>
-    <color  name="bg2">#E0B4B4</color>
+    <color name="bg2">#E0B4B4</color>
+    <color name="bg3">#CAB4E0</color>
+    <color name="bg4">#CAE0B4</color>
+    <color name="bg5">#B190D1</color>
 
 </resources>

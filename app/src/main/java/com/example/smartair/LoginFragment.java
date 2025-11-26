@@ -120,7 +120,7 @@ public class LoginFragment extends Fragment implements LoginContract.View {
     public void loginSuccess(String accountType) {
         switch(accountType){
             case AppConstants.PARENT:
-                ((MainActivity) requireActivity()).loadFragment(new SuccessFragment());
+                ((MainActivity) requireActivity()).loadFragment(new ParentHomeFragment());
                 break;
 
             case AppConstants.CHILD:

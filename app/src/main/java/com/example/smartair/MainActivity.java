@@ -18,10 +18,10 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
-    /// This will be used for authentication operations such as getting instances of current user,
-    /// signing in and out, account creation, etc.
-    UserManager userManager;
-    DataManager dataManager;
+    /// initialize UserManager and DataManager instance
+    /// used for user and database related operations
+    private final UserManager userManager = new UserManager();
+    private final DataManager dataManager = new DataManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,12 +36,6 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-        /// initialize UserManager, DataManager instance, used for FirebaseAuth and FirebaseDatabase
-        /// operations
-        userManager = new UserManager();
-        dataManager = new DataManager();
-
         /// loads the login fragment if this is the first creation of the activity
         /// brand new launches of the app will have a null savedInstanceState
         if(savedInstanceState == null){
@@ -61,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
                                     if(accountType != null){
                                         switch (accountType) {
                                             case AppConstants.PARENT:
-                                                loadFragment(new SuccessFragment());
+                                                loadFragment(new ParentHomeFragment());
                                                 break;
 
                                             case AppConstants.CHILD:

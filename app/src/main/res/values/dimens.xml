@@ -4,7 +4,14 @@
     <!-- Default Dimension Values -->
     <!-- just initial development phase defaults, can change when we're focusing on UI appearance -->
     <dimen name="default_padding">12dp</dimen>
+    <dimen name="view_group_padding">8dp</dimen>
+    <dimen name="divider_padding">2dp</dimen>
+
+    <dimen name="fontSizeTitle">36sp</dimen>
+    <dimen name="fontSizeSubTitle">24sp</dimen>
     <dimen name="fontSizeDefault">14sp</dimen>
+
+    <dimen name="nameFontSize">18sp</dimen>
 
     <!-- Specific Dimension Values -->
     <!-- Can also just explicitly provide value in layout arguments for developmental phase -->
