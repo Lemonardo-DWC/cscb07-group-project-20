@@ -124,7 +124,7 @@ public class LoginFragment extends Fragment implements LoginContract.View {
                 break;
 
             case AppConstants.CHILD:
-                // TODO: redirect to child home screen
+                ((MainActivity) requireActivity()).loadFragment(new ChildHomeFragment());
                 break;
 
             case AppConstants.PROVIDER:
