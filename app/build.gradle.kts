@@ -63,4 +63,10 @@ dependencies {
 
     // Realtime Database
     implementation(libs.firebase.realtime.database)
+
+    // Cloud Functions
+    implementation(libs.firebase.functions)
+
+    // Cloud Messaging
+    implementation(libs.firebase.messaging)
 }
