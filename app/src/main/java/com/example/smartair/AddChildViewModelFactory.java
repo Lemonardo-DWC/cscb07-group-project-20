@@ -17,6 +17,7 @@ public class AddChildViewModelFactory implements ViewModelProvider.Factory {
 
     @NonNull
     @Override
+    @SuppressWarnings("unchecked")
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass,
                                           @NonNull CreationExtras extras) {
         if (modelClass.isAssignableFrom(AddChildViewModel.class)) {
