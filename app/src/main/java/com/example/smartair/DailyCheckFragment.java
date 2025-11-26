@@ -51,16 +51,18 @@ public class DailyCheckFragment extends Fragment {
         RadioGroup group3= view.findViewById(R.id.coughWheezeGroup);
         CheckBox exercise = view.findViewById(R.id.triggerExercise);
         CheckBox coldAir = view.findViewById(R.id.triggerColdAir);
-        CheckBox dustPets = view.findViewById(R.id.triggerDustPets);
+        CheckBox dust = view.findViewById(R.id.triggerDust);
+        CheckBox pets = view.findViewById(R.id.triggerPets);
         CheckBox smoke = view.findViewById(R.id.triggerSmoke);
         CheckBox illness = view.findViewById(R.id.triggerIllness);
+        CheckBox cleaners = view.findViewById(R.id.triggerCleaners);
         CheckBox odors = view.findViewById(R.id.triggerOdors);
 
         List<String> triggers = new ArrayList<>();
 
         childId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseDatabase db = FirebaseDatabase.getInstance();
-        DatabaseReference logRef = db.getReference("users").child(childId).child("rescueLogs");
+        DatabaseReference logRef = db.getReference("users").child(childId).child("DailyCheckIn");
 
         buttonSave.setOnClickListener(v -> {
 
@@ -91,10 +93,12 @@ public class DailyCheckFragment extends Fragment {
 
             if (exercise.isChecked()) triggers.add("Exercise");
             if (coldAir.isChecked()) triggers.add("Cold air");
-            if (dustPets.isChecked()) triggers.add("Dust / Pets");
+            if (dust.isChecked()) triggers.add("Dust");
+            if (pets.isChecked()) triggers.add("Pets");
             if (smoke.isChecked()) triggers.add("Smoke");
             if (illness.isChecked()) triggers.add("Illness");
-            if (odors.isChecked()) triggers.add("Perfume / Cleaners / Strong odors");
+            if (cleaners.isChecked()) triggers.add("Cleaners");
+            if (odors.isChecked()) triggers.add("Perfume / Strong odors");
 
             Map<String, Object> data = new HashMap<>();
             data.put("nightWaking", selectedString1);
@@ -104,19 +108,12 @@ public class DailyCheckFragment extends Fragment {
             data.put("author", "Child");
             data.put("timestamp", System.currentTimeMillis());
 
-            // --- 5. Upload to Firebase Realtime Database ---
-            DatabaseReference ref = FirebaseDatabase.getInstance()
-                    .getReference("dailyCheckIn")
-                    .child(childId)
-                    .push();
 
-            ref.setValue(data)
-                    .addOnSuccessListener(a -> {
-                        Toast.makeText(getContext(), "Saved!", Toast.LENGTH_SHORT).show();
-                    })
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(getContext(), "Failed to save.", Toast.LENGTH_SHORT).show();
-                    });
+            logRef.push().setValue(data)
+                    .addOnSuccessListener(unused ->
+                            Toast.makeText(getContext(), "Saved!", Toast.LENGTH_SHORT).show())
+                    .addOnFailureListener(e ->
+                            Toast.makeText(getContext(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
 
         });
 

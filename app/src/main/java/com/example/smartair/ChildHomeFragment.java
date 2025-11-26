@@ -40,9 +40,10 @@ public class ChildHomeFragment extends Fragment {
 
         Button controllerLogs = view.findViewById(R.id.buttonControllerLogs);
         Button rescueLogs = view.findViewById(R.id.button3);
+        Button dailyCheck = view.findViewById(R.id.button1);
 //        Button SymptomCheckFragment = view.findViewById(R.id.button4);
 //        Button ChildPEFFragment = view.findViewById(R.id.button5);
-//        Button rescueLogs = view.findViewById(R.id.button2);
+//
 
 
 
@@ -54,6 +55,9 @@ public class ChildHomeFragment extends Fragment {
         });
         rescueLogs.setOnClickListener(v -> {
             ((MainActivity) requireActivity()).loadFragment(new RescueLogsFragment());
+        });
+        dailyCheck.setOnClickListener(v -> {
+            ((MainActivity) requireActivity()).loadFragment(new DailyCheckFragment());
         });
 
 

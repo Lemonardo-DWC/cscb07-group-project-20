@@ -131,11 +131,18 @@
             android:layout_height="wrap_content"
             android:text="Cold air" />
 
+
         <CheckBox
-            android:id="@+id/triggerDustPets"
+            android:id="@+id/triggerDust"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Dust / Pets" />
+            android:text="Dust" />
+
+        <CheckBox
+            android:id="@+id/triggerPets"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pets" />
 
         <CheckBox
             android:id="@+id/triggerSmoke"
@@ -150,10 +157,18 @@
             android:text="Illness" />
 
         <CheckBox
+            android:id="@+id/triggerCleaners"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cleaners" />
+
+        <CheckBox
             android:id="@+id/triggerOdors"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Perfume / Cleaners / Strong odors" />
+            android:text="Perfume/Strong Odors" />
+
+
 
         <!-- Save Button -->
         <Button
