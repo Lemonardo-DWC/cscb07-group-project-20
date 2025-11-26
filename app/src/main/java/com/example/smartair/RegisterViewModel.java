@@ -14,6 +14,7 @@ public class RegisterViewModel extends ViewModel {
     private final UserManager userManager = new UserManager();
     private final DataManager dataManager = new DataManager();
     private final EntryValidator validator = new EntryValidator();
+    private final StringHelper stringHelper = new StringHelper();
     private final String TAG = "User Registration";
 
     private final MutableLiveData<String> _firstNameError
@@ -67,7 +68,10 @@ public class RegisterViewModel extends ViewModel {
                 password, passwordConfirmation);
 
         if(isValidEntries()) {
-            performRegistration(firstName, middleName, lastname, email, password, accountType);
+            performRegistration(stringHelper.toTitleCase(firstName),
+                                stringHelper.toTitleCase(middleName),
+                                stringHelper.toTitleCase(lastname),
+                                email, password, accountType);
         }
     }
 
