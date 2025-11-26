@@ -34,6 +34,7 @@
     <string name="sexField">Sex:</string>
     <string name="required">Required</string>
     <string name="optional">Optional</string>
+    <string name="dashboard">Dashboard</string>
 
     <string-array name="sexOptions">
         <item>Male</item>
