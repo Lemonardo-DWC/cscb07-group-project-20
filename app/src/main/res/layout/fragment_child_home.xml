@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#CF0404"
-            android:text="Check Symptoms" />
+            android:text="One-Tap Triage (“Having trouble breathing?”)" />
 
         <Button
             android:id="@+id/button1"
@@ -33,14 +33,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#FBC02D"
-            android:text="Record Controller Medicine" />
+            android:text="Record Controller Medication" />
 
         <Button
             android:id="@+id/button3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#388E3C"
-            android:text="Record Rescue Log" />
+            android:text="Record Rescue Medication" />
 
 
         <Button
@@ -48,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#0097A7"
-            android:text="PEF Logs" />
+            android:text="Record PEF" />
 
         <Button
             android:id="@+id/button6"
