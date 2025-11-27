@@ -41,8 +41,8 @@ public class ChildHomeFragment extends Fragment {
         Button controllerLogs = view.findViewById(R.id.buttonControllerLogs);
         Button rescueLogs = view.findViewById(R.id.button3);
         Button dailyCheck = view.findViewById(R.id.button1);
-//        Button SymptomCheckFragment = view.findViewById(R.id.button4);
-//        Button ChildPEFFragment = view.findViewById(R.id.button5);
+        Button SymptomCheckFragment = view.findViewById(R.id.button4);
+        Button ChildPEFFragment = view.findViewById(R.id.button5);
 //
 
 
@@ -61,15 +61,15 @@ public class ChildHomeFragment extends Fragment {
         });
 
 
-//        SymptomCheckFragment.setOnClickListener(v -> {
-//            SymptomCheckFragment next = new SymptomCheckFragment();
-//            ((MainActivity) requireActivity()).loadFragment(next);
-//        });
-//
-//        ChildPEFFragment.setOnClickListener(v -> {
-//            ChildPEFFragment next = new ChildPEFFragment();
-//            ((MainActivity) requireActivity()).loadFragment(next);
-//        });
+        SymptomCheckFragment.setOnClickListener(v -> {
+            SymptomCheckFragment next = new SymptomCheckFragment();
+            ((MainActivity) requireActivity()).loadFragment(next);
+        });
+
+        ChildPEFFragment.setOnClickListener(v -> {
+            ChildPEFFragment next = new ChildPEFFragment();
+            ((MainActivity) requireActivity()).loadFragment(next);
+        });
 
 
     }
