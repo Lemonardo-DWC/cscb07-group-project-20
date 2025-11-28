@@ -74,6 +74,7 @@ public class DataManager {
         writeTo(userReference.child(AppConstants.PB_PATH), AppConstants.PB_DEFAULT);
 
         DatabaseReference basicInfoRef = userReference.child(AppConstants.BASICINFORMATION);
+        writeTo(basicInfoRef.child(AppConstants.UID), childUid);
         writeTo(basicInfoRef.child(AppConstants.FIRSTNAME), firstName);
         writeTo(basicInfoRef.child(AppConstants.MIDDLENAME), middleName);
         writeTo(basicInfoRef.child(AppConstants.LASTNAME), lastName);
