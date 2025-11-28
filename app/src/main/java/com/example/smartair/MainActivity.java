@@ -59,11 +59,11 @@ public class MainActivity extends AppCompatActivity {
                                                 break;
 
                                             case AppConstants.CHILD:
-                                                // TODO: redirect to child homescreen
+                                                // TODO: redirect to children homescreen
                                                 break;
 
                                             case AppConstants.PROVIDER:
-                                                // TODO: redirect to provider homescreen
+                                                loadFragment(new ProviderHomeFragment());
                                                 break;
                                         }
                                     } else {
