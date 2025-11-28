@@ -38,6 +38,15 @@ public class ManageChildFragment extends Fragment {
             }
         });
 
+        Button backButton = view.findViewById(R.id.manage_children_back_button);
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getParentFragmentManager().popBackStack();
+            }
+        });
+
         return view;
     }
 

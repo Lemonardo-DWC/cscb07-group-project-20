@@ -17,6 +17,10 @@ public class DataManager {
         return database.getReference(path);
     }
 
+    public DatabaseReference getUserReference(String uid) {
+        return database.getReference(AppConstants.USERPATH).child(uid);
+    }
+
     public <T> void writeTo(DatabaseReference reference, T value) {
         reference.setValue(value);
     }
@@ -92,10 +96,17 @@ public class DataManager {
         // link parent to child
         DatabaseReference parentChildListRef
                 = getReference(AppConstants.USERPATH).child(parentUid)
-                    .child(AppConstants.CHILDRENLIST).child(childUid);
+                    .child(AppConstants.CHILDLIST).child(childUid);
         writeTo(parentChildListRef, childUid);
 
+    }
 
+    public Task<DataSnapshot> getChildrenUidList(DatabaseReference childUidListRef) {
+        return childUidListRef.get();
+    }
+
+    public Task<DataSnapshot> getDataSnapshot(DatabaseReference ref) {
+        return ref.get();
     }
 
 }
