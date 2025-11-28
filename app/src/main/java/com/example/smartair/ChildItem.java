@@ -5,6 +5,7 @@ import java.util.Map;
 
 public class ChildItem {
 
+    public String uid;
     public String accountType;
     public String email;
     public BasicInformation basicInformation;
