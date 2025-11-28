@@ -18,7 +18,7 @@ public class ChildHomeFragment extends Fragment {
 
 
     private String childId;
-
+    private final UserManager userManager = new UserManager();
 
     public ChildHomeFragment() {
         // Required empty public constructor
@@ -37,7 +37,7 @@ public class ChildHomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        Button childLogout = view.findViewById(R.id.button8);
         Button controllerLogs = view.findViewById(R.id.buttonControllerLogs);
         Button rescueLogs = view.findViewById(R.id.button3);
         Button dailyCheck = view.findViewById(R.id.button1);
@@ -71,7 +71,12 @@ public class ChildHomeFragment extends Fragment {
 //            ((MainActivity) requireActivity()).loadFragment(next);
 //        });
 
-
+        childLogout.setOnClickListener(v -> {
+                    userManager.logout();
+                    ((MainActivity) requireActivity()).loadFragment(new LoginFragment());
+            });
     }
+
+
 
 }
