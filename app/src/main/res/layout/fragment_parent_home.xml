@@ -106,17 +106,34 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/alertRecycler"
-                android:layout_width="match_parent"
-                android:layout_height="125dp"
-                android:layout_marginTop="10dp"
-                android:padding="@dimen/view_group_padding"
-                android:background="@color/bg3"
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
 
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/alertTitle"/>
+                app:layout_constraintTop_toBottomOf="@id/alertTitle">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/alertRecycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="125dp"
+                        android:padding="@dimen/view_group_padding"
+                        android:background="@color/bg3"
+
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -155,17 +172,34 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/childRecycler"
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="0dp"
-                android:layout_height="350dp"
-                android:padding="@dimen/view_group_padding"
-                android:layout_marginTop="10dp"
-                android:background="@color/bg3"
+                android:layout_height="wrap_content"
 
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/childStatusTitle"/>
+                app:layout_constraintTop_toBottomOf="@+id/childStatusTitle">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/childRecycler"
+                        android:layout_width="0dp"
+                        android:layout_height="350dp"
+                        android:padding="@dimen/view_group_padding"
+                        android:background="@color/bg3"
+
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
