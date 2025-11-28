@@ -29,7 +29,7 @@ public class AppConstants {
     public static final String BIRTHDAY = "birthday";
     public static final String SEX = "sex";
     public static final String PARENTLIST = "parentList";
-    public static final String CHILDRENLIST = "childrenList";
+    public static final String CHILDLIST = "childrenList";
     public static final String PARENT = "parent";
     public static final String CHILD = "child";
     public static final String PROVIDER = "provider";
