@@ -35,8 +35,8 @@ public class ParentHomeFragment extends Fragment {
     private List<ChildItem> childItemList;
     private ChildItemAdapter childItemAdapter;
 
-    // helper classe objects
-    private final UserManager userManager = new UserManager();
+    // helper class objects
+    private final ParentHomeViewModel phvm = new ParentHomeViewModel();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -93,7 +93,7 @@ public class ParentHomeFragment extends Fragment {
                     ).show();
                     return true;
                 } else if (itemId == R.id.logout) {
-                    userManager.logout();
+                    phvm.logout();
                     ((MainActivity) requireActivity()).loadFragment(new LoginFragment());
                 }
 
@@ -128,19 +128,21 @@ public class ParentHomeFragment extends Fragment {
             }
         });
 
-        // recycler initialization
+        // child status recycler setup
         childRecycler = view.findViewById(R.id.childRecycler);
 
         childItemList = new ArrayList<>();
-
-        // TODO: temporarily here for development purposes
-        loadStaticItems();
-
         childItemAdapter = new ChildItemAdapter(childItemList);
-
         childRecycler.setAdapter(childItemAdapter);
         childRecycler.setLayoutManager(new LinearLayoutManager(requireContext()));
 
+        phvm.trackChildListRef();
+
+        phvm.childItemListData.observe(getViewLifecycleOwner(), newChildItemList -> {
+            childItemList.clear();
+            childItemList.addAll(newChildItemList);
+            childItemAdapter.notifyDataSetChanged();
+        });
 
         /// back button handling ///
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
@@ -154,46 +156,5 @@ public class ParentHomeFragment extends Fragment {
         };
         requireActivity()
                 .getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
-    }
-
-    private void loadStaticItems() {
-        for(int i = 0; i < 10; i++) {
-
-            String sex;
-            double sexGenerator = Math.random();
-
-            if(sexGenerator >= 0.5) {
-                sex = "male";
-            } else {
-                sex = "female";
-            }
-
-            String day;
-            String month;
-            String year;
-
-            day = String.valueOf(1 + (int) (Math.random() * 100 % 31));
-            month = String.valueOf(1 + (int) (Math.random() * 100 % 12));
-            year = String.valueOf(2025 - (int) (Math.random() * 100 % 17));
-
-            if(Integer.parseInt(day) < 10) {
-                day = "0" + day;
-            }
-
-            if(Integer.parseInt(month) < 10) {
-                month = "0" + month;
-            }
-
-            String dob = day + "/" + month + "/" + year;
-
-            childItemList.add(
-                    new ChildItem("Child",
-                            "",
-                            String.valueOf(i+1),
-                            dob,
-                            sex)
-            );
-
-        }
     }
 }

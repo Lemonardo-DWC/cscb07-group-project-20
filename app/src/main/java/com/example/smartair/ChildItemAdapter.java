@@ -23,7 +23,7 @@ public class ChildItemAdapter extends RecyclerView.Adapter<ChildItemAdapter.Item
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater
                 .from(parent.getContext()).inflate(
-                        R.layout.child_item_adapter,
+                        R.layout.adapter_child_item,
                         parent,
                         false
                 );
@@ -33,14 +33,17 @@ public class ChildItemAdapter extends RecyclerView.Adapter<ChildItemAdapter.Item
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         ChildItem childItem = childItemList.get(position);
-        holder.childName.setText(childItem.getFirstName());
+
+        String name = childItem.basicInformation.firstName;
+        if (!childItem.basicInformation.middleName.equals("")) {
+            name += childItem.basicInformation.middleName;
+        }
+        name += childItem.basicInformation.lastName;
+
+        holder.childName.setText(name);
+
         holder.tempInfo.setText(
-                String.format("full name: %s %s %s DOB: %s Sex: %s",
-                        childItem.getFirstName(),
-                        childItem.getMiddleName(),
-                        childItem.getLastName(),
-                        childItem.getDob(),
-                        childItem.getSex())
+                String.format("dob: %s, sex: %s, other: %s", childItem.basicInformation.birthday, childItem.basicInformation.sex, childItem.email)
         );
     }
 
