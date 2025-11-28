@@ -76,7 +76,7 @@ public class RescueLogsFragment extends Fragment {
             }
             RadioButton selectedButton1 = view.findViewById(num1);
             String selectedString1 = selectedButton1.getText().toString();
-
+            int selectedInt1 = Integer.parseInt(selectedString1);
             TextView text2=view.findViewById(R.id.textView3);
             int num2 = groupAft.getCheckedRadioButtonId();
             if (num2 == -1) {
@@ -85,7 +85,7 @@ public class RescueLogsFragment extends Fragment {
             }
             RadioButton selectedButton2 = view.findViewById(num2);
             String selectedString2 = selectedButton2.getText().toString();
-
+            int selectedInt2 = Integer.parseInt(selectedString2);
             TextView text3=view.findViewById(R.id.postStatusLabel);
             int num3 = groupFeel.getCheckedRadioButtonId();
             if (num3 == -1) {
@@ -94,7 +94,7 @@ public class RescueLogsFragment extends Fragment {
             }
             RadioButton selectedButton3 = view.findViewById(num3);
             String selectedString3 = selectedButton3.getText().toString();
-
+            int selectedInt3 = 0;
             int dose = 1;
             try {
                 dose = Integer.parseInt(doseTxt);
@@ -106,13 +106,21 @@ public class RescueLogsFragment extends Fragment {
                 editTextNumber.setError("Puffs must be at least 1");
                 return;
             }
+            switch (selectedString3) {
+                case "Worse":
+                    selectedInt3 = -1;
+                    break;
+                case "Better":
+                    selectedInt3 = 1;
+                    break;
+            }
 
 
             Map<String, Object> log = new HashMap<>();
             log.put("dose", dose);
-            log.put("preBreathRating", selectedString1);
-            log.put("postBreathRating", selectedString2);
-            log.put("postStatus", selectedString3);
+            log.put("preBreathRating", selectedInt1);
+            log.put("postBreathRating", selectedInt2);
+            log.put("postStatus", selectedInt3);
             log.put("timestamp", System.currentTimeMillis());
 
             logRef.push().setValue(log)
