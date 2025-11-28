@@ -13,6 +13,7 @@ import java.util.List;
 public class ChildItemAdapter extends RecyclerView.Adapter<ChildItemAdapter.ItemViewHolder> {
 
     private List<ChildItem> childItemList;
+    private final ChildItemHelper childItemHelper = new ChildItemHelper();
 
     public ChildItemAdapter(List<ChildItem> childItemList) {
         this.childItemList = childItemList;
@@ -35,16 +36,31 @@ public class ChildItemAdapter extends RecyclerView.Adapter<ChildItemAdapter.Item
         ChildItem childItem = childItemList.get(position);
 
         String name = childItem.basicInformation.firstName;
-        if (!childItem.basicInformation.middleName.equals("")) {
-            name += childItem.basicInformation.middleName;
-        }
-        name += childItem.basicInformation.lastName;
+
+//        if (!childItem.basicInformation.middleName.equals("")) {
+//            name += " " + childItem.basicInformation.middleName;
+//        }
+//        name += " " + childItem.basicInformation.lastName;
 
         holder.childName.setText(name);
 
-        holder.tempInfo.setText(
-                String.format("dob: %s, sex: %s, other: %s", childItem.basicInformation.birthday, childItem.basicInformation.sex, childItem.email)
+        holder.childUid.setText(childItemHelper.getChildUid(childItem));
+
+        String lrt = String.format("Last rescue: %s",
+                childItemHelper.getLastRescueTime(childItem));
+        holder.lastRescueTime.setText(lrt);
+
+        String wrc = String.format("Rescues this week: %s",
+                String.valueOf(childItemHelper.getWeeklyRescueCount(childItem)));
+        holder.weeklyRescueCount.setText(wrc);
+
+        holder.otherText.setText(
+                String.format("dob: %s, sex: %s, other: %s",
+                        childItem.basicInformation.birthday,
+                        childItem.basicInformation.sex,
+                        childItem.email)
         );
+
     }
 
     @Override
@@ -54,11 +70,14 @@ public class ChildItemAdapter extends RecyclerView.Adapter<ChildItemAdapter.Item
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
 
-        TextView childName, tempInfo;
+        TextView childName, childUid, lastRescueTime, weeklyRescueCount, otherText;
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
             childName = itemView.findViewById(R.id.childName);
-            tempInfo = itemView.findViewById(R.id.tempInfo);
+            childUid = itemView.findViewById(R.id.childUid);
+            lastRescueTime = itemView.findViewById(R.id.lastRescuetime);
+            weeklyRescueCount = itemView.findViewById(R.id.weeklyRescueCount);
+            otherText = itemView.findViewById(R.id.OTHERTEXT);
         }
     }
 

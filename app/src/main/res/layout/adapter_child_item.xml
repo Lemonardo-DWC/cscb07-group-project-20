@@ -19,16 +19,16 @@
 
         <TextView
             android:id="@+id/childName"
-            android:layout_width="0dp"
+            android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:text="name"
             android:textSize="@dimen/nameFontSize"
             android:textStyle="bold"
-            android:maxWidth="110dp"
+
+            android:maxLines="2"
             android:ellipsize="none"
             android:scrollHorizontally="false"
-            android:maxLines="2"
-            android:breakStrategy="simple"
+            android:breakStrategy="high_quality"
 
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
@@ -43,10 +43,10 @@
             app:layout_constraintStart_toEndOf="@id/childName"/>
 
         <TextView
-            android:id="@+id/tempInfo"
+            android:id="@+id/childUid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="FILLER TEXT"
+            android:text="CHILD_UID"
             android:ellipsize="none"
             android:scrollHorizontally="false"
             android:breakStrategy="simple"
@@ -55,6 +55,48 @@
 
             app:layout_constraintStart_toEndOf="@id/childName"
            app:layout_constraintBaseline_toBaselineOf="@id/childName"/>
+
+        <TextView
+            android:id="@+id/lastRescuetime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="lastRescuetime"
+            android:ellipsize="none"
+            android:scrollHorizontally="false"
+            android:breakStrategy="simple"
+
+            android:layout_marginStart="10dp"
+
+            app:layout_constraintStart_toEndOf="@id/childName"
+            app:layout_constraintTop_toBottomOf="@id/childUid"/>
+
+        <TextView
+            android:id="@+id/weeklyRescueCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="weeklyRescueCount"
+            android:ellipsize="none"
+            android:scrollHorizontally="false"
+            android:breakStrategy="simple"
+
+            android:layout_marginStart="10dp"
+
+            app:layout_constraintStart_toEndOf="@id/childName"
+            app:layout_constraintTop_toBottomOf="@id/lastRescuetime"/>
+
+        <TextView
+            android:id="@+id/OTHERTEXT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="OTHER_TEXT"
+            android:ellipsize="none"
+            android:scrollHorizontally="false"
+            android:breakStrategy="simple"
+
+            android:layout_marginStart="10dp"
+
+            app:layout_constraintStart_toEndOf="@id/childName"
+            app:layout_constraintTop_toBottomOf="@id/weeklyRescueCount"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

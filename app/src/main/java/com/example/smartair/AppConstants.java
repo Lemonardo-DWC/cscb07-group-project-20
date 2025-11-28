@@ -20,6 +20,7 @@ public class AppConstants {
     /// database constants
     public static final String USERPATH = "users";
     public static final String USERNAMEPATH = "usernames";
+    public static final String UID = "uid";
     public static final String EMAIL = "email";
     public static final String ACCOUNTTYPE = "accountType";
     public static final String BASICINFORMATION = "basicInformation";
@@ -37,6 +38,20 @@ public class AppConstants {
     /// year range endpoints
     public static final int YEARSTART = 2000;
     public static final int YEAREND = 2030;
+
+    /// time constants
+    public static final long MS_NORMYEAR = 31_536_000_000L;
+    public static final long MS_LEAPYEAR = 31_622_400_000L;
+    public static final long MS_WEEK = 604_800_000;
+    public static final long MS_DAY = 86_400_000;
+    public static final long MS_HOUR = 3_600_000;
+    public static final long MS_MINUTE = 60_000;
+    public static final long MS_SECOND = 1_000;
+    public static final String DATE_YMDHMS = "HH:mm:ss, dd-MM-yyyy";
+    public static final String DATE_YMDHM = "HH:mm, dd-MM-yyyy";
+    public static final String DATE_YMD = "dd-MM-yyyy";
+    public static final String DATE_YM = "MM-yyyy";
+    public static final String DATE_Y = "yyyy";
 
     /// biological sex
     public static final String MALE = "male";
