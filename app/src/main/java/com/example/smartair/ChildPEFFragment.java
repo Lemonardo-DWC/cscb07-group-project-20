@@ -57,27 +57,26 @@ public class ChildPEFFragment extends Fragment {
         zoneColor = rootView.findViewById(R.id.zoneColor);
         personalBestLabel = rootView.findViewById(R.id.personalBestLabel);
 
-        //====================
+        Bundle args = getArguments();
+        String childId = null;
+        if (args != null) {
+            childId = args.getString("CHILD_ID");
+        }
+        //parent
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String childUID;
+        String parentUid = null;
+        if (user != null) {
+            parentUid = user.getUid();
+        }
 
-        //if (user != null) {
-            //
-
-            childUID = user.getUid();  // correct
-        //} else {
-            // test
-//            childUID = "testUser123";
-//            Toast.makeText(getContext(),
-//                    "Development mode: No user logged in. Using test UID.",
-//                    Toast.LENGTH_LONG).show();
-//        }
-        // ====== ======
-
-        childRef = FirebaseDatabase.getInstance()
-                .getReference("children")
-                .child(childUID);
-
+        childRef = null;
+        if (parentUid != null && childId != null) {
+            childRef = FirebaseDatabase.getInstance()
+                    .getReference("users")
+                    .child(parentUid)
+                    .child("children")
+                    .child(childId);
+        }
 
         loadPersonalBest();
 
@@ -90,8 +89,6 @@ public class ChildPEFFragment extends Fragment {
         return rootView;
     }
 
-
-    //  PB
     private void loadPersonalBest() {
         childRef.child("personalBest").addListenerForSingleValueEvent(
                 new ValueEventListener() {
@@ -100,8 +97,7 @@ public class ChildPEFFragment extends Fragment {
 
                         if (snapshot.exists()) {
                             personalBest = snapshot.getValue(Double.class);
-                        }
-                        else {
+                        } else {
                             personalBest = defaultPB;
                             Toast.makeText(getContext(),
                                     "Parent has not set PB. Using default PB = " + defaultPB,
@@ -117,8 +113,6 @@ public class ChildPEFFragment extends Fragment {
         );
     }
 
-
-    // 提交 PEF
     private void handlePEFSubmit() {
 
         if (personalBest <= 0) {
@@ -150,15 +144,13 @@ public class ChildPEFFragment extends Fragment {
 
         zoneLabel.setText("Zone: " + zone);
 
-        // log
         String logId = childRef.child("pefLogs").push().getKey();
 
         Map<String, Object> logData = new HashMap<>();
         logData.put("pef", pef);
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        String timeString = now.format(formatter);
-        logData.put("timestamp", timeString);  // time
+        logData.put("timestamp", now.format(formatter));
 
         if (togglePrePost.isChecked()) {
             String pre = inputPreMedPEF.getText().toString().trim();
@@ -168,6 +160,30 @@ public class ChildPEFFragment extends Fragment {
             if (!post.isEmpty()) logData.put("postMedPEF", Integer.parseInt(post));
         }
 
-        childRef.child("pefLogs").child(logId).setValue(logData);
+        //childRef.child("pefLogs").child(logId).setValue(logData);
+        childRef.child("pefLogs").child(logId).setValue(logData)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(getContext(), "PEF saved!", Toast.LENGTH_SHORT).show();
+                        // If from SymptomCheckFragment
+                        Bundle args = getArguments();
+                        boolean fromSymptomCheck = args != null && args.getBoolean("FROM_SYMPTOM_CHECK", false);
+                        if (fromSymptomCheck) {
+                            goToDecision(args);
+                        }
+                    }
+                    else {
+                        Toast.makeText(getContext(), "Failed to save PEF.", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
+    private void goToDecision(Bundle args) {
+        Fragment fragment = new DecisionFragment();
+        if (args != null) {
+            fragment.setArguments(args);
+        }
+        ((MainActivity) requireActivity()).loadFragment(fragment);
+    }
+
+
 }

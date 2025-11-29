@@ -18,7 +18,7 @@ public class ChildHomeFragment extends Fragment {
 
 
     private String childId;
-    private final UserManager userManager = new UserManager();
+
 
     public ChildHomeFragment() {
         // Required empty public constructor
@@ -37,7 +37,7 @@ public class ChildHomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Button childLogout = view.findViewById(R.id.button8);
+
         Button controllerLogs = view.findViewById(R.id.buttonControllerLogs);
         Button rescueLogs = view.findViewById(R.id.button3);
         Button dailyCheck = view.findViewById(R.id.button1);
@@ -61,22 +61,34 @@ public class ChildHomeFragment extends Fragment {
         });
 
 
+//        SymptomCheckFragment.setOnClickListener(v -> {
+//            SymptomCheckFragment next = new SymptomCheckFragment();
+//            ((MainActivity) requireActivity()).loadFragment(next);
+//        });
         SymptomCheckFragment.setOnClickListener(v -> {
+            Bundle b = new Bundle();
+            b.putString("CHILD_ID", childId);
             SymptomCheckFragment next = new SymptomCheckFragment();
+            next.setArguments(b);
             ((MainActivity) requireActivity()).loadFragment(next);
         });
 
+//
+//        ChildPEFFragment.setOnClickListener(v -> {
+//            ChildPEFFragment next = new ChildPEFFragment();
+//            ((MainActivity) requireActivity()).loadFragment(next);
+//        });
         ChildPEFFragment.setOnClickListener(v -> {
+            Bundle b = new Bundle();
+            b.putString("CHILD_ID", childId);
+            b.putBoolean("FROM_SYMPTOM_CHECK", false);
             ChildPEFFragment next = new ChildPEFFragment();
+            next.setArguments(b);
             ((MainActivity) requireActivity()).loadFragment(next);
         });
 
-        childLogout.setOnClickListener(v -> {
-                    userManager.logout();
-                    ((MainActivity) requireActivity()).loadFragment(new LoginFragment());
-            });
+
+
     }
-
-
 
 }

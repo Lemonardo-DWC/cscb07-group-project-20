@@ -131,10 +131,10 @@
             android:text="Yes, check PEF"/>
 
         <Button
-            android:id="@+id/btn_skip_pef"
+            android:id="@+id/btn_save"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Skip PEF"
+            android:text="Save"
             android:layout_marginTop="10dp" />
 
     </LinearLayout>

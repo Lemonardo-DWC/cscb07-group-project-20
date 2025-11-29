@@ -21,8 +21,14 @@ import java.util.Map;
 
 public class SymptomCheckFragment extends Fragment {
 
-    private RadioGroup q1, q2, q3, q4, q5;
-    private Button btnCheckPEF, btnSkipPEF;
+    private RadioGroup q1;
+    private RadioGroup q2;
+    private RadioGroup q3;
+    private RadioGroup q4;
+    private RadioGroup q5;
+
+    private Button btnCheckPEF;
+    private Button btnSave;
     private DatabaseReference childRef;
 
     @Nullable
@@ -32,23 +38,17 @@ public class SymptomCheckFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_symptom_check, container, false);
 
-        // Firebase path: /children/{uid}/triageSessions
-//        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-//        childRef = FirebaseDatabase.getInstance().getReference("children").child(uid);
-
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String uid;
 
-//        if (user == null) {
-//            uid = "testUser123";  // test
-//            Toast.makeText(getContext(), "Using TEST USER (not logged in)", Toast.LENGTH_SHORT).show();
-//        } else {
-            uid = user.getUid();
-//        }
+        String parentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        Bundle args = getArguments();
+        String childId = null;
+        if (args != null) {
+            childId = args.getString("CHILD_ID");
+        }
 
-        childRef = FirebaseDatabase.getInstance().getReference("children").child(uid);
-
-        //==========
+        childRef = FirebaseDatabase.getInstance().getReference("users")
+                .child(parentUid).child("children").child(childId);
 
         q1 = view.findViewById(R.id.q1_group);
         q2 = view.findViewById(R.id.q2_group);
@@ -57,13 +57,13 @@ public class SymptomCheckFragment extends Fragment {
         q5 = view.findViewById(R.id.q5_group);
 
         btnCheckPEF = view.findViewById(R.id.btn_check_pef);
-        btnSkipPEF = view.findViewById(R.id.btn_skip_pef);
+        btnSave = view.findViewById(R.id.btn_save);
 
         btnCheckPEF.setOnClickListener(v -> {
             String key = saveSymptomData();
             goToPEF(key);
         });
-        btnSkipPEF.setOnClickListener(v -> {
+        btnSave.setOnClickListener(v -> {
             boolean redFlag = checkRedFlags();
             saveSymptomData();
             goToDecision(redFlag);
@@ -88,7 +88,6 @@ public class SymptomCheckFragment extends Fragment {
         return q1Danger || q2Danger || q3Danger;
     }
 
-
     private String saveSymptomData() {
         String key = childRef.child("triageSessions").push().getKey();
 
@@ -98,15 +97,24 @@ public class SymptomCheckFragment extends Fragment {
         map.put("blue_lips_nails", getYes(q3));
         map.put("used_rescue_meds", getYes(q4));
         map.put("dizzy_scared", getYes(q5));
-        //time
-        java.time.LocalDateTime now = java.time.LocalDateTime.now();
-        java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         String timeString = now.format(formatter);
 
-        map.put("timestamp", timeString);
+        map.put("SymptomCheckTimestamp", timeString);
         map.put("red_flag_detected", checkRedFlags());
 
         childRef.child("triageSessions").child(key).setValue(map);
+        childRef.child("triageSessions").child(key).setValue(map)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(getContext(), "Saved successfully!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getContext(), "Failed to save.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
         return key;
     }
 
@@ -114,11 +122,20 @@ public class SymptomCheckFragment extends Fragment {
         Fragment fragment = new ChildPEFFragment();
         Bundle b = new Bundle();
         b.putString("SESSION_KEY", sessionKey);
+        Bundle args = getArguments();
+        if (args != null) {
+            String childId = args.getString("CHILD_ID");
+            b.putString("CHILD_ID", childId);
+        }
+
+        boolean redFlag = checkRedFlags();
+        b.putBoolean("RED_FLAG", redFlag);
+
+        b.putBoolean("FROM_SYMPTOM_CHECK", true);
         fragment.setArguments(b);
 
         ((MainActivity) requireActivity()).loadFragment(fragment);
     }
-
 
     private void goToDecision(boolean redFlag) {
         Fragment fragment = new DecisionFragment();
