@@ -2,6 +2,7 @@ package com.example.smartair;
 
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -12,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
+
+import javax.security.auth.callback.Callback;
 
 
 public class ChildHomeFragment extends Fragment {
@@ -44,6 +47,7 @@ public class ChildHomeFragment extends Fragment {
         Button SymptomCheckFragment = view.findViewById(R.id.button4);
         Button ChildPEFFragment = view.findViewById(R.id.button5);
         Button TechniqueHelper = view.findViewById(R.id.button7);
+        Button logout = view.findViewById(R.id.button8);
 //
 
 
@@ -91,6 +95,23 @@ public class ChildHomeFragment extends Fragment {
             ((MainActivity) requireActivity()).loadFragment(next);
         });
 
+        logout.setOnClickListener(v -> {
+            FirebaseAuth.getInstance().signOut();
+            ((MainActivity) requireActivity()).loadFragment(new LoginFragment());
+        });
+
+        /// back button handling ///
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+
+            /// home screen is navigation root after logging in, thus back button should send user
+            /// out of app
+            @Override
+            public void handleOnBackPressed() {
+                requireActivity().finish();
+            }
+        };
+        requireActivity()
+                .getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
 
 
     }
