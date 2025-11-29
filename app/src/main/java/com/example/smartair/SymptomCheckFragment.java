@@ -63,11 +63,30 @@ public class SymptomCheckFragment extends Fragment {
             String key = saveSymptomData();
             goToPEF(key);
         });
+//        btnSave.setOnClickListener(v -> {
+//            boolean redFlag = checkRedFlags();
+//            saveSymptomData();
+//            goToDecision(redFlag);
+//        });
         btnSave.setOnClickListener(v -> {
+
             boolean redFlag = checkRedFlags();
+            boolean isRecheck = false;
+
+            Bundle incomingArgs = getArguments();
+            if (incomingArgs != null) {
+                isRecheck = incomingArgs.getBoolean("RECHECK_MODE", false);
+            }
             saveSymptomData();
-            goToDecision(redFlag);
+            //Still reg frag?
+            if (isRecheck && redFlag) {
+                goToDecision(true);
+            } else {
+                goToDecision(redFlag);
+            }
         });
+
+
 
         return view;
     }
@@ -81,7 +100,7 @@ public class SymptomCheckFragment extends Fragment {
 
     // Red Flags: Q1 no, Q2 yes, Q3 yes
     private boolean checkRedFlags() {
-        boolean q1Danger = !getYes(q1);  // Q1: NO means danger
+        boolean q1Danger = !getYes(q1);
         boolean q2Danger = getYes(q2);
         boolean q3Danger = getYes(q3);
 
@@ -117,7 +136,6 @@ public class SymptomCheckFragment extends Fragment {
 
         return key;
     }
-
     private void goToPEF(String sessionKey) {
         Fragment fragment = new ChildPEFFragment();
         Bundle b = new Bundle();
@@ -145,4 +163,15 @@ public class SymptomCheckFragment extends Fragment {
 
         ((MainActivity) requireActivity()).loadFragment(fragment);
     }
+    private void goToRecheck() {
+        Fragment fragment = new SymptomCheckFragment();
+
+        Bundle b = new Bundle();
+        b.putBoolean("RECHECK_MODE", true);
+
+        fragment.setArguments(b);
+
+        ((MainActivity) requireActivity()).loadFragment(fragment);
+    }
+
 }
