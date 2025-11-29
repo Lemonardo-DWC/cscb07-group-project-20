@@ -73,9 +73,7 @@ public class ChildPEFFragment extends Fragment {
         if (parentUid != null && childId != null) {
             childRef = FirebaseDatabase.getInstance()
                     .getReference("users")
-                    .child(parentUid)
-                    .child("children")
-                    .child(childId);
+                    .child(parentUid);
         }
 
         loadPersonalBest();

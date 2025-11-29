@@ -48,7 +48,7 @@ public class SymptomCheckFragment extends Fragment {
         }
 
         childRef = FirebaseDatabase.getInstance().getReference("users")
-                .child(parentUid).child("children").child(childId);
+                .child(parentUid);
 
         q1 = view.findViewById(R.id.q1_group);
         q2 = view.findViewById(R.id.q2_group);
