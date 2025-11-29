@@ -8,15 +8,24 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.button.MaterialButton;
+
 import java.util.List;
 
-public class ChildItemAdapter extends RecyclerView.Adapter<ChildItemAdapter.ItemViewHolder> {
+public class ParentHomeChildItemAdapter
+        extends RecyclerView.Adapter<ParentHomeChildItemAdapter.ItemViewHolder> {
 
     private List<ChildItem> childItemList;
     private final ChildItemHelper childItemHelper = new ChildItemHelper();
+    private OnDetailButtonClick callback;
 
-    public ChildItemAdapter(List<ChildItem> childItemList) {
+    public ParentHomeChildItemAdapter(List<ChildItem> childItemList, OnDetailButtonClick callback) {
         this.childItemList = childItemList;
+        this.callback = callback;
+    }
+
+    public interface OnDetailButtonClick {
+        void onClick(ChildItem childItem);
     }
 
     @NonNull
@@ -61,6 +70,13 @@ public class ChildItemAdapter extends RecyclerView.Adapter<ChildItemAdapter.Item
                         childItem.email)
         );
 
+        holder.detailButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callback.onClick(childItem);
+            }
+        });
+
     }
 
     @Override
@@ -71,6 +87,9 @@ public class ChildItemAdapter extends RecyclerView.Adapter<ChildItemAdapter.Item
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
 
         TextView childName, childUid, lastRescueTime, weeklyRescueCount, otherText;
+
+        MaterialButton detailButton;
+
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
             childName = itemView.findViewById(R.id.childName);
@@ -78,6 +97,7 @@ public class ChildItemAdapter extends RecyclerView.Adapter<ChildItemAdapter.Item
             lastRescueTime = itemView.findViewById(R.id.lastRescuetime);
             weeklyRescueCount = itemView.findViewById(R.id.weeklyRescueCount);
             otherText = itemView.findViewById(R.id.OTHERTEXT);
+            detailButton = itemView.findViewById(R.id.detailsButton);
         }
     }
 

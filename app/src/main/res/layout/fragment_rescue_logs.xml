@@ -11,7 +11,7 @@
         android:layout_width="371dp"
         android:layout_height="400dp"
         android:layout_marginTop="168dp"
-        android:background="@color/bg1"
+        android:background="@color/pastel_blue_1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">

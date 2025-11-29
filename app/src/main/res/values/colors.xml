@@ -4,11 +4,15 @@
     <color name="white">#FFFFFFFF</color>
 
     <!-- Temporary development phase colors, update as needed -->
-    <color name="bg1">#B4E0E0</color>
-    <color name="bg2">#E0B4B4</color>
-    <color name="bg3">#CAB4E0</color>
-    <color name="bg4">#CAE0B4</color>
-    <color name="bg5">#B190D1</color>
+    <color name="pastel_blue_1">#B4E0E0</color>
+    <color name="pastel_blue_2">#90D1D1</color>
+    <color name="pastel_pink_1">#E0B4B4</color>
+    <color name="pastel_pink_2">#D19090</color>
+    <color name="pastel_purple_1">#CAB4E0</color>
+    <color name="pastel_purple_2">#B190D1</color>
+    <color name="pastel_green_1">#CAE0B4</color>
+    <color name="pastel_green_2">#96C26C</color>
+
     <!-- background / accents -->
     <color name="bg_light">#FFFFFF</color>
     <color name="accent_blue">#1E88E5</color>
@@ -21,6 +25,5 @@
     <!-- neutrals -->
     <color name="neutral_grey">#CCCCCC</color>
     <color name="text_primary">#212121</color>
-
 
 </resources>

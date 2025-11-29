@@ -9,6 +9,9 @@ activity = "1.11.0"
 constraintlayout = "2.2.1"
 
 firebase-bom = "34.6.0"
+legacySupportV4 = "1.0.0"
+lifecycleLivedataKtx = "2.9.4"
+lifecycleViewmodelKtx = "2.9.4"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -25,6 +28,9 @@ firebase-authentication = { module = "com.google.firebase:firebase-auth" }
 firebase-realtime-database = {module = "com.google.firebase:firebase-database" }
 firebase-functions = {module = "com.google.firebase:firebase-functions"}
 firebase-messaging = {module = "com.google.firebase:firebase-messaging"}
+legacy-support-v4 = { group = "androidx.legacy", name = "legacy-support-v4", version.ref = "legacySupportV4" }
+lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycleLivedataKtx" }
+lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
