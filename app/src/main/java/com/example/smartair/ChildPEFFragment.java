@@ -35,6 +35,7 @@ public class ChildPEFFragment extends Fragment {
     private DatabaseReference childRef;
     private double personalBest = -1;
     private final double defaultPB = 300;
+    private TextView historyContainer;
 
     private View rootView;
 
@@ -56,6 +57,7 @@ public class ChildPEFFragment extends Fragment {
         zoneLabel = rootView.findViewById(R.id.zoneLabel);
         zoneColor = rootView.findViewById(R.id.zoneColor);
         personalBestLabel = rootView.findViewById(R.id.personalBestLabel);
+        historyContainer = rootView.findViewById(R.id.historyContainer);
 
         Bundle args = getArguments();
         String childId = null;
@@ -83,6 +85,7 @@ public class ChildPEFFragment extends Fragment {
         );
 
         submitBtn.setOnClickListener(v -> handlePEFSubmit());
+        loadPEFHistory();
 
         return rootView;
     }
@@ -181,6 +184,44 @@ public class ChildPEFFragment extends Fragment {
             fragment.setArguments(args);
         }
         ((MainActivity) requireActivity()).loadFragment(fragment);
+    }
+    private void loadPEFHistory() {
+        if (childRef == null) return;
+
+        childRef.child("pefLogs").addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        StringBuilder sb = new StringBuilder();
+
+                        for (DataSnapshot logSnap : snapshot.getChildren()) {
+                            Integer pef = logSnap.child("pef").getValue(Integer.class);
+                            String timestamp = logSnap.child("timestamp").getValue(String.class);
+
+                            Integer pre = logSnap.child("preMedPEF").getValue(Integer.class);
+                            Integer post = logSnap.child("postMedPEF").getValue(Integer.class);
+
+                            if (pef != null) {
+                                sb.append("• PEF: ").append(pef);
+                                if (pre != null) sb.append(" | Pre: ").append(pre);
+                                if (post != null) sb.append(" | Post: ").append(post);
+                                sb.append("\n   Time: ").append(timestamp);
+                                sb.append("\n\n");
+                            }
+                        }
+
+                        if (sb.length() == 0) {
+                            historyContainer.setText("No history yet.");
+                        } else {
+                            historyContainer.setText(sb.toString());
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {}
+                }
+        );
     }
 
 

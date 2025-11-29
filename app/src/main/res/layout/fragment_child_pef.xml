@@ -112,5 +112,31 @@
             android:layout_height="80dp"
             android:background="#DDDDDD" />
 
+        <!-- History Title -->
+        <TextView
+            android:id="@+id/historyTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="History"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:paddingTop="32dp" />
+
+        <!-- Scrollable container -->
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:paddingTop="8dp">
+
+            <TextView
+                android:id="@+id/historyContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="16sp"
+                android:padding="8dp" />
+        </ScrollView>
+
+
     </LinearLayout>
 </ScrollView>
