@@ -29,7 +29,7 @@ public class ManageChildFragment extends Fragment {
 
         mcvm = new ViewModelProvider(this).get(ManageChildViewModel.class);
 
-        Button buttonAddChild = view.findViewById(R.id.buttonAddChild);
+        Button buttonAddChild = view.findViewById(R.id.exampleButton);
 
         buttonAddChild.setOnClickListener(new View.OnClickListener() {
             @Override

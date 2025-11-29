@@ -9,7 +9,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    android:background="@color/bg2">
+    android:background="@color/pastel_pink_1">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/parent_dashboard_navigation"
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/view_group_padding"
 
-            android:background="@color/bg1">
+            android:background="@color/pastel_blue_1">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/menu_button"
@@ -94,7 +94,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="@dimen/view_group_padding"
-            android:background="@color/bg4">
+            android:background="@color/pastel_green_1">
 
             <TextView
                 android:id="@+id/alertTitle"
@@ -123,7 +123,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="125dp"
                         android:padding="@dimen/view_group_padding"
-                        android:background="@color/bg3"
+                        android:background="@color/pastel_purple_1"
 
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -160,7 +160,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="@dimen/view_group_padding"
-            android:background="@color/bg4">
+            android:background="@color/pastel_green_1">
 
             <TextView
                 android:id="@+id/childStatusTitle"
@@ -189,7 +189,7 @@
                         android:layout_width="0dp"
                         android:layout_height="350dp"
                         android:padding="@dimen/view_group_padding"
-                        android:background="@color/bg3"
+                        android:background="@color/pastel_purple_1"
 
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -225,7 +225,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="@dimen/view_group_padding"
-            android:background="@color/bg4">
+            android:background="@color/pastel_green_1">
 
             <TextView
                 android:id="@+id/tendChartTitle"

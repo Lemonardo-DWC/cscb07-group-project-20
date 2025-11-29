@@ -9,4 +9,24 @@ public class BasicInformation {
     public String sex;
 
     public BasicInformation(){}
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getSex() {
+        return sex;
+    }
 }

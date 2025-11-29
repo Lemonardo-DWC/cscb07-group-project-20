@@ -8,7 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    android:background="@color/bg2">
+    android:background="@color/pastel_pink_1">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/manage_children_navigation"
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/view_group_padding"
 
-            android:background="@color/bg1">
+            android:background="@color/pastel_blue_1">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/manage_children_back_button"
@@ -89,7 +89,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="@dimen/view_group_padding"
-            android:background="@color/bg4">
+            android:background="@color/pastel_green_1">
 
             <TextView
                 android:id="@+id/childStatusTitle"
@@ -102,7 +102,7 @@
                 app:layout_constraintTop_toTopOf="parent"/>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/buttonAddChild"
+                android:id="@+id/exampleButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/manageChild_createChildAccount"
@@ -119,11 +119,11 @@
                 android:layout_height="500dp"
                 android:padding="@dimen/view_group_padding"
                 android:layout_marginTop="10dp"
-                android:background="@color/bg3"
+                android:background="@color/pastel_purple_1"
 
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/buttonAddChild"/>
+                app:layout_constraintTop_toBottomOf="@+id/exampleButton"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
