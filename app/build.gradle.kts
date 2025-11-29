@@ -69,4 +69,7 @@ dependencies {
 
     // Cloud Messaging
     implementation(libs.firebase.messaging)
+
+    // Youtube Player
+    implementation("com.pierfrancescosoffritti.androidyoutubeplayer:core:13.0.0")
 }

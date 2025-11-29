@@ -43,6 +43,7 @@ public class ChildHomeFragment extends Fragment {
         Button dailyCheck = view.findViewById(R.id.button1);
         Button SymptomCheckFragment = view.findViewById(R.id.button4);
         Button ChildPEFFragment = view.findViewById(R.id.button5);
+        Button TechniqueHelper = view.findViewById(R.id.button7);
 //
 
 
@@ -58,6 +59,9 @@ public class ChildHomeFragment extends Fragment {
         });
         dailyCheck.setOnClickListener(v -> {
             ((MainActivity) requireActivity()).loadFragment(new DailyCheckFragment());
+        });
+        TechniqueHelper.setOnClickListener(v -> {
+            ((MainActivity) requireActivity()).loadFragment(new TechniqueHelperFragment());
         });
 
 
