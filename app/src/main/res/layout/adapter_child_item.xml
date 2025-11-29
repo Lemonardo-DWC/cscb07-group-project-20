@@ -9,13 +9,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
 
-    tools:context=".ChildItemAdapter">
+    app:strokeColor="@color/black"
+    app:strokeWidth="1dp"
+
+    tools:context=".ParentHomeChildItemAdapter">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/view_group_padding"
-        android:background="@color/bg1">
+        android:background="@color/pastel_blue_1">
 
         <TextView
             android:id="@+id/childName"
@@ -33,7 +36,28 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/detailsButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="More Details"
+            android:textColor="@color/black"
+
+            android:backgroundTint="@color/pastel_purple_1"
+            app:shapeAppearanceOverlay="@style/material_button_style_1"
+            app:strokeColor="@color/black"
+            app:strokeWidth="1dp"
+
+            android:layout_marginEnd="5dp"
+            app:layout_constraintVertical_bias="1"
+
+            app:layout_constraintTop_toBottomOf="@id/childName"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/childName"
+            app:layout_constraintEnd_toEndOf="@id/childName"/>
+
         <View
+            android:id="@+id/vertDivider_1"
             android:layout_width="2dp"
             android:layout_height="100dp"
             android:background="@color/black"

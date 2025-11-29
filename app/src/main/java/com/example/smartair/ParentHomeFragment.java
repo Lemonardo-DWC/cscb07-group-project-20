@@ -6,6 +6,7 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,7 +22,9 @@ import com.google.android.material.button.MaterialButtonToggleGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ParentHomeFragment extends Fragment {
+public class ParentHomeFragment
+        extends Fragment
+        implements ParentHomeChildItemAdapter.OnDetailButtonClick {
 
     // buttons
     private MaterialButton menuButton;
@@ -33,10 +36,10 @@ public class ParentHomeFragment extends Fragment {
 
     // child item list
     private List<ChildItem> childItemList;
-    private ChildItemAdapter childItemAdapter;
+    private ParentHomeChildItemAdapter parentHomeChildItemAdapter;
 
     // helper class objects
-    private final ParentHomeViewModel phvm = new ParentHomeViewModel();
+    private ParentHomeViewModel phvm;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,6 +51,8 @@ public class ParentHomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_parent_home, container, false);
+
+        phvm = new ViewModelProvider(requireActivity()).get(ParentHomeViewModel.class);
 
         return view;
     }
@@ -132,8 +137,8 @@ public class ParentHomeFragment extends Fragment {
         childRecycler = view.findViewById(R.id.childRecycler);
 
         childItemList = new ArrayList<>();
-        childItemAdapter = new ChildItemAdapter(childItemList);
-        childRecycler.setAdapter(childItemAdapter);
+        parentHomeChildItemAdapter = new ParentHomeChildItemAdapter(childItemList, this);
+        childRecycler.setAdapter(parentHomeChildItemAdapter);
         childRecycler.setLayoutManager(new LinearLayoutManager(requireContext()));
 
         phvm.trackChildListRef();
@@ -141,7 +146,7 @@ public class ParentHomeFragment extends Fragment {
         phvm.childItemListData.observe(getViewLifecycleOwner(), newChildItemList -> {
             childItemList.clear();
             childItemList.addAll(newChildItemList);
-            childItemAdapter.notifyDataSetChanged();
+            parentHomeChildItemAdapter.notifyDataSetChanged();
         });
 
         /// back button handling ///
@@ -156,5 +161,12 @@ public class ParentHomeFragment extends Fragment {
         };
         requireActivity()
                 .getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
+    }
+
+    @Override
+    public void onClick(ChildItem childItem) {
+        phvm.selectItem(childItem);
+
+        ((MainActivity) requireActivity()).loadFragment(new ChildDetailsFragment());
     }
 }

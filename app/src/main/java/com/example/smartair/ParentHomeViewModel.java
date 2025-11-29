@@ -1,12 +1,11 @@
 package com.example.smartair;
 
-import android.renderscript.Sampler;
 import android.util.Log;
-import android.view.autofill.AutofillId;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -14,12 +13,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class ParentHomeViewModel {
+public class ParentHomeViewModel extends ViewModel {
 
     private final String TAG = "ParentHomeEvent";
     private final DataManager dataManager = new DataManager();
@@ -32,6 +32,11 @@ public class ParentHomeViewModel {
     private final MutableLiveData<List<ChildItem>> _childItemListData
             = new MutableLiveData<>();
     public LiveData<List<ChildItem>> childItemListData = _childItemListData;
+
+    // for child detail fragment
+    private final MutableLiveData<ChildItem> _selectedItem
+            = new MutableLiveData<>();
+    public LiveData<ChildItem> selectedItem = _selectedItem;
 
     public ParentHomeViewModel() {}
 
@@ -185,7 +190,29 @@ public class ParentHomeViewModel {
             }
         }
 
+        list.sort(new Comparator<ChildItem>() {
+            @Override
+            public int compare(ChildItem o1, ChildItem o2) {
+                return o1.getFirstName().compareTo(o2.getFirstName());
+            }
+        });
+
         _childItemListData.setValue(list);
+    }
+
+    public void selectItem(ChildItem childItem) {
+        _selectedItem.setValue(childItem);
+    }
+
+    public LiveData<ChildItem> getSelectedItem() {
+        return selectedItem;
+    }
+
+    public void updateChildNote(ChildItem childItem) {
+        dataManager.writeTo(
+                dataManager.getUserReference(childItem.getUid()).child(AppConstants.NOTES),
+                childItem.getNotes()
+        );
     }
 
 }

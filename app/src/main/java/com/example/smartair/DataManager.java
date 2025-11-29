@@ -70,9 +70,9 @@ public class DataManager {
         // user path setup
         writeTo(userReference.child(AppConstants.EMAIL), email);
         writeTo(userReference.child(AppConstants.ACCOUNTTYPE), accountType);
+        writeTo(userReference.child(AppConstants.UID), childUid);
 
         DatabaseReference basicInfoRef = userReference.child(AppConstants.BASICINFORMATION);
-        writeTo(basicInfoRef.child(AppConstants.UID), childUid);
         writeTo(basicInfoRef.child(AppConstants.FIRSTNAME), firstName);
         writeTo(basicInfoRef.child(AppConstants.MIDDLENAME), middleName);
         writeTo(basicInfoRef.child(AppConstants.LASTNAME), lastName);
