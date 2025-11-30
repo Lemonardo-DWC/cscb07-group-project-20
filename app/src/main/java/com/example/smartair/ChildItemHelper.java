@@ -3,6 +3,7 @@ package com.example.smartair;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 public class ChildItemHelper {
 
@@ -10,74 +11,76 @@ public class ChildItemHelper {
 
     public ChildItemHelper() {}
 
-    public List<RescueLogs> getRescueLogs(ChildItem childItem) {
+    public <T extends SystemTimeTimestamp> List<T> getGenericLog(Map<String, T> logMap,
+                                                                  Comparator<T> comparator) {
 
-        if (childItem.rescueLogs == null) {
+        if (logMap == null) {
             return new ArrayList<>(0);
         }
 
-        List<RescueLogs> output = new ArrayList<>(childItem.rescueLogs.values());
-        sortRescueLogs(output);
+        List<T> output = new ArrayList<>(logMap.values());
+        output.sort(comparator);
 
         return output;
     }
 
-    public List<RescueLogs> getRangeRescueLogs(ChildItem childItem, long startTime, long endTime) {
+    public <T extends SystemTimeTimestamp> List<T>
+            getRangeGenericLog(Map<String, T> logMap,
+                               long startTime, long endTime,
+                               Comparator<T> comparator) {
 
-        List<RescueLogs> output = new ArrayList<>();
+        List<T> output = new ArrayList<>();
 
-        for(RescueLogs log : getRescueLogs(childItem)) {
-            if (startTime <= log.timestamp && log.timestamp <= endTime) {
+        for(T log : getGenericLog(logMap, comparator)) {
+            if (startTime <= log.gettimestamp() && log.gettimestamp() <= endTime) {
                 output.add(log);
             }
         }
 
-        sortRescueLogs(output);
-
         return output;
     }
 
-    public String getLastRescueTime(ChildItem childItem) {
+    public <T extends SystemTimeTimestamp> String getLastGenericLogTime(Map<String, T> logMap,
+                                                                        Comparator<T> comparator) {
 
-        List<RescueLogs> logs = getRescueLogs(childItem);
+        List<T> logList = getGenericLog(logMap, comparator);
 
-        if (logs.isEmpty()) {
+        if (logList.isEmpty()) {
             return "N/A";
         }
 
-        long lastResTimeMs = getRescueLogs(childItem).get(0).timestamp;
+        long lastLogTimeMs = logList.get(0).gettimestamp();
 
-        String time = timeHelper.formatTime(AppConstants.DATE_YMDHM, lastResTimeMs);
+        String time = timeHelper.formatTime(AppConstants.DATE_HMMDY, lastLogTimeMs);
 
         return time;
+
     }
 
-    public int getWeeklyRescueCount(ChildItem childItem) {
+    public <T extends SystemTimeTimestamp> T getLastGenericLog(Map<String, T> logMap,
+                                                               Comparator<T> comparator) {
+
+        List<T> logList = getGenericLog(logMap, comparator);
+
+        if (logList.isEmpty()) {
+            return null;
+        }
+
+        return logList.get(0);
+
+    }
+
+    public <T extends SystemTimeTimestamp> int getWeeklyLogCount(Map<String, T> logMap,
+                                                                 Comparator<T> comparator) {
 
         long[] timeRange = timeHelper.getCurrentWeekRange();
-        List<RescueLogs> currWeekLogs = getRangeRescueLogs(childItem, timeRange[0], timeRange[1]);
+        List<T> currWeekLogs
+                = getRangeGenericLog(logMap,timeRange[0], timeRange[1], comparator);
 
         return currWeekLogs.size();
     }
 
-    public String getChildUid(ChildItem childItem) {
-
-        if (childItem.uid == null) {
-            return "";
-        }
-
-        return childItem.uid;
+    public static <T extends SystemTimeTimestamp> Comparator<T> getDescendingTimeComparator() {
+        return (o1, o2) -> Long.compare(o2.gettimestamp(), o1.gettimestamp());
     }
-
-    private void sortRescueLogs(List<RescueLogs> logList) {
-
-        logList.sort(new Comparator<RescueLogs>() {
-            @Override
-            public int compare(RescueLogs o1, RescueLogs o2) {
-                return Long.compare(o2.timestamp, o1.timestamp);
-            }
-        });
-
-    }
-
 }

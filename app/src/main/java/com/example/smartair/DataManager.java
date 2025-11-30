@@ -71,6 +71,7 @@ public class DataManager {
         writeTo(userReference.child(AppConstants.EMAIL), email);
         writeTo(userReference.child(AppConstants.ACCOUNTTYPE), accountType);
         writeTo(userReference.child(AppConstants.UID), childUid);
+        writeTo(userReference.child(AppConstants.PB_PATH), AppConstants.PB_DEFAULT);
 
         DatabaseReference basicInfoRef = userReference.child(AppConstants.BASICINFORMATION);
         writeTo(basicInfoRef.child(AppConstants.FIRSTNAME), firstName);

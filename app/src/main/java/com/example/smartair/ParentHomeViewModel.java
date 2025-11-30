@@ -24,6 +24,7 @@ public class ParentHomeViewModel extends ViewModel {
     private final String TAG = "ParentHomeEvent";
     private final DataManager dataManager = new DataManager();
     private final UserManager userManager = new UserManager();
+    private final ChildItemHelper childItemHelper = new ChildItemHelper();
 
     private final Map<String, ChildItem> childItemMap = new HashMap<>();
     private final List<String> childOrderList = new ArrayList<>();
@@ -166,6 +167,12 @@ public class ParentHomeViewModel extends ViewModel {
                 if (newChildItem != null) {
                     childItemMap.put(childUid, newChildItem);
                     reloadChildItemList();
+
+                    // also update for detail fragment
+                    ChildItem curr = _selectedItem.getValue();
+                    if (curr != null && curr.getUid().equals(childUid)) {
+                        _selectedItem.setValue(newChildItem);
+                    }
                 }
             }
 
@@ -212,6 +219,13 @@ public class ParentHomeViewModel extends ViewModel {
         dataManager.writeTo(
                 dataManager.getUserReference(childItem.getUid()).child(AppConstants.NOTES),
                 childItem.getNotes()
+        );
+    }
+
+    public void updateChildPB(ChildItem childItem) {
+        dataManager.writeTo(
+                dataManager.getUserReference(childItem.getUid()).child(AppConstants.PB_PATH),
+                childItem.getPb()
         );
     }
 

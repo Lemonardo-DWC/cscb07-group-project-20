@@ -150,7 +150,7 @@ public class ChildPEFFragment extends Fragment {
         Map<String, Object> logData = new HashMap<>();
         logData.put("pef", pef);
         LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         logData.put("timestamp", now.format(formatter));
 
         if (togglePrePost.isChecked()) {
