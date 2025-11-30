@@ -1,6 +1,6 @@
 package com.example.smartair;
 
-public class RescueLogs {
+public class RescueLogs implements SystemTimeTimestamp {
 
     public int dose;
     public int preBreathRating;

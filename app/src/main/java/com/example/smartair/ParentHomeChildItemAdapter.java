@@ -57,7 +57,7 @@ public class ParentHomeChildItemAdapter
 
         holder.childName.setText(name);
 
-        pefLogs lastPefLog = childItemHelper.getLastGenericLog(childItem.pefLogs,
+        PefLogs lastPefLog = childItemHelper.getLastGenericLog(childItem.pefLogs,
                 ChildItemHelper.getDescendingTimeComparator());
 
         if (lastPefLog == null || !timeHelper.isToday(lastPefLog.gettimestamp())) {
