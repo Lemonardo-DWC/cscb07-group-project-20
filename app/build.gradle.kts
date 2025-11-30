@@ -69,4 +69,10 @@ dependencies {
 
     // Cloud Messaging
     implementation(libs.firebase.messaging)
+
+    //send invitation link
+    implementation("com.google.firebase:firebase-functions:20.3.1")
+
+    implementation("com.android.volley:volley:1.2.1")
+
 }

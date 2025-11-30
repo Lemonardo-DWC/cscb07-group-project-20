@@ -1,32 +1,43 @@
-/**
- * Import function triggers from their respective submodules:
- *
- * const {onCall} = require("firebase-functions/v2/https");
- * const {onDocumentWritten} = require("firebase-functions/v2/firestore");
- *
- * See a full list of supported triggers at https://firebase.google.com/docs/functions
- */
+const functions = require("firebase-functions");
+const { Resend } = require("resend");
 
-const {setGlobalOptions} = require("firebase-functions");
-const {onRequest} = require("firebase-functions/https");
-const logger = require("firebase-functions/logger");
+const RESEND_API_KEY = process.env.RESEND_API_KEY;
 
-// For cost control, you can set the maximum number of containers that can be
-// running at the same time. This helps mitigate the impact of unexpected
-// traffic spikes by instead downgrading performance. This limit is a
-// per-function limit. You can override the limit for each function using the
-// `maxInstances` option in the function's options, e.g.
-// `onRequest({ maxInstances: 5 }, (req, res) => { ... })`.
-// NOTE: setGlobalOptions does not apply to functions using the v1 API. V1
-// functions should each use functions.runWith({ maxInstances: 10 }) instead.
-// In the v1 API, each function can only serve one request per container, so
-// this will be the maximum concurrent request count.
-setGlobalOptions({maxInstances: 10});
+exports.sendProviderInvite = functions.https.onRequest(async (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Headers", "Content-Type");
 
-// Create and deploy your first functions
-// https://firebase.google.com/docs/functions/get-started
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
 
-exports.helloWorld = onRequest((request, response) => {
-  logger.info("Hello logs!", {structuredData: true});
-  response.send("Hello from Firebase!");
+  try {
+    const { email, inviteCode } = req.body;
+
+    if (!RESEND_API_KEY) {
+      console.error("Missing RESEND_API_KEY");
+      return res.status(500).json({ error: "server_config_error" });
+    }
+//ToDo: Add Provider Verification Logic
+    const resend = new Resend(RESEND_API_KEY);
+
+    await resend.emails.send({
+      from: "SMART AIR <noreply@smartair20.win>",
+      to: email,
+      subject: "SMART AIR Invitation Code",
+      html: `<p>Hello,</p>
+               <p>You have received an invitation code from a parent to access SMART AIR as a Provider.</p>
+               <p>Your invitation code is:</p>
+               <h2>${inviteCode}</h2>
+               <p>This code is valid for <b>7 days</b> and can be used only once.</p>
+               <p>Please open the SMART AIR app, log in with your provider account, and enter this code in the <em>Accept Invitation</em> section to bind with the corresponding child.</p>
+               <p>Thanks,<br/>SMART AIR Team</p>`,
+    });
+
+    return res.status(200).json({ success: true });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: "send_error" });
+  }
 });
+

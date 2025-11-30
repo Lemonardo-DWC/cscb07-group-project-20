@@ -92,6 +92,9 @@ public class ParentHomeFragment extends Fragment {
                             Toast.LENGTH_SHORT
                     ).show();
                     return true;
+                } else if (itemId == R.id.shareWithProvider) {
+                    ((MainActivity) requireActivity()).loadFragment(new ShareWithProviderFragment());
+                    return true;
                 } else if (itemId == R.id.logout) {
                     userManager.logout();
                     ((MainActivity) requireActivity()).loadFragment(new LoginFragment());
