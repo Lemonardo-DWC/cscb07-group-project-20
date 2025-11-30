@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
 
+    android:layout_marginHorizontal="20dp"
     android:orientation="vertical"
     android:padding="@dimen/view_group_padding"
 
@@ -36,12 +37,13 @@
                     app:hintTextAppearance="@style/input_text_hint_style_1"
 
                     app:counterEnabled="true"
-                    app:counterMaxLength="500">
+                    app:counterMaxLength="200">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/noteEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:maxLength="200"
 
                         android:gravity="top"
                         android:inputType="textMultiLine"

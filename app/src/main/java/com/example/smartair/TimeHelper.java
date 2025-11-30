@@ -2,6 +2,7 @@ package com.example.smartair;
 
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.TemporalAdjusters;
@@ -27,6 +28,14 @@ public class TimeHelper {
         long weekEnd = weekStart + AppConstants.MS_WEEK;
 
         return new long[] {weekStart, weekEnd};
+    }
+
+    public boolean isToday(long logTimestamp) {
+        LocalDate currentDate = LocalDate.now();
+        LocalDate logDate
+                = Instant.ofEpochMilli(logTimestamp).atZone(ZoneId.systemDefault()).toLocalDate();
+
+        return currentDate.isEqual(logDate);
     }
 
 }

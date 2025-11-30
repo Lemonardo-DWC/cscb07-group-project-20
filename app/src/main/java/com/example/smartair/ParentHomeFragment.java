@@ -31,7 +31,6 @@ public class ParentHomeFragment
     private MaterialButtonToggleGroup trendRangeToggleGroup;
 
     // recycler views
-    private RecyclerView alertRecycler;
     private RecyclerView childRecycler;
 
     // child item list
@@ -137,7 +136,7 @@ public class ParentHomeFragment
         childRecycler = view.findViewById(R.id.childRecycler);
 
         childItemList = new ArrayList<>();
-        parentHomeChildItemAdapter = new ParentHomeChildItemAdapter(childItemList, this);
+        parentHomeChildItemAdapter = new ParentHomeChildItemAdapter(childItemList, this, requireContext());
         childRecycler.setAdapter(parentHomeChildItemAdapter);
         childRecycler.setLayoutManager(new LinearLayoutManager(requireContext()));
 

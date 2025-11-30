@@ -30,6 +30,8 @@ public class AppConstants {
     public static final String BIRTHDAY = "birthday";
     public static final String SEX = "sex";
     public static final String NOTES = "notes";
+    public static final String PB_PATH = "pb";
+    public static final int PB_DEFAULT = 300;
     public static final String PARENTLIST = "parentList";
     public static final String CHILDLIST = "childrenList";
     public static final String PARENT = "parent";
@@ -53,6 +55,7 @@ public class AppConstants {
     public static final String DATE_YMD = "dd-MM-yyyy";
     public static final String DATE_YM = "MM-yyyy";
     public static final String DATE_Y = "yyyy";
+    public static final String DATE_HMMDY = "HH:mm, MMM-dd-yyyy";
 
     /// biological sex
     public static final String MALE = "male";

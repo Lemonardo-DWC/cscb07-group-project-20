@@ -66,11 +66,11 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/childName"/>
 
-        <TextView
-            android:id="@+id/childUid"
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/todayZone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="CHILD_UID"
+            android:text="TODAY_ZONE"
             android:ellipsize="none"
             android:scrollHorizontally="false"
             android:breakStrategy="simple"
@@ -78,7 +78,20 @@
             android:layout_marginStart="10dp"
 
             app:layout_constraintStart_toEndOf="@id/childName"
-           app:layout_constraintBaseline_toBaselineOf="@id/childName"/>
+            app:layout_constraintBaseline_toBaselineOf="@id/childName"/>
+
+        <ImageView
+            android:id="@+id/todayZoneStatus"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginStart="5dp"
+
+            android:src="@drawable/zone_green"
+
+            app:layout_constraintVertical_bias="0.6"
+            app:layout_constraintStart_toEndOf="@id/todayZone"
+            app:layout_constraintTop_toTopOf="@id/todayZone"
+            app:layout_constraintBottom_toBottomOf="@id/todayZone"/>
 
         <TextView
             android:id="@+id/lastRescuetime"
@@ -92,7 +105,7 @@
             android:layout_marginStart="10dp"
 
             app:layout_constraintStart_toEndOf="@id/childName"
-            app:layout_constraintTop_toBottomOf="@id/childUid"/>
+            app:layout_constraintTop_toBottomOf="@id/todayZone"/>
 
         <TextView
             android:id="@+id/weeklyRescueCount"

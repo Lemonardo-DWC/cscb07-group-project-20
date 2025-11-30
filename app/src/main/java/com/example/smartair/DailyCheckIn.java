@@ -1,8 +1,9 @@
 package com.example.smartair;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class DailyCheckIn {
+public class DailyCheckIn implements SystemTimeTimestamp{
 
     public String activityLimit;
     public String author;
@@ -12,4 +13,9 @@ public class DailyCheckIn {
     public List<String> triggers;
 
     public DailyCheckIn(){}
+
+    @Override
+    public long gettimestamp() {
+        return timestamp;
+    }
 }

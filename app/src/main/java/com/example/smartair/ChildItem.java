@@ -8,13 +8,18 @@ public class ChildItem {
     public String uid;
     public String accountType;
     public String email;
-    public BasicInformation basicInformation;
     public String notes = "Optional notes...";
+    public int pb;
 
+    public BasicInformation basicInformation;
     public Map<String, String> parentList;
     public Map<String, DailyCheckIn> DailyCheckIn;
     public Map<String, controllerLogs> controllerLogs;
     public Map<String, rescueLogs> rescueLogs;
+
+    public Map<String, pefLogs> pefLogs;
+    public Map<String, triageSessions> triageSessions;
+
     public ChildItem() {}
 
     public String getUid() {
@@ -34,6 +39,10 @@ public class ChildItem {
             return notes;
         }
         return "";
+    }
+
+    public int getPb() {
+        return pb;
     }
 
     // BasicInformation fields
