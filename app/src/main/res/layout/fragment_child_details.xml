@@ -72,7 +72,7 @@
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/childStatusSection"
+        android:id="@+id/basicInformationSection"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -91,7 +91,7 @@
             android:background="@color/pastel_green_1">
 
             <TextView
-                android:id="@+id/basicInformation"
+                android:id="@+id/basicInformationTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Basic Information"
@@ -120,7 +120,7 @@
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/childRecycler"
                     android:layout_width="0dp"
-                    android:layout_height="275dp"
+                    android:layout_height="200dp"
                     android:layout_marginTop="10dp"
 
                     android:backgroundTint="@color/pastel_purple_1"
@@ -224,6 +224,182 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/otherInformationSection"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        app:cardCornerRadius="12dp"
+        app:strokeColor="@color/black"
+        app:strokeWidth="1dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/basicInformationSection"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/view_group_padding"
+            android:background="@color/pastel_green_1">
+
+            <TextView
+                android:id="@+id/otherInformationTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Other Information"
+                android:textSize="@dimen/fontSizeSubTitle"
+
+                app:layout_constraintWidth_max="200dp"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/otherButtonViewGroup"
+                app:layout_constraintWidth_max="100dp"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+
+                android:backgroundTint="@color/pastel_blue_1"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/black"
+
+                app:layout_constraintTop_toTopOf="@id/otherInformationViewGroup"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/view_group_padding">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/buttonSetPb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:text="Set PB"
+                        android:textColor="@color/black"
+
+                        android:backgroundTint="@color/pastel_purple_1"
+                        app:shapeAppearanceOverlay="@style/material_button_style_1"
+                        app:strokeColor="@color/black"
+                        app:strokeWidth="1dp"
+
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/viewHistoryButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="View History"
+                        android:textColor="@color/black"
+                        android:padding="5dp"
+
+                        android:backgroundTint="@color/pastel_purple_1"
+                        app:shapeAppearanceOverlay="@style/material_button_style_1"
+                        app:strokeColor="@color/black"
+                        app:strokeWidth="1dp"
+
+                        app:layout_constraintTop_toBottomOf="@id/buttonSetPb"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/otherInformationViewGroup"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+
+                android:backgroundTint="@color/pastel_purple_1"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/black"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/otherButtonViewGroup"
+                app:layout_constraintTop_toBottomOf="@id/otherInformationTitle"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/otherInformationField"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/view_group_padding">
+
+                    <TextView
+                        android:id="@+id/personalBest"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Personal best: #n"
+
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"/>
+                    
+                    <TextView
+                        android:id="@+id/latestDailyCheckIn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Last check in - hh:mm, dd/MM\n    Activity Limit: y/n\n    Cough/wheeze: y/n\n    Night waking: y/n\n    Triggers: #n"
+
+                        app:layout_constraintTop_toBottomOf="@id/personalBest"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <TextView
+                        android:id="@+id/latestControllerLog"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Last controller log - hh:mm, dd/MM\n    Doses - #n"
+
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/latestDailyCheckIn"/>
+
+                    <TextView
+                        android:id="@+id/latestRescueLog"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Last rescue log - hh:mm, dd/MM\n    Dose - #n\n    Pre/post rating - #n/#n\n    Post status - TEXT"
+
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/latestControllerLog"/>
+
+                    <TextView
+                        android:id="@+id/latestPefLog"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Last PEF log - hh:mm, dd/MM\n    PEF - #n"
+
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/latestRescueLog"/>
+
+                    <TextView
+                        android:id="@+id/latestTriageSession"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Last triage session - hh:mm, dd/MM\n    Blue lips/nails: y/n\n    Chest pulling in: y/n\n    Dizzy/scared: y/n\n    Red flag: y/n\n    Speak in full sentences: y/n\n    Used rescure medication: y/n"
+
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/latestPefLog"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </com.google.android.material.card.MaterialCardView>
 
