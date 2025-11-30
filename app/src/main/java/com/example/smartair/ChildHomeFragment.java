@@ -62,7 +62,7 @@ public class ChildHomeFragment extends Fragment {
             ((MainActivity) requireActivity()).loadFragment(new RescueLogsFragment());
         });
         dailyCheck.setOnClickListener(v -> {
-            ((MainActivity) requireActivity()).loadFragment(new DailyCheckFragment());
+            ((MainActivity) requireActivity()).loadFragment(new DailyCheckinHistoryFragment());
         });
         TechniqueHelper.setOnClickListener(v -> {
             ((MainActivity) requireActivity()).loadFragment(new TechniqueHelperFragment());
