@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:padding="16dp"
     android:orientation="vertical"
-    android:background="#e6d4f4">   <!-- 紫色背景保留 -->
+    android:background="#e6d4f4">
 
     <TextView
         android:id="@+id/shareTitle"
@@ -22,5 +22,5 @@
         android:layout_weight="1"
         android:padding="8dp"
         android:clipToPadding="false"
-        android:background="@android:color/transparent" /> <!-- 透明！ -->
+        android:background="@android:color/transparent" />
 </LinearLayout>

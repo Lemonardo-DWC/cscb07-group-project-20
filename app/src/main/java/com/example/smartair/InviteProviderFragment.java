@@ -3,6 +3,7 @@ package com.example.smartair;
 import android.app.DownloadManager;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,7 +72,53 @@ public class InviteProviderFragment extends Fragment {
         databaseRef = FirebaseDatabase.getInstance().getReference();
         functions = FirebaseFunctions.getInstance(FirebaseApp.getInstance());
 
-        generateInviteButton.setOnClickListener(v -> sendInviteCode());
+        generateInviteButton.setOnClickListener(v -> {
+
+            String email = providerEmailEditText.getText().toString().trim();
+
+            // Verify email patterns
+            if (email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                Toast.makeText(getContext(), "Please enter a valid email address.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Verify Provider
+            DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
+
+            usersRef.orderByChild("email").equalTo(email)
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                            if (!snapshot.exists()) {
+                                Toast.makeText(getContext(), "This email is not registered.", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+
+                            boolean isProvider = false;
+
+                            for (DataSnapshot child : snapshot.getChildren()) {
+                                String type = child.child("accountType").getValue(String.class);
+                                if ("healthcare provider".equals(type)) {
+                                    isProvider = true;
+                                    break;
+                                }
+                            }
+
+                            if (!isProvider) {
+                                Toast.makeText(getContext(), "This email does not belong to a provider.", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+
+                            sendInviteCode();
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Toast.makeText(getContext(), "Database error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        });
     }
 
     private void sendInviteCode() {
@@ -106,11 +153,11 @@ public class InviteProviderFragment extends Fragment {
             inviteObject.put("sharedData", sharedData);
             inviteObject.put("createdAt", System.currentTimeMillis());
 
-            // Step 1: Write to /invites/{code}
+            //Write to /invites/{code}
             databaseRef.child("invites").child(inviteCode)
                     .setValue(inviteObject)
                     .addOnSuccessListener(unused -> {
-                        // Step 2: Trigger Cloud Function
+                        //Trigger Cloud Function
                         Map<String, Object> data = new HashMap<>();
                         data.put("email", email);
                         data.put("inviteCode", inviteCode);

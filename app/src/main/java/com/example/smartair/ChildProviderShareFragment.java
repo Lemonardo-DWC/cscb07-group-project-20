@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
@@ -24,134 +25,111 @@ import java.util.List;
 
 public class ChildProviderShareFragment extends Fragment {
 
-    private String childId;
-    private String childName;
-
-    private TextView header;
-    private RecyclerView providerRecyclerView;
-    private Button inviteButton;
-
+    private RecyclerView providerRecycler;
     private ProviderListAdapter providerAdapter;
+    private ArrayList<Provider> providerList = new ArrayList<>();
 
-    public ChildProviderShareFragment() {}
+    private String childId;
 
-    @Nullable
+    private DatabaseReference userRef;
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_child_provider_share, container, false);
 
-        childId = getArguments().getString("childId");
-        childName = getArguments().getString("childName");
+        providerRecycler = view.findViewById(R.id.providerListRecyclerView);
+        providerRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        header = view.findViewById(R.id.childProviderHeader);
-        providerRecyclerView = view.findViewById(R.id.providerListRecyclerView);
-        inviteButton = view.findViewById(R.id.inteProviderButton);
+        providerAdapter = new ProviderListAdapter(providerList, providerClickListener);
+        providerRecycler.setAdapter(providerAdapter);
 
-        header.setText("Sharing for " + childName);
+        Button inviteButton = view.findViewById(R.id.inviteProviderButton);
 
-        setupProviderRecycler();
-        loadProvidersFromFirebase();
+        userRef = FirebaseDatabase.getInstance().getReference("users");
 
-        inviteButton.setOnClickListener(v -> openInviteProviderPage());
+        if (getArguments() != null) {
+            childId = getArguments().getString("childId");
+        }
+
+        inviteButton.setOnClickListener(v -> {
+            InviteProviderFragment fragment = new InviteProviderFragment();
+            Bundle args = new Bundle();
+            args.putString("childId", childId);
+            fragment.setArguments(args);
+
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container_view, fragment)
+                    .addToBackStack(null)
+                    .commit();
+        });
+
+        loadProvidersForChild();
 
         return view;
     }
 
-    private void setupProviderRecycler() {
 
-        providerRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+    private void loadProvidersForChild() {
 
-        providerAdapter = new ProviderListAdapter(new ArrayList<>(), provider -> {
-            openProviderManagementPage(provider);
-        });
+        providerList.clear();
 
-        providerRecyclerView.setAdapter(providerAdapter);
-    }
-
-    private void loadProvidersFromFirebase() {
-
-        FirebaseDatabase.getInstance().getReference("users")
-                .child(childId)
-                .child("providerList")   // RTDB path: /users/{childId}/providerList/{providerUid}
-                .addValueEventListener(new ValueEventListener() {
-
+        userRef.child(childId).child("providerShares")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    public void onDataChange(@NonNull DataSnapshot sharesSnap) {
 
-                        List<Provider> providerList = new ArrayList<>();
+                        providerList.clear();
 
-                        for (DataSnapshot s : snapshot.getChildren()) {
+                        for (DataSnapshot share : sharesSnap.getChildren()) {
 
-                            String providerUid = s.getKey();
+                            String providerId = share.getKey();
 
-                            FirebaseDatabase.getInstance().getReference("users")
-                                    .child(providerUid)
+                            userRef.child(providerId)
                                     .addListenerForSingleValueEvent(new ValueEventListener() {
-
                                         @Override
-                                        public void onDataChange(@NonNull DataSnapshot providerSnap) {
+                                        public void onDataChange(@NonNull DataSnapshot pSnap) {
 
-                                            Provider p = providerSnap.getValue(Provider.class);
-                                            if (p != null) {
-                                                p.setUid(providerUid);   // FIXED: use setter
-                                                providerList.add(p);
-                                                providerAdapter.updateList(providerList);
-                                            }
+                                            String first = pSnap.child("firstName").getValue(String.class);
+                                            String last = pSnap.child("lastName").getValue(String.class);
+                                            String email = pSnap.child("email").getValue(String.class);
+
+                                            providerList.add(
+                                                    new Provider(providerId, first, last, email)
+                                            );
+
+                                            providerAdapter.notifyDataSetChanged();
                                         }
 
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError error) {}
+                                        @Override public void onCancelled(@NonNull DatabaseError error) {}
                                     });
                         }
                     }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(getContext(), "Failed to load providers.",
-                                Toast.LENGTH_SHORT).show();
-                    }
+                    @Override public void onCancelled(@NonNull DatabaseError error) {}
                 });
     }
 
 
-    // ⭐ FIXED: provider.name → provider.getName()
-    // ⭐ FIXED: provider.uid  → provider.getUid()
-    private void openProviderManagementPage(Provider provider) {
+    private ProviderListAdapter.OnProviderClickListener providerClickListener = provider -> {
 
         ProviderManageFragment fragment = new ProviderManageFragment();
+        Bundle bundle = new Bundle();
 
-        Bundle args = new Bundle();
-        args.putString("childId", childId);
-        args.putString("providerUid", provider.getUid());
-        args.putString("providerName", provider.getName());
+        bundle.putString("providerId", provider.getUid());
+        bundle.putString("providerName", provider.getFullName());
+        bundle.putString("providerEmail", provider.getEmail());
+        bundle.putString("childId", childId);
 
-        fragment.setArguments(args);
+        fragment.setArguments(bundle);
 
-        getParentFragmentManager()
+        requireActivity().getSupportFragmentManager()
                 .beginTransaction()
-                .replace(((ViewGroup)getView().getParent()).getId(), fragment)
+                .replace(R.id.fragment_container_view, fragment)
                 .addToBackStack(null)
                 .commit();
-    }
-
-    private void openInviteProviderPage() {
-
-        InviteProviderFragment fragment = new InviteProviderFragment();
-
-        Bundle args = new Bundle();
-        args.putString("childId", childId);
-        args.putString("childName", childName);
-
-        fragment.setArguments(args);
-
-        getParentFragmentManager()
-                .beginTransaction()
-                .replace(((ViewGroup)getView().getParent()).getId(), fragment)
-                .addToBackStack(null)
-                .commit();
-    }
+    };
 }
 

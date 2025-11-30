@@ -18,7 +18,7 @@ exports.sendProviderInvite = functions.https.onRequest(async (req, res) => {
       console.error("Missing RESEND_API_KEY");
       return res.status(500).json({ error: "server_config_error" });
     }
-//ToDo: Add Provider Verification Logic
+
     const resend = new Resend(RESEND_API_KEY);
 
     await resend.emails.send({

@@ -4,15 +4,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -21,126 +22,136 @@ import com.google.firebase.database.ValueEventListener;
 
 public class ProviderManageFragment extends Fragment {
 
+    private Switch switchRescue, switchController, switchSymptoms,
+            switchTriggers, switchPEF, switchTriage, switchCharts;
+    private Button revokeButton;
+    private TextView providerHeader, providerNameView, providerEmailView;
+
+    private DatabaseReference userRef;
+
     private String childId;
-    private String providerUid;
+    private String providerId;
     private String providerName;
-    private String parentId;
+    private String providerEmail;
 
-    private Switch switchRescue, switchController, switchSymptoms, switchTriggers, switchPEF, switchTriage, switchCharts;
-    private boolean isInitializingSwitches = true;
+    public ProviderManageFragment() { }
 
-    public ProviderManageFragment() {}
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            childId = getArguments().getString("childId");
-            providerUid = getArguments().getString("providerUid");
-            providerName = getArguments().getString("providerName");
-        }
-
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            parentId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        }
-    }
-
-    @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+                             ViewGroup container,
+                             Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_provider_manage, container, false);
 
-        TextView providerHeader = view.findViewById(R.id.providerHeader);
-        providerHeader.setText("Managing " + providerName);
+        userRef = FirebaseDatabase.getInstance().getReference("users");
 
-        switchRescue = view.findViewById(R.id.switchRescue);
+        if (getArguments() != null) {
+            childId = getArguments().getString("childId");
+            providerId = getArguments().getString("providerId");
+            providerName = getArguments().getString("providerName");
+            providerEmail = getArguments().getString("providerEmail");
+        }
+
+        providerHeader   = view.findViewById(R.id.providerHeader);
+        providerNameView = view.findViewById(R.id.manageProviderName);
+        providerEmailView= view.findViewById(R.id.manageProviderEmail);
+
+        switchRescue     = view.findViewById(R.id.switchRescue);
         switchController = view.findViewById(R.id.switchController);
-        switchSymptoms = view.findViewById(R.id.switchSymptoms);
-        switchTriggers = view.findViewById(R.id.switchTriggers);
-        switchPEF = view.findViewById(R.id.switchPEF);
-        switchTriage = view.findViewById(R.id.switchTriage);
-        switchCharts = view.findViewById(R.id.switchCharts);
+        switchSymptoms   = view.findViewById(R.id.switchSymptoms);
+        switchTriggers   = view.findViewById(R.id.switchTriggers);
+        switchPEF        = view.findViewById(R.id.switchPEF);
+        switchTriage     = view.findViewById(R.id.switchTriage);
+        switchCharts     = view.findViewById(R.id.switchCharts);
 
-        loadShareSettings();
-        setupSwitchListeners();
+        revokeButton     = view.findViewById(R.id.revokeButton);
+
+        if (providerName != null) {
+            providerHeader.setText("Managing " + providerName);
+            providerNameView.setText(providerName);
+        }
+        if (providerEmail != null) {
+            providerEmailView.setText(providerEmail);
+        }
+
+        loadExistingShareSettings();
+
+        setupToggleListeners();
+
+        setupRevokeButton();
 
         return view;
     }
 
-    private void loadShareSettings() {
+    private void loadExistingShareSettings() {
+        if (childId == null || providerId == null) return;
 
-        isInitializingSwitches = true;
+        userRef.child(childId)
+                .child("providerShares")
+                .child(providerId)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snap) {
 
-        DatabaseReference shareRef = FirebaseDatabase.getInstance().getReference("users")
-                .child(parentId)
-                .child("childProviderShare")
-                .child(childId)
-                .child(providerUid);
+                        switchRescue.setChecked(getBool(snap, "rescueLogs"));
+                        switchController.setChecked(getBool(snap, "controllerSummary"));
 
-        shareRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        switchSymptoms.setChecked(getBool(snap, "symptoms"));
+                        switchTriggers.setChecked(getBool(snap, "triggers"));
+                        switchPEF.setChecked(getBool(snap, "peakFlow"));
+                        switchTriage.setChecked(getBool(snap, "triageIncidents"));
+                        switchCharts.setChecked(getBool(snap, "summaryCharts"));
+                    }
 
-                Boolean rescue = snapshot.child("rescue").getValue(Boolean.class);
-                Boolean controller = snapshot.child("controller").getValue(Boolean.class);
-                Boolean symptoms = snapshot.child("symptoms").getValue(Boolean.class);
-                Boolean triggers = snapshot.child("triggers").getValue(Boolean.class);
-                Boolean pef = snapshot.child("pef").getValue(Boolean.class);
-                Boolean triage = snapshot.child("triage").getValue(Boolean.class);
-                Boolean charts = snapshot.child("charts").getValue(Boolean.class);
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) { }
+                });
+    }
 
-                switchRescue.setChecked(Boolean.TRUE.equals(rescue));
-                switchController.setChecked(Boolean.TRUE.equals(controller));
-                switchSymptoms.setChecked(Boolean.TRUE.equals(symptoms));
-                switchTriggers.setChecked(Boolean.TRUE.equals(triggers));
-                switchPEF.setChecked(Boolean.TRUE.equals(pef));
-                switchTriage.setChecked(Boolean.TRUE.equals(triage));
-                switchCharts.setChecked(Boolean.TRUE.equals(charts));
+    private boolean getBool(DataSnapshot snap, String key) {
+        Boolean val = snap.child(key).getValue(Boolean.class);
+        return val != null && val;
+    }
 
-                isInitializingSwitches = false;
-            }
+    private void setupToggleListeners() {
+        if (childId == null || providerId == null) return;
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getContext(), "Failed to load share settings", Toast.LENGTH_SHORT).show();
-            }
+        setToggleListener(switchRescue,     "rescueLogs");
+        setToggleListener(switchController, "controllerSummary");
+        setToggleListener(switchSymptoms,   "symptoms");
+        setToggleListener(switchTriggers,   "triggers");
+        setToggleListener(switchPEF,        "peakFlow");
+        setToggleListener(switchTriage,     "triageIncidents");
+        setToggleListener(switchCharts,     "summaryCharts");
+    }
+
+    private void setToggleListener(Switch toggle, String key) {
+        toggle.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            userRef.child(childId)
+                    .child("providerShares")
+                    .child(providerId)
+                    .child(key)
+                    .setValue(isChecked);
         });
     }
 
-    private void setupSwitchListeners() {
+    private void setupRevokeButton() {
+        revokeButton.setOnClickListener(v -> {
+            if (childId == null || providerId == null) return;
 
-        View.OnClickListener listener = v -> {
-            if (isInitializingSwitches) return;
-            updateShareSettings();
-        };
+            userRef.child(childId)
+                    .child("providerShares")
+                    .child(providerId)
+                    .removeValue()
+                    .addOnSuccessListener(unused -> {
+                        Toast.makeText(getContext(),
+                                "Sharing revoked for this provider.",
+                                Toast.LENGTH_SHORT).show();
 
-        switchRescue.setOnClickListener(listener);
-        switchController.setOnClickListener(listener);
-        switchSymptoms.setOnClickListener(listener);
-        switchTriggers.setOnClickListener(listener);
-        switchPEF.setOnClickListener(listener);
-        switchTriage.setOnClickListener(listener);
-        switchCharts.setOnClickListener(listener);
-    }
-
-    private void updateShareSettings() {
-
-        DatabaseReference shareRef = FirebaseDatabase.getInstance().getReference("users")
-                .child(parentId)
-                .child("childProviderShare")
-                .child(childId)
-                .child(providerUid);
-
-        shareRef.child("rescue").setValue(switchRescue.isChecked());
-        shareRef.child("controller").setValue(switchController.isChecked());
-        shareRef.child("symptoms").setValue(switchSymptoms.isChecked());
-        shareRef.child("triggers").setValue(switchTriggers.isChecked());
-        shareRef.child("pef").setValue(switchPEF.isChecked());
-        shareRef.child("triage").setValue(switchTriage.isChecked());
-        shareRef.child("charts").setValue(switchCharts.isChecked());
+                        if (requireActivity().getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                            requireActivity().getSupportFragmentManager().popBackStack();
+                        }
+                    });
+        });
     }
 }

@@ -1,33 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#e6d4f4"
-    android:padding="16dp">
+    android:background="#e6d4f4">
 
-    <TextView
-        android:id="@+id/childProviderHeader"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sharing"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="12dp" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/providerListRecyclerView"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="#cdebc3"
-        android:padding="8dp"
-        android:layout_marginBottom="12dp"/>
+        android:padding="16dp"
+        android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/inteProviderButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Invite Provider" />
+        <TextView
+            android:id="@+id/childProviderHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sharing Providers"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="12dp" />
 
-</LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/providerListRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
+            android:background="#cdebc3"
+            android:padding="8dp"
+            android:layout_marginBottom="12dp"/>
+
+        <Button
+            android:id="@+id/inviteProviderButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Invite Provider" />
+
+    </LinearLayout>
+</ScrollView>
+
