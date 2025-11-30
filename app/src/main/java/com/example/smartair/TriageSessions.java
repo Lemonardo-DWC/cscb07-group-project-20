@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
-public class triageSessions implements SystemTimeTimestamp {
+public class TriageSessions implements SystemTimeTimestamp {
 
     public String SymptomCheckTimestamp;
     public boolean blue_lips_nails;
@@ -14,7 +14,7 @@ public class triageSessions implements SystemTimeTimestamp {
     public boolean speak_full_sentences;
     public boolean used_rescue_meds;
 
-    public triageSessions() {}
+    public TriageSessions() {}
 
     public long gettimestamp() {
 
