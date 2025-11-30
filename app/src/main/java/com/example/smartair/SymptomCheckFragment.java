@@ -108,7 +108,7 @@ public class SymptomCheckFragment extends Fragment {
     }
 
     private String saveSymptomData() {
-        String key = childRef.child("triageSessions").push().getKey();
+        String key = childRef.child("TriageSessions").push().getKey();
 
         Map<String, Object> map = new HashMap<>();
         map.put("speak_full_sentences", getYes(q1));
@@ -124,8 +124,8 @@ public class SymptomCheckFragment extends Fragment {
         map.put("SymptomCheckTimestamp", timeString);
         map.put("red_flag_detected", checkRedFlags());
 
-        childRef.child("triageSessions").child(key).setValue(map);
-        childRef.child("triageSessions").child(key).setValue(map)
+        childRef.child("TriageSessions").child(key).setValue(map);
+        childRef.child("TriageSessions").child(key).setValue(map)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Toast.makeText(getContext(), "Saved successfully!", Toast.LENGTH_SHORT).show();

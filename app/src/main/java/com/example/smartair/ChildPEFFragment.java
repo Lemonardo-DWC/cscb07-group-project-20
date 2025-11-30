@@ -145,7 +145,7 @@ public class ChildPEFFragment extends Fragment {
 
         zoneLabel.setText("Zone: " + zone);
 
-        String logId = childRef.child("pefLogs").push().getKey();
+        String logId = childRef.child("PefLogs").push().getKey();
 
         Map<String, Object> logData = new HashMap<>();
         logData.put("pef", pef);
@@ -161,8 +161,8 @@ public class ChildPEFFragment extends Fragment {
             if (!post.isEmpty()) logData.put("postMedPEF", Integer.parseInt(post));
         }
 
-        //childRef.child("pefLogs").child(logId).setValue(logData);
-        childRef.child("pefLogs").child(logId).setValue(logData)
+        //childRef.child("PefLogs").child(logId).setValue(logData);
+        childRef.child("PefLogs").child(logId).setValue(logData)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Toast.makeText(getContext(), "PEF saved!", Toast.LENGTH_SHORT).show();
@@ -188,7 +188,7 @@ public class ChildPEFFragment extends Fragment {
     private void loadPEFHistory() {
         if (childRef == null) return;
 
-        childRef.child("pefLogs").addListenerForSingleValueEvent(
+        childRef.child("PefLogs").addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {

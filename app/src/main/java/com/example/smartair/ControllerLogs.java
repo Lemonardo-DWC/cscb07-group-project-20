@@ -1,11 +1,11 @@
 package com.example.smartair;
 
-public class controllerLogs implements SystemTimeTimestamp {
+public class ControllerLogs implements SystemTimeTimestamp {
 
     public int dose;
     public long timestamp;
 
-    public controllerLogs() {}
+    public ControllerLogs() {}
 
     @Override
     public long gettimestamp() {

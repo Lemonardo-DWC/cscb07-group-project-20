@@ -18,7 +18,6 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.util.Comparator;
 import java.util.Locale;
 
 public class ChildDetailsFragment extends Fragment {
@@ -160,10 +159,10 @@ public class ChildDetailsFragment extends Fragment {
                 triageText;
 
         DailyCheckIn checkIn;
-        controllerLogs controller;
-        rescueLogs rescue;
-        pefLogs pef;
-        triageSessions triage;
+        ControllerLogs controller;
+        RescueLogs rescue;
+        PefLogs pef;
+        TriageSessions triage;
 
         pbText = "Personal best: " + selectedChildItem.getPb();
 

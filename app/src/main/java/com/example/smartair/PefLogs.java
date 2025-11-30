@@ -4,12 +4,12 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
-public class pefLogs implements SystemTimeTimestamp {
+public class PefLogs implements SystemTimeTimestamp {
 
     public int pef;
     public String timestamp;
 
-    public pefLogs() {}
+    public PefLogs() {}
 
     public long gettimestamp() {
 
