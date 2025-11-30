@@ -40,14 +40,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#FBC02D"
-            android:text="Record Controller Medication" />
+            android:text="Controller Logs" />
 
         <Button
             android:id="@+id/button3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#388E3C"
-            android:text="Record Rescue Medication" />
+            android:text="Rescue Logs" />
 
 
         <Button
