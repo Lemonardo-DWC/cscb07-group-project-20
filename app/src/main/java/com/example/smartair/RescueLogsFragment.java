@@ -70,7 +70,7 @@ public class RescueLogsFragment extends Fragment {
                 .getInstance()
                 .getReference("users")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .child("RescueLogs");
+                .child("rescueLogs");
 
         logRef1.addValueEventListener(new ValueEventListener() {
             @Override
