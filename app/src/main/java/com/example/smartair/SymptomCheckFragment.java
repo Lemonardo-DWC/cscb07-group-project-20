@@ -124,8 +124,8 @@ public class SymptomCheckFragment extends Fragment {
         map.put("SymptomCheckTimestamp", timeString);
         map.put("red_flag_detected", checkRedFlags());
 
-        childRef.child("TriageSessions").child(key).setValue(map);
-        childRef.child("TriageSessions").child(key).setValue(map)
+        childRef.child("triageSessions").child(key).setValue(map);
+        childRef.child("triageSessions").child(key).setValue(map)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Toast.makeText(getContext(), "Saved successfully!", Toast.LENGTH_SHORT).show();
