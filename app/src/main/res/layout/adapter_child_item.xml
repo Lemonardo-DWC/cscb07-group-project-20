@@ -103,6 +103,7 @@
             android:breakStrategy="simple"
 
             android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
 
             app:layout_constraintStart_toEndOf="@id/childName"
             app:layout_constraintTop_toBottomOf="@id/todayZone"/>
@@ -116,24 +117,11 @@
             android:scrollHorizontally="false"
             android:breakStrategy="simple"
 
+            android:layout_marginTop="15dp"
             android:layout_marginStart="10dp"
 
             app:layout_constraintStart_toEndOf="@id/childName"
             app:layout_constraintTop_toBottomOf="@id/lastRescuetime"/>
-
-        <TextView
-            android:id="@+id/OTHERTEXT"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="OTHER_TEXT"
-            android:ellipsize="none"
-            android:scrollHorizontally="false"
-            android:breakStrategy="simple"
-
-            android:layout_marginStart="10dp"
-
-            app:layout_constraintStart_toEndOf="@id/childName"
-            app:layout_constraintTop_toBottomOf="@id/weeklyRescueCount"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -100,13 +100,6 @@ public class ParentHomeChildItemAdapter
                         ChildItemHelper.getDescendingTimeComparator())));
         holder.weeklyRescueCount.setText(wrc);
 
-        holder.otherText.setText(
-                String.format("dob: %s, sex: %s, other: %s",
-                        childItem.basicInformation.birthday,
-                        childItem.basicInformation.sex,
-                        childItem.email)
-        );
-
         holder.detailButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,7 +116,7 @@ public class ParentHomeChildItemAdapter
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
 
-        TextView childName, todayZone, lastRescueTime, weeklyRescueCount, otherText;
+        TextView childName, todayZone, lastRescueTime, weeklyRescueCount;
 
         ImageView zoneStatus;
 
@@ -135,7 +128,6 @@ public class ParentHomeChildItemAdapter
             todayZone = itemView.findViewById(R.id.todayZone);
             lastRescueTime = itemView.findViewById(R.id.lastRescuetime);
             weeklyRescueCount = itemView.findViewById(R.id.weeklyRescueCount);
-            otherText = itemView.findViewById(R.id.OTHERTEXT);
             zoneStatus = itemView.findViewById(R.id.todayZoneStatus);
 
             detailButton = itemView.findViewById(R.id.detailsButton);
