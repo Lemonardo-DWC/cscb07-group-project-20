@@ -74,16 +74,16 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/childStatusSection"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginHorizontal="10dp"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
         app:cardCornerRadius="12dp"
         app:strokeColor="@color/black"
         app:strokeWidth="1dp"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/manage_children_navigation">
+        app:layout_constraintTop_toBottomOf="@id/manage_children_navigation"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -95,7 +95,7 @@
                 android:id="@+id/childStatusTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Children Status"
+                android:text="Children List"
                 android:textSize="@dimen/fontSizeSubTitle"
 
                 app:layout_constraintStart_toStartOf="parent"
@@ -112,18 +112,39 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
 
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/childRecycler"
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="0dp"
-                android:layout_height="500dp"
-                android:padding="@dimen/view_group_padding"
+                android:layout_height="0dp"
                 android:layout_marginTop="10dp"
-                android:background="@color/bg3"
 
+                app:layout_constraintTop_toBottomOf="@id/exampleButton"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/exampleButton"/>
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/childListRecycler"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:padding="@dimen/view_group_padding"
+                        android:background="@color/bg3"
+
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
