@@ -84,14 +84,13 @@
             app:layout_constraintTop_toBottomOf="@+id/step2" />
 
 
-
         <TextView
             android:id="@+id/step4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="7dp"
             android:background="@color/bg2"
-            android:text="4. Wait 30–60 seconds before next puff (if needed)"
+            android:text="4. Wait 30–60 seconds between puffs if directed"
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/step5"
             app:layout_constraintStart_toStartOf="@+id/step3"
@@ -104,7 +103,7 @@
             android:layout_marginStart="12dp"
             android:layout_marginBottom="484dp"
             android:background="@color/bg2"
-            android:text="5. Use spacer/mask tips if needed"
+            android:text="5. Use spacer/mask if needed"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -119,7 +118,7 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/youtube_player_view"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/step5"
+            app:layout_constraintTop_toBottomOf="@+id/button9"
             app:layout_constraintVertical_bias="1.0" />
 
         <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
@@ -131,6 +130,66 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <CheckBox
+            android:id="@+id/checkBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="100dp"
+            android:text="Done"
+            app:layout_constraintStart_toEndOf="@+id/step1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <CheckBox
+            android:id="@+id/checkBox2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="24dp"
+            android:text="Done"
+            app:layout_constraintStart_toEndOf="@+id/step2"
+            app:layout_constraintTop_toBottomOf="@+id/checkBox" />
+
+        <CheckBox
+            android:id="@+id/checkBox3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            android:text="Done"
+            app:layout_constraintStart_toEndOf="@+id/step3"
+            app:layout_constraintTop_toBottomOf="@+id/checkBox2" />
+
+        <CheckBox
+            android:id="@+id/checkBox4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="Done"
+            app:layout_constraintEnd_toEndOf="@+id/step4"
+            app:layout_constraintTop_toBottomOf="@+id/checkBox3" />
+
+        <CheckBox
+            android:id="@+id/checkBox5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="376dp"
+            android:text="Done"
+            app:layout_constraintStart_toEndOf="@+id/step5"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/button9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="Completed!"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/step5" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
