@@ -161,8 +161,8 @@ public class ChildPEFFragment extends Fragment {
             if (!post.isEmpty()) logData.put("postMedPEF", Integer.parseInt(post));
         }
 
-        //childRef.child("PefLogs").child(logId).setValue(logData);
-        childRef.child("PefLogs").child(logId).setValue(logData)
+        //childRef.child("pefLogs").child(logId).setValue(logData);
+        childRef.child("pefLogs").child(logId).setValue(logData)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Toast.makeText(getContext(), "PEF saved!", Toast.LENGTH_SHORT).show();
@@ -188,7 +188,7 @@ public class ChildPEFFragment extends Fragment {
     private void loadPEFHistory() {
         if (childRef == null) return;
 
-        childRef.child("PefLogs").addListenerForSingleValueEvent(
+        childRef.child("pefLogs").addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {

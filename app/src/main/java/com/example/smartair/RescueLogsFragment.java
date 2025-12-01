@@ -99,7 +99,7 @@ public class RescueLogsFragment extends Fragment {
         editTextNumber.setText("1");
         childId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseDatabase db = FirebaseDatabase.getInstance();
-        DatabaseReference logRef = db.getReference("users").child(childId).child("RescueLogs");
+        DatabaseReference logRef = db.getReference("users").child(childId).child("rescueLogs");
 
         buttonSave.setOnClickListener(v -> {
 
