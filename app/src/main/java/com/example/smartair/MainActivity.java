@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
                                                 break;
 
                                             case AppConstants.CHILD:
-                                                // TODO: redirect to children homescreen
+                                                loadFragment(new ChildHomeFragment());
                                                 break;
 
                                             case AppConstants.PROVIDER:
