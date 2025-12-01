@@ -34,7 +34,7 @@ public class ChildSelectableAdapter extends RecyclerView.Adapter<ChildSelectable
     public void onBindViewHolder(@NonNull ChildViewHolder holder, int position) {
         Child child = childList.get(position);
 
-        BasicInformation info = child.getBasicInformation();
+        BasicInformationProvider info = child.getBasicInformation();
         String fullName = info.getFirstName() + " " + info.getLastName();
 
         holder.name.setText(fullName);

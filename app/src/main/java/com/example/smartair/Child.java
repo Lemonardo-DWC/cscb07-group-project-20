@@ -2,7 +2,7 @@ package com.example.smartair;
 
 public class Child {
     private String uid;
-    private BasicInformation basicInformation;
+    private BasicInformationProvider basicInformation;
 
     public Child() {
         // Required for Firebase
@@ -16,11 +16,11 @@ public class Child {
         this.uid = uid;
     }
 
-    public BasicInformation getBasicInformation() {
+    public BasicInformationProvider getBasicInformation() {
         return basicInformation;
     }
 
-    public void setBasicInformation(BasicInformation basicInformation) {
+    public void setBasicInformation(BasicInformationProvider basicInformation) {
         this.basicInformation = basicInformation;
     }
 }

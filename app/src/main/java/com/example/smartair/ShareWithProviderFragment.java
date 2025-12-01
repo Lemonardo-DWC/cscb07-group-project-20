@@ -85,7 +85,7 @@ public class ShareWithProviderFragment extends Fragment {
 
         Bundle args = new Bundle();
 
-        BasicInformation info = child.getBasicInformation();
+        BasicInformationProvider info = child.getBasicInformation();
         String fullName = info.getFirstName() + " " + info.getLastName();
 
         args.putString("childId", child.getUid());

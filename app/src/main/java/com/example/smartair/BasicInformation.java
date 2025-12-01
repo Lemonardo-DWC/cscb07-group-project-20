@@ -1,26 +1,32 @@
 package com.example.smartair;
 
 public class BasicInformation {
-    private String firstName;
-    private String lastName;
 
-    public BasicInformation() {
-        // Required for Firebase
+    public String birthday;
+    public String firstName;
+    public String middleName;
+    public String lastName;
+    public String sex;
+
+    public BasicInformation(){}
+
+    public String getBirthday() {
+        return birthday;
     }
 
     public String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public String getMiddleName() {
+        return middleName;
     }
 
     public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public String getSex() {
+        return sex;
     }
 }
