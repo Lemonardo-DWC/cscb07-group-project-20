@@ -56,7 +56,12 @@ public class DailyCheckAdapter extends RecyclerView.Adapter<DailyCheckAdapter.Vi
         holder.textNight.setText("Night waking: " + log.nightWaking);
         holder.textActivity.setText("Activity limit: " + log.activityLimit);
         holder.textCough.setText("Cough/Wheeze: " + log.coughWheeze);
-        holder.textTrigger.setText("Triggers: " + String.join(", ", log.triggers));
+        if (log.triggers != null && !log.triggers.isEmpty()) {
+            holder.textTrigger.setText("Triggers: " + String.join(", ", log.triggers));
+        } else {
+            holder.textTrigger.setText("Triggers: None");
+        }
+
 
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
