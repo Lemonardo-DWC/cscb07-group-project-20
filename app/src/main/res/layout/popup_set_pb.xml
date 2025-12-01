@@ -9,9 +9,9 @@
     android:orientation="vertical"
     android:padding="@dimen/view_group_padding"
 
-    android:background="@color/pastel_blue_1"
+    android:background="@color/bg1"
     app:strokeWidth="3dp"
-    app:strokeColor="@color/pastel_blue_2"
+    app:strokeColor="@color/bg6"
 
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -21,7 +21,7 @@
         android:layout_height="match_parent"
         android:padding="@dimen/view_group_padding"
 
-        android:background="@color/pastel_green_2">
+        android:background="@color/bg8">
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
@@ -30,7 +30,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/pastel_green_1"
+                android:background="@color/bg4"
                 android:padding="@dimen/view_group_padding"
 
                 android:hint="Enter new PB"
