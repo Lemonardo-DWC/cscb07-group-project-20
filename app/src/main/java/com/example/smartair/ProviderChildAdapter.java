@@ -10,13 +10,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ProviderChildAdapter extends RecyclerView.Adapter<ProviderChildAdapter.ViewHolder> {
+    public interface OnChildClickListener {
+        void onChildClick(String childUid, String childName);
+    }
+    private List<ChildModel> childList;
+    private OnChildClickListener listener;
 
-    private ArrayList<ChildModel> childList;
-
-    public ProviderChildAdapter(ArrayList<ChildModel> childList) {
+    public ProviderChildAdapter(List<ChildModel> childList, OnChildClickListener listener) {
         this.childList = childList;
+        this.listener = listener;
     }
 
     @NonNull
@@ -30,7 +35,13 @@ public class ProviderChildAdapter extends RecyclerView.Adapter<ProviderChildAdap
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ChildModel child = childList.get(position);
-        holder.childName.setText(child.getFirstName() + " " + child.getLastName());
+        holder.childName.setText(child.getFullName());
+
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onChildClick(child.getChildId(), child.getFullName());
+            }
+        });
     }
 
     @Override

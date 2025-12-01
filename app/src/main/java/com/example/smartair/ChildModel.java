@@ -25,4 +25,8 @@ public class ChildModel {
     public String getLastName() {
         return lastName;
     }
+
+    public String getFullName() {
+        return (firstName != null ? firstName : "") + " " + (lastName != null ? lastName : "");
+    }
 }

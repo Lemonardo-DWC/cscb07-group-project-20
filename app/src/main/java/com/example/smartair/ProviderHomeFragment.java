@@ -31,11 +31,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-/**
- * Provider Home Page
- */
+
 public class ProviderHomeFragment extends Fragment {
 
     private MaterialButton menuButton;
@@ -49,6 +48,7 @@ public class ProviderHomeFragment extends Fragment {
     private DatabaseReference invitesRef;
 
     private ProgressDialog loadingDialog;
+    private final List<ChildModel> sharedChildren = new ArrayList<>();
 
     @Nullable
     @Override
@@ -65,39 +65,40 @@ public class ProviderHomeFragment extends Fragment {
         usersRef = FirebaseDatabase.getInstance().getReference("users");
         invitesRef = FirebaseDatabase.getInstance().getReference("invites");
 
-        setupRecycler();
+        //setupRecycler();
         setupMenuButton();
         ListenToProviderShares();
 
         return view;
     }
 
-    // -----------------------------
-    // RecyclerView Setup
-    // -----------------------------
+
     private void setupRecycler() {
         providerChildRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new ProviderChildAdapter(childList);
+        adapter = new ProviderChildAdapter(sharedChildren, (childUid, childName) -> {
+            Fragment fragment = ProviderChildDetailFragment.newInstance(childUid, childName);
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container_view, fragment)
+                    .addToBackStack(null)
+                    .commit();
+        });
         providerChildRecycler.setAdapter(adapter);
     }
 
-    // -----------------------------
-    // Listen to providerShares updates
-    // -----------------------------
+
     private void ListenToProviderShares() {
         if (currentUser == null) return;
 
         usersRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                childList.clear();
+                sharedChildren.clear();
 
                 for (DataSnapshot childSnap : snapshot.getChildren()) {
 
                     String type = childSnap.child("accountType").getValue(String.class);
-                    if (type == null) continue;
-
-                    if (!type.equals("child")) continue;
+                    if (type == null || !type.equals("child")) continue;
 
                     if (childSnap.child("providerShares").hasChild(currentUser.getUid())) {
 
@@ -109,25 +110,21 @@ public class ProviderHomeFragment extends Fragment {
                         String lastName = childSnap.child("basicInformation")
                                 .child("lastName").getValue(String.class);
 
-                        childList.add(new ChildModel(childId, firstName, lastName));
+                        sharedChildren.add(new ChildModel(childId, firstName, lastName));
                     }
                 }
 
+                setupRecycler();
                 adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getContext(),
-                        "Failed to load shared children.",
-                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Failed to load shared children.", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    // -----------------------------
-    // Menu Button
-    // -----------------------------
     private void setupMenuButton() {
 
         menuButton.setOnClickListener(v -> {
@@ -166,9 +163,7 @@ public class ProviderHomeFragment extends Fragment {
         });
     }
 
-    // -----------------------------
-    // Dialog for entering code
-    // -----------------------------
+
     private void showInviteInputDialog() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -194,9 +189,7 @@ public class ProviderHomeFragment extends Fragment {
         builder.show();
     }
 
-    // -----------------------------
-    // Validate code with Firebase
-    // -----------------------------
+
     private void validateInviteCode(String code) {
 
         if (currentUser == null) {
@@ -261,9 +254,7 @@ public class ProviderHomeFragment extends Fragment {
         });
     }
 
-    // -----------------------------
-    // Loading Spinner
-    // -----------------------------
+
     private void showLoading(String msg) {
         if (loadingDialog == null) {
             loadingDialog = new ProgressDialog(getContext());

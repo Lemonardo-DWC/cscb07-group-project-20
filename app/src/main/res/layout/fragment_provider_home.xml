@@ -79,8 +79,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="@dimen/view_group_padding"
-            android:background="@color/bg4">
+            android:background="@color/bg4"
+            android:padding="@dimen/view_group_padding">
 
             <TextView
                 android:id="@+id/sharedChildrenTitle"
@@ -89,86 +89,21 @@
                 android:text="Shared Children"
                 android:textSize="@dimen/fontSizeSubTitle"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/providerChildRecycler"
-                android:layout_width="0dp"
-                android:layout_height="350dp"
-                android:padding="@dimen/view_group_padding"
+                android:layout_width="388dp"
+                android:layout_height="549dp"
                 android:layout_marginTop="10dp"
                 android:background="@color/bg3"
-                app:layout_constraintStart_toStartOf="parent"
+                android:padding="@dimen/view_group_padding"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/sharedChildrenTitle"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sharedChildrenTitle" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 
     <!-- Trend Chart Section -->
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/trendChartSection"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="10dp"
-        app:cardCornerRadius="12dp"
-        app:strokeColor="@color/black"
-        app:strokeWidth="1dp"
-        app:layout_constraintTop_toBottomOf="@id/sharedChildrenSection"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="@dimen/view_group_padding"
-            android:background="@color/bg4">
-
-            <TextView
-                android:id="@+id/tendChartTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Trends"
-                android:textSize="@dimen/fontSizeSubTitle"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
-
-            <com.google.android.material.button.MaterialButtonToggleGroup
-                android:id="@+id/trendRangeToggleGroup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:singleSelection="true"
-                app:selectionRequired="true"
-                app:checkedButton="@id/buttonSevenDay"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/buttonSevenDay"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:text="7 Day"
-                    app:shapeAppearanceOverlay="@style/material_button_toggle_group_1"
-                    app:strokeColor="@color/black"
-                    app:strokeWidth="1dp"
-                    android:backgroundTint="@color/btn_toggle_colors"
-                    android:elevation="4dp"/>
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/buttonThirtyDay"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="30 Day"
-                    android:textColor="@color/black"
-                    app:shapeAppearanceOverlay="@style/material_button_toggle_group_1"
-                    app:strokeColor="@color/black"
-                    app:strokeWidth="1dp"
-                    android:backgroundTint="@color/btn_toggle_colors"
-                    android:elevation="4dp"/>
-
-            </com.google.android.material.button.MaterialButtonToggleGroup>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.google.android.material.card.MaterialCardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
