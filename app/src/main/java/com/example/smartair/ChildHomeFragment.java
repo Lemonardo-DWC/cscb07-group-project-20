@@ -128,13 +128,13 @@ public class ChildHomeFragment extends Fragment {
 
         loadPBAndUpdateZone(logRef, homeZoneLabel, homeZoneColor);
 
+        //  Rescue Listener
         logRef.child("rescue").child("low")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                         if (!snapshot.exists()) {
-                            // low 节点不存在 → 按钮恢复
                             btnRescueLow.setText("Mark Rescue Canister Low");
                             btnRescueLow.setEnabled(true);
                             btnRescueLow.setBackgroundTintList(
