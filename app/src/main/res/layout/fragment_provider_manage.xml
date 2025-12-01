@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#e6d4f4"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/providerHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Managing ..."
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp"/>
+
+        <TextView
+            android:id="@+id/manageProviderName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Provider Name"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp" />
+
+        <TextView
+            android:id="@+id/manageProviderEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="email@example.com"
+            android:textSize="16sp"
+            android:layout_marginBottom="16dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="12dp"
+            android:background="#cdebc3">
+
+            <Switch
+                android:id="@+id/switchRescue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Share Rescue Logs" />
+
+
+            <Switch
+                android:id="@+id/switchController"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Share Controller Adherence Summary" />
+
+
+            <Switch
+                android:id="@+id/switchSymptoms"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Share Symptoms" />
+
+
+            <Switch
+                android:id="@+id/switchTriggers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Share Triggers" />
+
+
+            <Switch
+                android:id="@+id/switchPEF"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Share Peak Flow (PEF)" />
+
+
+            <Switch
+                android:id="@+id/switchTriage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Share Triage Incidents" />
+
+
+            <Switch
+                android:id="@+id/switchCharts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Share Summary Charts" />
+
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/revokeButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Revoke Access"
+            android:background="#ff8080"
+            android:textColor="#ffffff"
+            android:layout_marginTop="24dp" />
+
+    </LinearLayout>
+
+
+</ScrollView>

@@ -128,7 +128,7 @@ public class LoginFragment extends Fragment implements LoginContract.View {
                 break;
 
             case AppConstants.PROVIDER:
-                // TODO: redirect to provider home screen
+                ((MainActivity) requireActivity()).loadFragment(new ProviderHomeFragment());
                 break;
 
         }
