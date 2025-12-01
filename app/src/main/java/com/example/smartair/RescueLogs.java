@@ -1,6 +1,7 @@
 package com.example.smartair;
 
-public class RescueLogs {
+public class RescueLogs implements SystemTimeTimestamp {
+
     public int dose;
     public int preBreathRating;
     public int postBreathRating;
@@ -8,4 +9,9 @@ public class RescueLogs {
     public long timestamp;
 
     public RescueLogs() {}
+
+    @Override
+    public long gettimestamp() {
+        return timestamp;
+    }
 }

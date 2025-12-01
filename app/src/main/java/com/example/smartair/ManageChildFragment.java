@@ -29,12 +29,21 @@ public class ManageChildFragment extends Fragment {
 
         mcvm = new ViewModelProvider(this).get(ManageChildViewModel.class);
 
-        Button buttonAddChild = view.findViewById(R.id.buttonAddChild);
+        Button buttonAddChild = view.findViewById(R.id.exampleButton);
 
         buttonAddChild.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ((MainActivity) requireActivity()).loadFragment(new AddChildFragment());
+            }
+        });
+
+        Button backButton = view.findViewById(R.id.manage_children_back_button);
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getParentFragmentManager().popBackStack();
             }
         });
 

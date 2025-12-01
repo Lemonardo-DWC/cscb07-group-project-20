@@ -118,7 +118,7 @@ public class SymptomCheckFragment extends Fragment {
         map.put("dizzy_scared", getYes(q5));
 
         LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String timeString = now.format(formatter);
 
         map.put("SymptomCheckTimestamp", timeString);
