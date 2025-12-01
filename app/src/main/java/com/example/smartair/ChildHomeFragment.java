@@ -1,5 +1,6 @@
 package com.example.smartair;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
@@ -11,8 +12,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import javax.security.auth.callback.Callback;
 
@@ -35,7 +42,64 @@ public class ChildHomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_child_home, container, false);
+
     }
+
+    private void loadPBAndUpdateZone(DatabaseReference childRef,
+                                     TextView homeZoneLabel,
+                                     View homeZoneColor) {
+
+        childRef.child("pb").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshotPB) {
+
+                if (!snapshotPB.exists()) return;
+
+                double personalBest = snapshotPB.getValue(Double.class);
+
+                childRef.child("pefLogs")
+                        .limitToLast(1)
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                                for (DataSnapshot log : snapshot.getChildren()) {
+
+                                    Integer pef = log.child("pef").getValue(Integer.class);
+                                    if (pef == null || personalBest <= 0) return;
+
+                                    updateZone(pef, personalBest, homeZoneLabel, homeZoneColor);
+                                }
+                            }
+
+                            @Override public void onCancelled(@NonNull DatabaseError error) {}
+                        });
+            }
+
+            @Override public void onCancelled(@NonNull DatabaseError error) {}
+        });
+    }
+
+    private void updateZone(int pef, double personalBest,
+                            TextView homeZoneLabel, View homeZoneColor) {
+
+        double percent = (pef / personalBest) * 100;
+        String zone;
+
+        if (percent >= 80) {
+            zone = "Green Zone (≥80%)";
+            homeZoneColor.setBackgroundColor(Color.parseColor("#4CAF50"));
+        } else if (percent >= 50) {
+            zone = "Yellow Zone (50–79%)";
+            homeZoneColor.setBackgroundColor(Color.parseColor("#FFC107"));
+        } else {
+            zone = "Red Zone (<50%)";
+            homeZoneColor.setBackgroundColor(Color.parseColor("#F44336"));
+        }
+
+        homeZoneLabel.setText("Zone: " + zone);
+    }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -48,11 +112,16 @@ public class ChildHomeFragment extends Fragment {
         Button ChildPEFFragment = view.findViewById(R.id.button5);
         Button TechniqueHelper = view.findViewById(R.id.button7);
         Button logout = view.findViewById(R.id.button8);
-//
 
-
+        TextView homeZoneLabel = view.findViewById(R.id.zoneLabel);
+        View homeZoneColor = view.findViewById(R.id.zoneColor);
 
         childId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        DatabaseReference logRef = db.getReference("users").child(childId);
+
+        loadPBAndUpdateZone(logRef, homeZoneLabel, homeZoneColor);
+
 
 
         controllerLogs.setOnClickListener(v -> {
@@ -69,10 +138,6 @@ public class ChildHomeFragment extends Fragment {
         });
 
 
-//        SymptomCheckFragment.setOnClickListener(v -> {
-//            SymptomCheckFragment next = new SymptomCheckFragment();
-//            ((MainActivity) requireActivity()).loadFragment(next);
-//        });
         SymptomCheckFragment.setOnClickListener(v -> {
             Bundle b = new Bundle();
             b.putString("CHILD_ID", childId);
@@ -81,11 +146,6 @@ public class ChildHomeFragment extends Fragment {
             ((MainActivity) requireActivity()).loadFragment(next);
         });
 
-//
-//        ChildPEFFragment.setOnClickListener(v -> {
-//            ChildPEFFragment next = new ChildPEFFragment();
-//            ((MainActivity) requireActivity()).loadFragment(next);
-//        });
         ChildPEFFragment.setOnClickListener(v -> {
             Bundle b = new Bundle();
             b.putString("CHILD_ID", childId);

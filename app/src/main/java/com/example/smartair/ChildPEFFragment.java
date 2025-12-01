@@ -91,7 +91,7 @@ public class ChildPEFFragment extends Fragment {
     }
 
     private void loadPersonalBest() {
-        childRef.child("personalBest").addListenerForSingleValueEvent(
+        childRef.child("pb").addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
