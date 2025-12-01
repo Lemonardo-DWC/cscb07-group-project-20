@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -116,11 +118,99 @@ public class ChildHomeFragment extends Fragment {
         TextView homeZoneLabel = view.findViewById(R.id.zoneLabel);
         View homeZoneColor = view.findViewById(R.id.zoneColor);
 
+        Button btnRescueLow = view.findViewById(R.id.btnRescueLow);
+        Button btnControllerLow = view.findViewById(R.id.btnControllerLow);
+
+
         childId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         DatabaseReference logRef = db.getReference("users").child(childId);
 
         loadPBAndUpdateZone(logRef, homeZoneLabel, homeZoneColor);
+
+        logRef.child("rescue").child("low")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        if (!snapshot.exists()) {
+                            // low 节点不存在 → 按钮恢复
+                            btnRescueLow.setText("Mark Rescue Canister Low");
+                            btnRescueLow.setEnabled(true);
+                            btnRescueLow.setBackgroundTintList(
+                                    ContextCompat.getColorStateList(requireContext(), R.color.bg5)
+                            );
+                            return;
+                        }
+
+                        Boolean isLow = snapshot.getValue(Boolean.class);
+
+                        if (Boolean.TRUE.equals(isLow)) {
+                            btnRescueLow.setText("Rescue Canister Marked");
+                            btnRescueLow.setEnabled(false);
+                            btnRescueLow.setBackgroundTintList(
+                                    ContextCompat.getColorStateList(requireContext(), R.color.neutral_grey)
+                            );
+                        } else {
+                            btnRescueLow.setText("Mark Rescue Canister Low");
+                            btnRescueLow.setEnabled(true);
+                            btnRescueLow.setBackgroundTintList(
+                                    ContextCompat.getColorStateList(requireContext(), R.color.bg5)
+                            );
+                        }
+                    }
+
+                    @Override public void onCancelled(@NonNull DatabaseError error) {}
+                });
+
+
+//  Controller Listener
+        logRef.child("controller").child("low")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        if (!snapshot.exists()) {
+                            btnControllerLow.setText("Mark Controller Canister Low");
+                            btnControllerLow.setEnabled(true);
+                            btnControllerLow.setBackgroundTintList(
+                                    ContextCompat.getColorStateList(requireContext(), R.color.bg5)
+                            );
+                            return;
+                        }
+
+                        Boolean isLow = snapshot.getValue(Boolean.class);
+
+                        if (Boolean.TRUE.equals(isLow)) {
+                            btnControllerLow.setText("Controller Canister Marked");
+                            btnControllerLow.setEnabled(false);
+                            btnControllerLow.setBackgroundTintList(
+                                    ContextCompat.getColorStateList(requireContext(), R.color.neutral_grey)
+                            );
+                        } else {
+                            btnControllerLow.setText("Mark Controller Canister Low");
+                            btnControllerLow.setEnabled(true);
+                            btnControllerLow.setBackgroundTintList(
+                                    ContextCompat.getColorStateList(requireContext(), R.color.bg5)
+                            );
+                        }
+                    }
+
+                    @Override public void onCancelled(@NonNull DatabaseError error) {}
+                });
+
+
+// press button to mark canister low
+
+        btnRescueLow.setOnClickListener(v -> {
+            logRef.child("rescue").child("low").setValue(true);
+            Toast.makeText(requireContext(), "Rescue canister marked low", Toast.LENGTH_SHORT).show();
+        });
+
+        btnControllerLow.setOnClickListener(v -> {
+            logRef.child("controller").child("low").setValue(true);
+            Toast.makeText(requireContext(), "Controller canister marked low", Toast.LENGTH_SHORT).show();
+        });
 
 
 
