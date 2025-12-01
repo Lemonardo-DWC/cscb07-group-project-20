@@ -145,7 +145,7 @@ public class ChildPEFFragment extends Fragment {
 
         zoneLabel.setText("Zone: " + zone);
 
-        String logId = childRef.child("PefLogs").push().getKey();
+        String logId = childRef.child("pefLogs").push().getKey();
 
         Map<String, Object> logData = new HashMap<>();
         logData.put("pef", pef);
