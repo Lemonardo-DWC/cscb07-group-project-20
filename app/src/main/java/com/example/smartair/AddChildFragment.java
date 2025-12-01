@@ -120,7 +120,7 @@ public class AddChildFragment extends Fragment {
         yearSpinner.setOnItemSelectedListener(monthYearListener);
 
         // button variables
-        Button buttonAddChild = view.findViewById(R.id.buttonAddChild);
+        Button buttonAddChild = view.findViewById(R.id.exampleButton);
         buttonAddChild.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

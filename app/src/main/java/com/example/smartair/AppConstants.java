@@ -20,6 +20,7 @@ public class AppConstants {
     /// database constants
     public static final String USERPATH = "users";
     public static final String USERNAMEPATH = "usernames";
+    public static final String UID = "uid";
     public static final String EMAIL = "email";
     public static final String ACCOUNTTYPE = "accountType";
     public static final String BASICINFORMATION = "basicInformation";
@@ -28,8 +29,11 @@ public class AppConstants {
     public static final String LASTNAME = "lastName";
     public static final String BIRTHDAY = "birthday";
     public static final String SEX = "sex";
+    public static final String NOTES = "notes";
+    public static final String PB_PATH = "pb";
+    public static final int PB_DEFAULT = 300;
     public static final String PARENTLIST = "parentList";
-    public static final String CHILDRENLIST = "childrenList";
+    public static final String CHILDLIST = "childrenList";
     public static final String PARENT = "parent";
     public static final String CHILD = "child";
     public static final String PROVIDER = "healthcare provider";
@@ -37,6 +41,21 @@ public class AppConstants {
     /// year range endpoints
     public static final int YEARSTART = 2000;
     public static final int YEAREND = 2030;
+
+    /// time constants
+    public static final long MS_NORMYEAR = 31_536_000_000L;
+    public static final long MS_LEAPYEAR = 31_622_400_000L;
+    public static final long MS_WEEK = 604_800_000;
+    public static final long MS_DAY = 86_400_000;
+    public static final long MS_HOUR = 3_600_000;
+    public static final long MS_MINUTE = 60_000;
+    public static final long MS_SECOND = 1_000;
+    public static final String DATE_YMDHMS = "HH:mm:ss, dd-MM-yyyy";
+    public static final String DATE_YMDHM = "HH:mm, dd-MM-yyyy";
+    public static final String DATE_YMD = "dd-MM-yyyy";
+    public static final String DATE_YM = "MM-yyyy";
+    public static final String DATE_Y = "yyyy";
+    public static final String DATE_HMMDY = "HH:mm, MMM-dd-yyyy";
 
     /// biological sex
     public static final String MALE = "male";

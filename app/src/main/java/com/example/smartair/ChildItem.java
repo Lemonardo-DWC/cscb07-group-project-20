@@ -1,84 +1,82 @@
 package com.example.smartair;
 
+import java.util.Map;
+
 public class ChildItem {
 
-    private String firstName;
-    private String middleName;
-    private String lastName;
-    private String dob;
-    private String sex;
-    private int weeklyRescueCt;
-    private String lastRescue;
+    public String uid;
+    public String accountType;
+    public String email;
+    public String notes = "Optional notes...";
+    public int pb;
 
-    public ChildItem() {
-        firstName = "Child";
-        lastName = String.valueOf(((Double) Math.random()).hashCode());
+    public BasicInformation basicInformation;
+    public Map<String, String> parentList;
+    public Map<String, DailyCheckIn> DailyCheckIn;
+    public Map<String, ControllerLogs> controllerLogs;
+    public Map<String, RescueLogs> rescueLogs;
+
+    public Map<String, PefLogs> pefLogs;
+    public Map<String, TriageSessions> triageSessions;
+
+    public ChildItem() {}
+
+    public String getUid() {
+        return uid;
     }
 
-    public ChildItem(String firstName, String middleName, String lastName, String dob, String sex) {
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.lastName = lastName;
-        this.dob = dob;
-        this.sex = sex;
-        weeklyRescueCt = 0;
-        lastRescue = "dummyString";
+    public String getAccountType() {
+        return accountType;
     }
 
-    // getters and setters
+    public String getEmail() {
+        return email;
+    }
+
+    public String getNotes() {
+        if (notes != null) {
+            return notes;
+        }
+        return "";
+    }
+
+    public int getPb() {
+        return pb;
+    }
+
+    // BasicInformation fields
+    public String getBirthday() {
+        if (basicInformation != null) {
+            return basicInformation.getBirthday();
+        }
+        return "";
+    }
+
     public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+        if (basicInformation != null) {
+            return basicInformation.getFirstName();
+        }
+        return "";
     }
 
     public String getMiddleName() {
-        return middleName;
-    }
-
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
+        if (basicInformation != null) {
+            return basicInformation.getMiddleName();
+        }
+        return "";
     }
 
     public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getDob() {
-        return dob;
-    }
-
-    public void setDob(String dob) {
-        this.dob = dob;
+        if (basicInformation != null) {
+            return basicInformation.getLastName();
+        }
+        return "";
     }
 
     public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
-
-    public int getWeeklyRescueCt() {
-        return weeklyRescueCt;
-    }
-
-    public void setWeeklyRescueCt(int weeklyRescueCt) {
-        this.weeklyRescueCt = weeklyRescueCt;
-    }
-
-    public String getLastRescue() {
-        return lastRescue;
-    }
-
-    public void setLastRescue(String lastRescue) {
-        this.lastRescue = lastRescue;
+        if (basicInformation != null) {
+            return basicInformation.getSex();
+        }
+        return "";
     }
 }
