@@ -108,7 +108,7 @@ public class SymptomCheckFragment extends Fragment {
     }
 
     private String saveSymptomData() {
-        String key = childRef.child("TriageSessions").push().getKey();
+        String key = childRef.child("triageSessions").push().getKey();
 
         Map<String, Object> map = new HashMap<>();
         map.put("speak_full_sentences", getYes(q1));
