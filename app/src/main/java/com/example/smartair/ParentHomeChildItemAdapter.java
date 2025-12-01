@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.List;
+import java.util.Locale;
 
 public class ParentHomeChildItemAdapter
         extends RecyclerView.Adapter<ParentHomeChildItemAdapter.ItemViewHolder> {
@@ -64,7 +65,6 @@ public class ParentHomeChildItemAdapter
             holder.todayZone.setText("Today's zone: No PEF logged");
             holder.zoneStatus.setVisibility(View.INVISIBLE);
         } else {
-            holder.todayZone.setText("Today's zone: ");
 
             Drawable zoneImage;
 
@@ -80,6 +80,10 @@ public class ParentHomeChildItemAdapter
                 zoneImage = AppCompatResources.getDrawable(context, R.drawable.zone_green);
             }
 
+            String todayZoneText = String.format(Locale.getDefault(),
+                    "Today's zone: %d/%d", lastPefLog.pef, childItem.pb);
+
+            holder.todayZone.setText(todayZoneText);
             holder.zoneStatus.setImageDrawable(zoneImage);
             holder.zoneStatus.setVisibility(View.VISIBLE);
         }
