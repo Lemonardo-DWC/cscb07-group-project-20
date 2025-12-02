@@ -14,4 +14,19 @@ public class RescueLogs implements SystemTimeTimestamp {
     public long gettimestamp() {
         return timestamp;
     }
+
+    public String parsePostStatus() {
+        String postStatusText = "Same";
+
+        switch (postStatus){
+            case -1:
+                postStatusText = "Worse";
+                break;
+            case 1:
+                postStatusText = "Better";
+                break;
+        }
+
+        return postStatusText;
+    }
 }

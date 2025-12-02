@@ -60,6 +60,40 @@
     <string name="manageChilde_addChild_screenID">Add Child</string>
     <string name="manageChild_createChildAccount">Create Child Account</string>
 
+    <!-- Child History Fragment -->
+    <string-array name="logTypeArray">
+        <item>Daily Check-In</item>
+        <item>Controller</item>
+        <item>Rescue</item>
+        <item>PEF</item>
+        <item>Triage</item>
+    </string-array>
+
+    <string-array name="historyRangeArray">
+        <item>Last 30 days</item>
+        <item>Last 60 days</item>
+        <item>Last 90 days</item>
+        <item>Last 120 days</item>
+        <item>Last 150 days</item>
+        <item>Last 180 days</item>
+    </string-array>
+
+    <string-array name="symptomFilters">
+        <item>Night waking</item>
+        <item>Cough/wheeze</item>
+    </string-array>
+
+    <string-array name="triggerFilters">
+        <item>Exercise</item>
+        <item>Cold air</item>
+        <item>Dust</item>
+        <item>Pets</item>
+        <item>Smoke</item>
+        <item>Illness</item>
+        <item>Cleaners</item>
+        <item>Perfume / Strong odors</item>
+    </string-array>
+
     <!-- Other Fragments -->
     <string name="PLACEHOLDER">PLACEHOLDER</string>
     <string name="LOGIN_SUCCESS">LOGIN SUCCESS</string>

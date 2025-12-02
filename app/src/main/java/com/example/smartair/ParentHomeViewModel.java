@@ -211,10 +211,6 @@ public class ParentHomeViewModel extends ViewModel {
         _selectedItem.setValue(childItem);
     }
 
-    public LiveData<ChildItem> getSelectedItem() {
-        return selectedItem;
-    }
-
     public void updateChildNote(ChildItem childItem) {
         dataManager.writeTo(
                 dataManager.getUserReference(childItem.getUid()).child(AppConstants.NOTES),
