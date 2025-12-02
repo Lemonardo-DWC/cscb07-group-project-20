@@ -92,18 +92,21 @@
 
     <TextView
         android:id="@+id/zoneLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="156dp"
+        android:layout_height="63dp"
         android:text="Zone: -"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/zoneColor"
         app:layout_constraintEnd_toEndOf="@+id/zoneColor"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/zoneColor" />
 
     <View
         android:id="@+id/zoneColor"
         android:layout_width="182dp"
         android:layout_height="68dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="20dp"
         android:background="#DDDDDD"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -115,7 +118,7 @@
         android:orientation="vertical"
         android:padding="16dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
-        tools:layout_editor_absoluteX="0dp">
+        app:layout_constraintStart_toStartOf="parent">
 
         <Button
             android:id="@+id/btnRescueLow"
