@@ -1,20 +1,29 @@
 package com.example.smartair;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.List;
+import com.google.android.material.button.MaterialButton;
 
-public class ChildItemAdapter extends RecyclerView.Adapter<ChildItemAdapter.ItemViewHolder> {
+import java.util.List;
+import java.util.Locale;
+
+public class ChildItemListAdapter
+        extends RecyclerView.Adapter<ChildItemListAdapter.ItemViewHolder> {
 
     private List<ChildItem> childItemList;
 
-    public ChildItemAdapter(List<ChildItem> childItemList) {
+    public ChildItemListAdapter(List<ChildItem> childItemList) {
         this.childItemList = childItemList;
     }
 
@@ -23,7 +32,7 @@ public class ChildItemAdapter extends RecyclerView.Adapter<ChildItemAdapter.Item
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater
                 .from(parent.getContext()).inflate(
-                        R.layout.child_item_adapter,
+                        R.layout.adapter_child_item_list,
                         parent,
                         false
                 );
@@ -33,15 +42,13 @@ public class ChildItemAdapter extends RecyclerView.Adapter<ChildItemAdapter.Item
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         ChildItem childItem = childItemList.get(position);
-        holder.childName.setText(childItem.getFirstName());
-        holder.tempInfo.setText(
-                String.format("full name: %s %s %s DOB: %s Sex: %s",
-                        childItem.getFirstName(),
-                        childItem.getMiddleName(),
-                        childItem.getLastName(),
-                        childItem.getDob(),
-                        childItem.getSex())
-        );
+
+        String name = childItem.getFirstName() +
+                " " + childItem.getMiddleName() +
+                " " + childItem.getLastName();
+
+        holder.childName.setText(name);
+
     }
 
     @Override
@@ -51,11 +58,11 @@ public class ChildItemAdapter extends RecyclerView.Adapter<ChildItemAdapter.Item
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
 
-        TextView childName, tempInfo;
+        TextView childName;
+
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
             childName = itemView.findViewById(R.id.childName);
-            tempInfo = itemView.findViewById(R.id.tempInfo);
         }
     }
 

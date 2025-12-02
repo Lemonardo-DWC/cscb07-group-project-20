@@ -6,6 +6,7 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,22 +22,23 @@ import com.google.android.material.button.MaterialButtonToggleGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ParentHomeFragment extends Fragment {
+public class ParentHomeFragment
+        extends Fragment
+        implements ParentHomeChildItemAdapter.OnDetailButtonClick {
 
     // buttons
     private MaterialButton menuButton;
     private MaterialButtonToggleGroup trendRangeToggleGroup;
 
     // recycler views
-    private RecyclerView alertRecycler;
     private RecyclerView childRecycler;
 
     // child item list
     private List<ChildItem> childItemList;
-    private ChildItemAdapter childItemAdapter;
+    private ParentHomeChildItemAdapter parentHomeChildItemAdapter;
 
-    // helper classe objects
-    private final UserManager userManager = new UserManager();
+    // helper class objects
+    private ParentHomeViewModel phvm;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,8 @@ public class ParentHomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_parent_home, container, false);
+
+        phvm = new ViewModelProvider(requireActivity()).get(ParentHomeViewModel.class);
 
         return view;
     }
@@ -72,11 +76,7 @@ public class ParentHomeFragment extends Fragment {
                     ((MainActivity) requireActivity()).loadFragment(new ManageChildFragment());
                     return true;
                 } else if (itemId == R.id.shareReport) {
-                    Toast.makeText(
-                            requireContext(),
-                            "share report",
-                            Toast.LENGTH_SHORT
-                    ).show();
+                    ((MainActivity) requireActivity()).loadFragment(new PDFChildSelectFragment());
                     return true;
                 } else if (itemId == R.id.viewInventory) {
                     Toast.makeText(
@@ -92,8 +92,11 @@ public class ParentHomeFragment extends Fragment {
                             Toast.LENGTH_SHORT
                     ).show();
                     return true;
+                } else if (itemId == R.id.shareWithProvider) {
+                    ((MainActivity) requireActivity()).loadFragment(new ShareWithProviderFragment());
+                    return true;
                 } else if (itemId == R.id.logout) {
-                    userManager.logout();
+                    phvm.logout();
                     ((MainActivity) requireActivity()).loadFragment(new LoginFragment());
                 }
 
@@ -128,19 +131,21 @@ public class ParentHomeFragment extends Fragment {
             }
         });
 
-        // recycler initialization
+        // child status recycler setup
         childRecycler = view.findViewById(R.id.childRecycler);
 
         childItemList = new ArrayList<>();
-
-        // TODO: temporarily here for development purposes
-        loadStaticItems();
-
-        childItemAdapter = new ChildItemAdapter(childItemList);
-
-        childRecycler.setAdapter(childItemAdapter);
+        parentHomeChildItemAdapter = new ParentHomeChildItemAdapter(childItemList, this, requireContext());
+        childRecycler.setAdapter(parentHomeChildItemAdapter);
         childRecycler.setLayoutManager(new LinearLayoutManager(requireContext()));
 
+        phvm.trackChildListRef();
+
+        phvm.childItemListData.observe(getViewLifecycleOwner(), newChildItemList -> {
+            childItemList.clear();
+            childItemList.addAll(newChildItemList);
+            parentHomeChildItemAdapter.notifyDataSetChanged();
+        });
 
         /// back button handling ///
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
@@ -156,44 +161,10 @@ public class ParentHomeFragment extends Fragment {
                 .getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
     }
 
-    private void loadStaticItems() {
-        for(int i = 0; i < 10; i++) {
+    @Override
+    public void onClick(ChildItem childItem) {
+        phvm.selectItem(childItem);
 
-            String sex;
-            double sexGenerator = Math.random();
-
-            if(sexGenerator >= 0.5) {
-                sex = "male";
-            } else {
-                sex = "female";
-            }
-
-            String day;
-            String month;
-            String year;
-
-            day = String.valueOf(1 + (int) (Math.random() * 100 % 31));
-            month = String.valueOf(1 + (int) (Math.random() * 100 % 12));
-            year = String.valueOf(2025 - (int) (Math.random() * 100 % 17));
-
-            if(Integer.parseInt(day) < 10) {
-                day = "0" + day;
-            }
-
-            if(Integer.parseInt(month) < 10) {
-                month = "0" + month;
-            }
-
-            String dob = day + "/" + month + "/" + year;
-
-            childItemList.add(
-                    new ChildItem("Child",
-                            "",
-                            String.valueOf(i+1),
-                            dob,
-                            sex)
-            );
-
-        }
+        ((MainActivity) requireActivity()).loadFragment(new ChildDetailsFragment());
     }
 }

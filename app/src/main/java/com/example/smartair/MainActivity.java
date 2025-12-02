@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
                                                 break;
 
                                             case AppConstants.PROVIDER:
-                                                // TODO: redirect to provider homescreen
+                                                loadFragment(new ProviderHomeFragment());
                                                 break;
                                         }
                                     } else {

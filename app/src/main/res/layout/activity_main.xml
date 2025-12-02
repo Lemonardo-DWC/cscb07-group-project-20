@@ -25,12 +25,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-
-        app:layout_constraintWidth_max="411dp"
-        app:layout_constraintHeight_max="891dp"
-
-        tools:layout="@layout/fragment_login">
+        app:layout_constraintBottom_toBottomOf="parent">
         <!--
         NOTE:   tools:layout="@layout/fragment_login"
         FOR PREVIEW PURPOSES ONLY in the layout editor on the right side in android studio;
