@@ -83,4 +83,8 @@ public class ChildItemHelper {
     public static <T extends SystemTimeTimestamp> Comparator<T> getDescendingTimeComparator() {
         return (o1, o2) -> Long.compare(o2.gettimestamp(), o1.gettimestamp());
     }
+
+    public static <T extends SystemTimeTimestamp> Comparator<T> getAscendingTimeComparator() {
+        return (o1, o2) -> Long.compare(o1.gettimestamp(), o2.gettimestamp());
+    }
 }
