@@ -136,6 +136,16 @@
             android:layout_height="wrap_content"
             android:text="Save"
             android:layout_marginTop="10dp" />
+        <TextView
+            android:id="@+id/tv_disclaimer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="This is guidance, not a diagnosis. If in doubt, call emergency!"
+            android:textSize="12sp"
+            android:textColor="#808080"
+            android:gravity="center"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp" />
 
     </LinearLayout>
 </ScrollView>
