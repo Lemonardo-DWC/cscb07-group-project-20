@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -57,7 +58,7 @@ public class ProviderHomeFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_provider_home, container, false);
-
+        // Todo: Add onboarding setting, when first login, the first_time_login is null, then bring to onboarding page
         menuButton = view.findViewById(R.id.menu_button);
         providerChildRecycler = view.findViewById(R.id.providerChildRecycler);
 
@@ -68,6 +69,14 @@ public class ProviderHomeFragment extends Fragment {
         //setupRecycler();
         setupMenuButton();
         ListenToProviderShares();
+
+        requireActivity().getOnBackPressedDispatcher()
+                .addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+                    @Override
+                    public void handleOnBackPressed() {
+                        requireActivity().finish();
+                    }
+                });
 
         return view;
     }

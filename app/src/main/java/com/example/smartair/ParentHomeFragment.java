@@ -76,11 +76,7 @@ public class ParentHomeFragment
                     ((MainActivity) requireActivity()).loadFragment(new ManageChildFragment());
                     return true;
                 } else if (itemId == R.id.shareReport) {
-                    Toast.makeText(
-                            requireContext(),
-                            "share report",
-                            Toast.LENGTH_SHORT
-                    ).show();
+                    ((MainActivity) requireActivity()).loadFragment(new PDFChildSelectFragment());
                     return true;
                 } else if (itemId == R.id.viewInventory) {
                     Toast.makeText(
