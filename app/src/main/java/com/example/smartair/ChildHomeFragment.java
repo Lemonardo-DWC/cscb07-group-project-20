@@ -125,18 +125,16 @@ public class ChildHomeFragment extends Fragment {
         DatabaseReference logRef = db.getReference("users").child(childId);
         DatabaseReference firstLoginRef = logRef.child("firstLogin");
 
+        //check if it is users' fist login
         firstLoginRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
                 Boolean firstLogin = snapshot.getValue(Boolean.class);
 
                 // If ture or null → jump to Onboarding page
                 if (firstLogin == null || firstLogin) {
-                    // 跳到 Onboarding Fragment
                     ((MainActivity) requireActivity()).loadFragment(new OnboardingChildFragment());
 
-                    return;
                 }
 
             }
