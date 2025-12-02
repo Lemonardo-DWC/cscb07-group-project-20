@@ -10,6 +10,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -160,10 +161,87 @@ public class ControllerLogsFragment extends Fragment {
             log.put("timestamp", System.currentTimeMillis());
 
             logRef.push().setValue(log)
-                    .addOnSuccessListener(unused ->
-                            Toast.makeText(getContext(), "Saved!", Toast.LENGTH_SHORT).show())
+                    .addOnSuccessListener(unused -> {
+                        updateControllerStreak();//new
+                        Toast.makeText(getContext(), "Saved!", Toast.LENGTH_SHORT).show();
+                    })
                     .addOnFailureListener(e ->
                             Toast.makeText(getContext(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
         });
     }
+    private void updateControllerStreak() {
+
+        DatabaseReference logsRef = FirebaseDatabase.getInstance()
+                .getReference("users")
+                .child(childId)
+                .child("controllerLogs");
+
+        DatabaseReference streakRef = FirebaseDatabase.getInstance()
+                .getReference("users")
+                .child(childId)
+                .child("streaks")
+                .child("controllerStreak");
+
+        logsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                long todayStart = getStartOfDay(System.currentTimeMillis());
+                long yesterdayStart = todayStart - 24L * 60L * 60L * 1000L;
+
+                final AtomicBoolean didToday = new AtomicBoolean(false);
+                final AtomicBoolean didYesterday = new AtomicBoolean(false);
+
+                for (DataSnapshot s : snapshot.getChildren()) {
+                    Long ts = s.child("timestamp").getValue(Long.class);
+                    if (ts == null) continue;
+
+                    if (ts >= todayStart) {
+                        didToday.set(true);
+                    } else if (ts >= yesterdayStart && ts < todayStart) {
+                        didYesterday.set(true);
+                    }
+                }
+
+                streakRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot2) {
+                        Integer currentStreakObj = snapshot2.getValue(Integer.class);
+                        int currentStreak = (currentStreakObj != null) ? currentStreakObj : 0;
+
+                        int newStreak;
+
+                        if (didToday.get()) {
+                            if (didYesterday.get()) {
+                                newStreak = currentStreak + 1;
+                            } else {
+                                newStreak = 1;
+                            }
+                        } else {
+                            newStreak = 0;
+                        }
+
+                        streakRef.setValue(newStreak);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {}
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
+    }
+
+    private long getStartOfDay(long ts) {
+        java.util.Calendar c = java.util.Calendar.getInstance();
+        c.setTimeInMillis(ts);
+        c.set(java.util.Calendar.HOUR_OF_DAY, 0);
+        c.set(java.util.Calendar.MINUTE, 0);
+        c.set(java.util.Calendar.SECOND, 0);
+        c.set(java.util.Calendar.MILLISECOND, 0);
+        return c.getTimeInMillis();
+    }
+
 }

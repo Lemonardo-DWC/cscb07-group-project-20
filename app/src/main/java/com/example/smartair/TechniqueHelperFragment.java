@@ -24,6 +24,8 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTube
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 
 public class TechniqueHelperFragment extends Fragment {
 
@@ -73,11 +75,93 @@ public class TechniqueHelperFragment extends Fragment {
             data.put("timestamp", System.currentTimeMillis());
 
             ref.push().setValue(data)
-                    .addOnSuccessListener(unused ->
-                            Toast.makeText(getContext(), "Saved!", Toast.LENGTH_SHORT).show())
+                    .addOnSuccessListener(unused -> {
+                        updateTechniqueStreak();
+                        Toast.makeText(getContext(), "Saved!", Toast.LENGTH_SHORT).show();
+                    })
                     .addOnFailureListener(e ->
                             Toast.makeText(getContext(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+
         });
     }
+
+    private void updateTechniqueStreak() {
+
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        DatabaseReference sessionsRef = FirebaseDatabase.getInstance()
+                .getReference("users")
+                .child(userId)
+                .child("techniqueSessions");
+
+        DatabaseReference streakRef = FirebaseDatabase.getInstance()
+                .getReference("users")
+                .child(userId)
+                .child("streaks")
+                .child("techniqueStreak");
+
+        sessionsRef.addListenerForSingleValueEvent(new com.google.firebase.database.ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull com.google.firebase.database.DataSnapshot snapshot) {
+
+                long todayStart = getStartOfDay(System.currentTimeMillis());
+                long yesterdayStart = todayStart - 24L * 60L * 60L * 1000L;
+
+                final AtomicBoolean didToday = new AtomicBoolean(false);
+                final AtomicBoolean didYesterday = new AtomicBoolean(false);
+
+                for (com.google.firebase.database.DataSnapshot s : snapshot.getChildren()) {
+                    Long ts = s.child("timestamp").getValue(Long.class);
+                    if (ts == null) continue;
+
+                    if (ts >= todayStart) {
+                        didToday.set(true);
+                    } else if (ts >= yesterdayStart && ts < todayStart) {
+                        didYesterday.set(true);
+                    }
+                }
+
+                streakRef.addListenerForSingleValueEvent(new com.google.firebase.database.ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull com.google.firebase.database.DataSnapshot snapshot2) {
+
+                        Integer currentStreakObj = snapshot2.getValue(Integer.class);
+                        int currentStreak = (currentStreakObj != null ? currentStreakObj : 0);
+
+                        int newStreak;
+
+                        if (didToday.get()) {
+                            if (didYesterday.get()) {
+                                newStreak = currentStreak + 1;
+                            } else {
+                                newStreak = 1;
+                            }
+                        } else {
+                            newStreak = 0;
+                        }
+
+                        streakRef.setValue(newStreak);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull com.google.firebase.database.DatabaseError error) {}
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull com.google.firebase.database.DatabaseError error) {}
+        });
+    }
+
+    private long getStartOfDay(long ts) {
+        java.util.Calendar c = java.util.Calendar.getInstance();
+        c.setTimeInMillis(ts);
+        c.set(java.util.Calendar.HOUR_OF_DAY, 0);
+        c.set(java.util.Calendar.MINUTE, 0);
+        c.set(java.util.Calendar.SECOND, 0);
+        c.set(java.util.Calendar.MILLISECOND, 0);
+        return c.getTimeInMillis();
+    }
+
 }
 

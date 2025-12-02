@@ -46,6 +46,7 @@ public class ChildHomeFragment extends Fragment {
         Button dailyCheck = view.findViewById(R.id.button1);
         Button SymptomCheckFragment = view.findViewById(R.id.button4);
         Button ChildPEFFragment = view.findViewById(R.id.button5);
+        Button rewardButton = view.findViewById(R.id.button6);
         Button TechniqueHelper = view.findViewById(R.id.button7);
         Button logout = view.findViewById(R.id.button8);
 //
@@ -98,6 +99,15 @@ public class ChildHomeFragment extends Fragment {
         logout.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();
             ((MainActivity) requireActivity()).loadFragment(new LoginFragment());
+        });
+        //RewardsFragment
+        rewardButton.setOnClickListener(v -> {
+            Bundle b = new Bundle();
+            b.putString("CHILD_ID", childId);  // 如果奖励页面需要 childId
+            RewardsFragment next = new RewardsFragment();
+            next.setArguments(b);
+
+            ((MainActivity) requireActivity()).loadFragment(next);
         });
 
         /// back button handling ///
