@@ -23,8 +23,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import javax.security.auth.callback.Callback;
-
 
 public class ChildHomeFragment extends Fragment {
 
@@ -125,6 +123,27 @@ public class ChildHomeFragment extends Fragment {
         childId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         DatabaseReference logRef = db.getReference("users").child(childId);
+        DatabaseReference firstLoginRef = logRef.child("firstLogin");
+
+        firstLoginRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                Boolean firstLogin = snapshot.getValue(Boolean.class);
+
+                // If ture or null → jump to Onboarding page
+                if (firstLogin == null || firstLogin) {
+                    // 跳到 Onboarding Fragment
+                    ((MainActivity) requireActivity()).loadFragment(new OnboardingChildFragment());
+
+                    return;
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
 
         loadPBAndUpdateZone(logRef, homeZoneLabel, homeZoneColor);
 
