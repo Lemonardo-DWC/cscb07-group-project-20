@@ -10,286 +10,352 @@
 
     android:background="@color/bg2">
 
-    <!-- Screen Identifier -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/manageChilde_addChild_screenID"
-        android:textSize="32sp"
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <!-- child registration form -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/addChildInformationForm"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/add_children_navigation"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:padding="@dimen/default_padding"
-        android:background="@color/bg1"
 
-        android:layout_marginTop="60dp"
-        android:layout_marginHorizontal="15dp"
+        app:cardCornerRadius="0dp"
+        app:strokeWidth="1dp"
+        app:strokeColor="@color/black"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <!-- username -->
-        <TextView
-            android:id="@+id/usernameField"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:padding="@dimen/default_padding"
-            android:text="@string/usernameField"
-            android:textSize="16sp"
-
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
-
-        <EditText
-            android:id="@+id/usernameEntry"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:padding="@dimen/default_padding"
-            android:hint="@string/usernameHint"
-            android:autofillHints="username"
-            android:inputType="text"
-            android:textSize="16sp"
-
-            app:layout_constraintStart_toEndOf="@id/usernameField"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBaseline_toBaselineOf="@id/usernameField"/>
-
-        <!-- password -->
-        <TextView
-            android:id="@+id/passwordField"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:padding="@dimen/default_padding"
-            android:textSize="16sp"
-            android:text="@string/pwField"
-            android:layout_marginTop="10dp"
-
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/usernameField"/>
-
-        <EditText
-            android:id="@+id/passwordEntry"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:padding="@dimen/default_padding"
-            android:textSize="16sp"
-            android:hint="@string/pwHint"
-            android:inputType="textPassword"
-            android:importantForAutofill="no"
-
-            app:layout_constraintStart_toEndOf="@id/passwordField"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBaseline_toBaselineOf="@id/passwordField"/>
-
-        <!-- first name -->
-        <TextView
-            android:id="@+id/firstNameField"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:padding="@dimen/default_padding"
-            android:text="@string/firstNameField"
-            android:textSize="16sp"
-            android:layout_marginTop="10dp"
-
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/passwordField"/>
-
-        <EditText
-            android:id="@+id/firstNameEntry"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:padding="@dimen/default_padding"
-            android:hint="@string/required"
-            android:autofillHints="name"
-            android:inputType="text"
-            android:textSize="16sp"
-
-            app:layout_constraintStart_toEndOf="@id/firstNameField"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBaseline_toBaselineOf="@id/firstNameField"/>
-
-        <!-- middle name(s) -->
-        <TextView
-            android:id="@+id/middleNameField"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:padding="@dimen/default_padding"
-            android:text="@string/middleNameField"
-            android:textSize="16sp"
-            android:layout_marginTop="10dp"
-
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/firstNameField"/>
-
-        <EditText
-            android:id="@+id/middleNameEntry"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:padding="@dimen/default_padding"
-            android:hint="@string/optional"
-            android:autofillHints="username"
-            android:inputType="text"
-            android:textSize="16sp"
-
-            app:layout_constraintStart_toEndOf="@id/middleNameField"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBaseline_toBaselineOf="@id/middleNameField"/>
-
-        <!-- last name -->
-        <TextView
-            android:id="@+id/lastNameField"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:padding="@dimen/default_padding"
-            android:text="@string/lastNameField"
-            android:textSize="16sp"
-            android:layout_marginTop="10dp"
-
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/middleNameField"/>
-
-        <EditText
-            android:id="@+id/lastNameEntry"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:padding="@dimen/default_padding"
-            android:hint="@string/required"
-            android:autofillHints="username"
-            android:inputType="text"
-            android:textSize="16sp"
-
-            app:layout_constraintStart_toEndOf="@id/lastNameField"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBaseline_toBaselineOf="@id/lastNameField"/>
-
-        <!-- birthdate -->
-
-        <TextView
-            android:id="@+id/birthdayField"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:padding="@dimen/default_padding"
-            android:text="@string/birthdayField"
-            android:textSize="16sp"
-
-            app:layout_constraintTop_toBottomOf="@id/lastNameField"
-            app:layout_constraintStart_toStartOf="parent"/>
-
-        <!-- day -->
-        <TextView
-            android:id="@+id/birthdayDay"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:padding="@dimen/default_padding"
-            android:text="@string/dayField"
-            android:textSize="16sp"
-
-            app:layout_constraintStart_toEndOf="@id/birthdayField"
-            app:layout_constraintTop_toBottomOf="@id/birthdayField"/>
-
-        <Spinner
-            android:id="@+id/daySpinner"
-            android:layout_width="0dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="14dp"
-            android:spinnerMode="dialog"
+            android:padding="@dimen/view_group_padding"
 
-            app:layout_constraintWidth_max="120dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/birthdayDay"
-            app:layout_constraintBaseline_toBaselineOf="@id/birthdayDay"/>
+            android:background="@color/bg1">
 
-        <!-- month -->
-        <TextView
-            android:id="@+id/birthdayMonth"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/add_children_back_button"
+                android:contentDescription="back button"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+
+                app:icon="@drawable/back_button"
+                app:iconTint="@null"
+                app:iconSize="50dp"
+                app:strokeColor="@color/black"
+                app:strokeWidth="1dp"
+                android:backgroundTint="@color/btn_press_colors"
+
+                android:insetBottom="0dp"
+                android:insetLeft="0dp"
+                android:insetRight="0dp"
+                android:insetTop="0dp"
+                android:padding="0dp"
+
+                app:shapeAppearanceOverlay="@style/material_button_style_1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <TextView
+                android:id="@+id/screenID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Child"
+                android:textStyle="bold"
+                android:textSize="36sp"
+                android:textColor="@color/black"
+                android:layout_marginStart="10dp"
+
+                app:layout_constraintStart_toEndOf="@id/add_children_back_button"
+                app:layout_constraintTop_toTopOf="@id/add_children_back_button"
+                app:layout_constraintBottom_toBottomOf="@id/add_children_back_button"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/addChildInformationForm"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="15dp"
+        android:layout_marginHorizontal="15dp"
+
+        app:strokeColor="@color/black"
+        app:strokeWidth="1dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/add_children_navigation">
+
+        <!-- child registration form -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:padding="@dimen/default_padding"
-            android:text="@string/monthField"
-            android:textSize="16sp"
-            android:textAlignment="viewEnd"
+            android:background="@color/bg4">
 
-            app:layout_constraintStart_toEndOf="@id/birthdayField"
-            app:layout_constraintTop_toBottomOf="@id/birthdayDay"/>
+            <!-- username -->
+            <TextView
+                android:id="@+id/usernameField"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:padding="@dimen/default_padding"
+                android:text="@string/usernameField"
+                android:textSize="16sp"
 
-        <Spinner
-            android:id="@+id/monthSpinner"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:padding="14dp"
-            android:spinnerMode="dialog"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
 
-            app:layout_constraintWidth_max="120dp"
-            app:layout_constraintStart_toEndOf="@id/birthdayDay"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBaseline_toBaselineOf="@id/birthdayMonth"/>
+            <EditText
+                android:id="@+id/usernameEntry"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:padding="@dimen/default_padding"
+                android:hint="@string/usernameHint"
+                android:autofillHints="username"
+                android:inputType="text"
+                android:textSize="16sp"
 
-        <!-- year -->
-        <TextView
-            android:id="@+id/birthdayYear"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:padding="@dimen/default_padding"
-            android:text="@string/yearField"
-            android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@id/usernameField"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBaseline_toBaselineOf="@id/usernameField"/>
 
-            app:layout_constraintStart_toEndOf="@id/birthdayField"
-            app:layout_constraintTop_toBottomOf="@id/birthdayMonth"/>
+            <!-- password -->
+            <TextView
+                android:id="@+id/passwordField"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:padding="@dimen/default_padding"
+                android:textSize="16sp"
+                android:text="@string/pwField"
+                android:layout_marginTop="10dp"
 
-        <Spinner
-            android:id="@+id/yearSpinner"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:padding="14dp"
-            android:spinnerMode="dialog"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/usernameField"/>
 
-            app:layout_constraintWidth_max="120dp"
-            app:layout_constraintStart_toEndOf="@id/birthdayDay"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBaseline_toBaselineOf="@id/birthdayYear"/>
+            <EditText
+                android:id="@+id/passwordEntry"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:padding="@dimen/default_padding"
+                android:textSize="16sp"
+                android:hint="@string/pwHint"
+                android:inputType="textPassword"
+                android:importantForAutofill="no"
 
-        <!-- sex -->
-        <TextView
-            android:id="@+id/sexField"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:padding="14dp"
-            android:text="@string/sexField"
-            android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@id/passwordField"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBaseline_toBaselineOf="@id/passwordField"/>
 
-            app:layout_constraintTop_toBottomOf="@id/birthdayYear"
-            app:layout_constraintStart_toStartOf="parent"/>
+            <!-- first name -->
+            <TextView
+                android:id="@+id/firstNameField"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:padding="@dimen/default_padding"
+                android:text="@string/firstNameField"
+                android:textSize="16sp"
+                android:layout_marginTop="10dp"
 
-        <Spinner
-            android:id="@+id/sexSpinner"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:padding="14dp"
-            android:textAlignment="center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/passwordField"/>
 
-            app:layout_constraintWidth_max="160dp"
-            app:layout_constraintStart_toEndOf="@id/sexField"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBaseline_toBaselineOf="@id/sexField"/>
+            <EditText
+                android:id="@+id/firstNameEntry"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:padding="@dimen/default_padding"
+                android:hint="@string/required"
+                android:autofillHints="name"
+                android:inputType="text"
+                android:textSize="16sp"
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                app:layout_constraintStart_toEndOf="@id/firstNameField"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBaseline_toBaselineOf="@id/firstNameField"/>
 
+            <!-- middle name(s) -->
+            <TextView
+                android:id="@+id/middleNameField"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:padding="@dimen/default_padding"
+                android:text="@string/middleNameField"
+                android:textSize="16sp"
+                android:layout_marginTop="10dp"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/firstNameField"/>
+
+            <EditText
+                android:id="@+id/middleNameEntry"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:padding="@dimen/default_padding"
+                android:hint="@string/optional"
+                android:autofillHints="username"
+                android:inputType="text"
+                android:textSize="16sp"
+
+                app:layout_constraintStart_toEndOf="@id/middleNameField"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBaseline_toBaselineOf="@id/middleNameField"/>
+
+            <!-- last name -->
+            <TextView
+                android:id="@+id/lastNameField"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:padding="@dimen/default_padding"
+                android:text="@string/lastNameField"
+                android:textSize="16sp"
+                android:layout_marginTop="10dp"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/middleNameField"/>
+
+            <EditText
+                android:id="@+id/lastNameEntry"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:padding="@dimen/default_padding"
+                android:hint="@string/required"
+                android:autofillHints="username"
+                android:inputType="text"
+                android:textSize="16sp"
+
+                app:layout_constraintStart_toEndOf="@id/lastNameField"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBaseline_toBaselineOf="@id/lastNameField"/>
+
+            <!-- birthdate -->
+
+            <TextView
+                android:id="@+id/birthdayField"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:padding="@dimen/default_padding"
+                android:text="@string/birthdayField"
+                android:textSize="16sp"
+
+                app:layout_constraintTop_toBottomOf="@id/lastNameField"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <!-- day -->
+            <TextView
+                android:id="@+id/birthdayDay"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:padding="@dimen/default_padding"
+                android:text="@string/dayField"
+                android:textSize="16sp"
+
+                app:layout_constraintStart_toEndOf="@id/birthdayField"
+                app:layout_constraintTop_toBottomOf="@id/birthdayField"/>
+
+            <Spinner
+                android:id="@+id/daySpinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="14dp"
+                android:spinnerMode="dialog"
+
+                app:layout_constraintWidth_max="120dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/birthdayDay"
+                app:layout_constraintBaseline_toBaselineOf="@id/birthdayDay"/>
+
+            <!-- month -->
+            <TextView
+                android:id="@+id/birthdayMonth"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:padding="@dimen/default_padding"
+                android:text="@string/monthField"
+                android:textSize="16sp"
+                android:textAlignment="viewEnd"
+
+                app:layout_constraintStart_toEndOf="@id/birthdayField"
+                app:layout_constraintTop_toBottomOf="@id/birthdayDay"/>
+
+            <Spinner
+                android:id="@+id/monthSpinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="14dp"
+                android:spinnerMode="dialog"
+
+                app:layout_constraintWidth_max="120dp"
+                app:layout_constraintStart_toEndOf="@id/birthdayDay"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBaseline_toBaselineOf="@id/birthdayMonth"/>
+
+            <!-- year -->
+            <TextView
+                android:id="@+id/birthdayYear"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:padding="@dimen/default_padding"
+                android:text="@string/yearField"
+                android:textSize="16sp"
+
+                app:layout_constraintStart_toEndOf="@id/birthdayField"
+                app:layout_constraintTop_toBottomOf="@id/birthdayMonth"/>
+
+            <Spinner
+                android:id="@+id/yearSpinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="14dp"
+                android:spinnerMode="dialog"
+
+                app:layout_constraintWidth_max="120dp"
+                app:layout_constraintStart_toEndOf="@id/birthdayDay"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBaseline_toBaselineOf="@id/birthdayYear"/>
+
+            <!-- sex -->
+            <TextView
+                android:id="@+id/sexField"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:padding="14dp"
+                android:text="@string/sexField"
+                android:textSize="16sp"
+
+                app:layout_constraintTop_toBottomOf="@id/birthdayYear"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <Spinner
+                android:id="@+id/sexSpinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="14dp"
+                android:textAlignment="center"
+
+                app:layout_constraintWidth_max="160dp"
+                app:layout_constraintStart_toEndOf="@id/sexField"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBaseline_toBaselineOf="@id/sexField"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
 
     <!-- create child button -->
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/exampleButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
+
         android:text="@string/manageChild_createChildAccount"
+        android:textColor="@color/black"
+
+        android:backgroundTint="@color/bg3"
+        app:shapeAppearanceOverlay="@style/material_button_style_1"
+        app:strokeWidth="1dp"
+        app:strokeColor="@color/black"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
