@@ -14,11 +14,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-
-
-public class OnboardingChildFragment extends Fragment {
-
-    public OnboardingChildFragment() {
+public class OnboardingParentFragment extends Fragment {
+    public OnboardingParentFragment() {
         // Required empty public constructor
     }
 
@@ -30,7 +27,7 @@ public class OnboardingChildFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_onboarding_child, container, false);
+        return inflater.inflate(R.layout.fragment_onboarding_parent, container, false);
     }
 
     @Override
@@ -39,13 +36,14 @@ public class OnboardingChildFragment extends Fragment {
 
         Button start=view.findViewById(R.id.start);
 
-        String childId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String parentId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseDatabase db = FirebaseDatabase.getInstance();
-        DatabaseReference logRef = db.getReference("users").child(childId);
+        DatabaseReference logRef = db.getReference("users").child(parentId);
         start.setOnClickListener(v -> {
             logRef.child("firstLogin").setValue(false);
-            ((MainActivity) requireActivity()).loadFragment(new ChildHomeFragment());
+            ((MainActivity) requireActivity()).loadFragment(new ParentHomeFragment());
 
         });
     }
 }
+
