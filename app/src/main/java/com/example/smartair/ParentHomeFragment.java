@@ -42,10 +42,12 @@ public class ParentHomeFragment
 
     // recycler views
     private RecyclerView childRecycler;
+    private RecyclerView alertRecycler;
 
     // child item list
     private List<ChildItem> childItemList;
     private ParentHomeChildItemAdapter parentHomeChildItemAdapter;
+    private ParentAlertAdapter parentAlertAdapter;
 
     // helper class objects
     private ParentHomeViewModel phvm;
@@ -128,6 +130,7 @@ public class ParentHomeFragment
 
         });
 
+        // trend chart toggle
         trendRangeToggleGroup.addOnButtonCheckedListener(
                 new MaterialButtonToggleGroup.OnButtonCheckedListener() {
             @Override
@@ -152,12 +155,20 @@ public class ParentHomeFragment
         childRecycler.setAdapter(parentHomeChildItemAdapter);
         childRecycler.setLayoutManager(new LinearLayoutManager(requireContext()));
 
+        // alert recycler
+        alertRecycler = view.findViewById(R.id.alertRecycler);
+        parentAlertAdapter = new ParentAlertAdapter(childItemList);
+        alertRecycler.setAdapter(parentAlertAdapter);
+        alertRecycler.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+        // children list listener
         phvm.trackChildListRef();
 
         phvm.childItemListData.observe(getViewLifecycleOwner(), newChildItemList -> {
             childItemList.clear();
             childItemList.addAll(newChildItemList);
             parentHomeChildItemAdapter.notifyDataSetChanged();
+            parentAlertAdapter.updateChildList(newChildItemList);
 
             if (trendRangeToggleGroup.getCheckedButtonId() == R.id.buttonSevenDay) {
                 showPefTrendChart(childItemList, 7);
@@ -209,7 +220,7 @@ public class ParentHomeFragment
         xAxis.setGranularity(24 * 60 * 60 * 1000f); // one day
         xAxis.setAxisMinimum(pastMillis);
         xAxis.setAxisMaximum(now);
-        xAxis.setLabelRotationAngle(-45); // rotate labels
+        xAxis.setLabelRotationAngle(-30); // rotate labels
 
         // y axis
         com.github.mikephil.charting.components.YAxis leftAxis = pefTrendChart.getAxisLeft();

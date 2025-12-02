@@ -3,7 +3,7 @@ package com.example.smartair;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DailyCheckIn implements SystemTimeTimestamp{
+public class DailyCheckIn extends AlertItem {
 
     public String activityLimit;
     public String author;
@@ -17,5 +17,10 @@ public class DailyCheckIn implements SystemTimeTimestamp{
     @Override
     public long gettimestamp() {
         return timestamp;
+    }
+
+    @Override
+    public int getType() {
+        return AlertItem.TYPE_CHECKIN;
     }
 }
