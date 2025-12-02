@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_marginHorizontal="20dp"
+    android:orientation="vertical"
+    android:padding="@dimen/view_group_padding"
+
+    app:strokeWidth="3dp"
+    app:strokeColor="@color/bg6"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/view_group_padding"
+
+        android:background="@color/bg8">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/controllerContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:backgroundTint="@color/bg4"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:padding="@dimen/view_group_padding">
+
+                <TextView
+                    android:id="@+id/controllerSection"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Controller"
+                    android:textSize="@dimen/fontSizeSubTitle"
+
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <CheckBox
+                    android:id="@+id/controllerLow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="Low"
+
+                    app:layout_constraintBaseline_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <TextView
+                    android:id="@+id/updateControllerRemaining"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Remaining:"
+
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+
+                    app:layout_constraintTop_toBottomOf="@id/controllerSection"
+                    app:layout_constraintStart_toStartOf="@id/controllerSection"/>
+
+                <TextView
+                    android:id="@+id/updateControllerTotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total:"
+
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+
+                    app:layout_constraintTop_toBottomOf="@id/updateControllerRemaining"
+                    app:layout_constraintStart_toStartOf="@id/controllerSection"/>
+
+                <TextView
+                    android:id="@+id/updateControllerPurchaseDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Purchased on:"
+
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+
+                    app:layout_constraintTop_toBottomOf="@id/updateControllerTotal"
+                    app:layout_constraintStart_toStartOf="@id/controllerSection"/>
+
+                <TextView
+                    android:id="@+id/updateControllerExpiryDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Expires on:"
+
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+
+                    app:layout_constraintTop_toBottomOf="@id/updateControllerPurchaseDate"
+                    app:layout_constraintStart_toStartOf="@id/controllerSection"/>
+
+                <EditText
+                    android:id="@+id/remainingInputController"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+
+                    android:textSize="@dimen/fontSizeDefault"
+                    android:gravity="center"
+
+                    android:layout_marginStart="50dp"
+
+                    app:layout_constraintBaseline_toBaselineOf="@id/updateControllerRemaining"
+                    app:layout_constraintStart_toEndOf="@id/updateControllerRemaining"/>
+
+                <EditText
+                    android:id="@+id/totalInputController"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+
+                    android:textSize="@dimen/fontSizeDefault"
+                    android:gravity="center"
+
+                    android:layout_marginStart="50dp"
+
+                    app:layout_constraintBaseline_toBaselineOf="@id/updateControllerTotal"
+                    app:layout_constraintStart_toEndOf="@id/updateControllerRemaining"/>
+
+                <EditText
+                    android:id="@+id/purchaseDateInputController"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="date"
+
+                    android:hint="dd/mm/yyyy"
+                    android:textSize="@dimen/fontSizeDefault"
+                    android:gravity="center"
+
+                    android:layout_marginStart="50dp"
+
+                    app:layout_constraintBaseline_toBaselineOf="@id/updateControllerPurchaseDate"
+                    app:layout_constraintStart_toEndOf="@id/updateControllerRemaining"/>
+
+                <EditText
+                    android:id="@+id/expiryDateInputController"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="date"
+
+                    android:hint="dd/mm/yyyy"
+                    android:textSize="@dimen/fontSizeDefault"
+                    android:gravity="center"
+
+                    android:layout_marginStart="50dp"
+
+                    app:layout_constraintBaseline_toBaselineOf="@id/updateControllerExpiryDate"
+                    app:layout_constraintStart_toEndOf="@id/updateControllerRemaining"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/rescueContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:backgroundTint="@color/bg4"
+
+            android:layout_marginTop="10dp"
+
+            app:layout_constraintTop_toBottomOf="@id/controllerContainer"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:padding="@dimen/view_group_padding">
+
+                <TextView
+                    android:id="@+id/rescueSection"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rescue"
+                    android:textSize="@dimen/fontSizeSubTitle"
+
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <CheckBox
+                    android:id="@+id/rescueLow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="Low"
+
+                    app:layout_constraintBaseline_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <TextView
+                    android:id="@+id/updateRescueRemaining"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Remaining:"
+
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+
+                    app:layout_constraintTop_toBottomOf="@id/rescueSection"
+                    app:layout_constraintStart_toStartOf="@id/rescueSection"/>
+
+                <TextView
+                    android:id="@+id/updateRescueTotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total:"
+
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+
+                    app:layout_constraintTop_toBottomOf="@id/updateRescueRemaining"
+                    app:layout_constraintStart_toStartOf="@id/rescueSection"/>
+
+                <TextView
+                    android:id="@+id/updateRescuePurchaseDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Purchased on:"
+
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+
+                    app:layout_constraintTop_toBottomOf="@id/updateRescueTotal"
+                    app:layout_constraintStart_toStartOf="@id/rescueSection"/>
+
+                <TextView
+                    android:id="@+id/updateRescueExpiryDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Expires on:"
+
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+
+                    app:layout_constraintTop_toBottomOf="@id/updateRescuePurchaseDate"
+                    app:layout_constraintStart_toStartOf="@id/rescueSection"/>
+
+                <EditText
+                    android:id="@+id/remainingInputRescue"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+
+                    android:textSize="@dimen/fontSizeDefault"
+                    android:gravity="center"
+
+                    android:layout_marginStart="50dp"
+
+                    app:layout_constraintBaseline_toBaselineOf="@id/updateRescueRemaining"
+                    app:layout_constraintStart_toEndOf="@id/updateRescueRemaining"/>
+
+                <EditText
+                    android:id="@+id/totalInputRescue"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+
+                    android:textSize="@dimen/fontSizeDefault"
+                    android:gravity="center"
+
+                    android:layout_marginStart="50dp"
+
+                    app:layout_constraintBaseline_toBaselineOf="@id/updateRescueTotal"
+                    app:layout_constraintStart_toEndOf="@id/updateRescueRemaining"/>
+
+                <EditText
+                    android:id="@+id/purchaseDateInputRescue"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="date"
+
+                    android:hint="dd/mm/yyyy"
+                    android:textSize="@dimen/fontSizeDefault"
+                    android:gravity="center"
+
+                    android:layout_marginStart="50dp"
+
+                    app:layout_constraintBaseline_toBaselineOf="@id/updateRescuePurchaseDate"
+                    app:layout_constraintStart_toEndOf="@id/updateRescueRemaining"/>
+
+                <EditText
+                    android:id="@+id/expiryDateInputRescue"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="date"
+
+                    android:hint="dd/mm/yyyy"
+                    android:textSize="@dimen/fontSizeDefault"
+                    android:gravity="center"
+
+                    android:layout_marginStart="50dp"
+
+                    app:layout_constraintBaseline_toBaselineOf="@id/updateRescueExpiryDate"
+                    app:layout_constraintStart_toEndOf="@id/updateRescueRemaining"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

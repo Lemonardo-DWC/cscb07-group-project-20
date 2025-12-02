@@ -83,11 +83,7 @@ public class ParentHomeFragment
                     ).show();
                     return true;
                 } else if (itemId == R.id.viewInventory) {
-                    Toast.makeText(
-                            requireContext(),
-                            "view inventory",
-                            Toast.LENGTH_SHORT
-                    ).show();
+                    ((MainActivity) requireActivity()).loadFragment(new ParentInventoryFragment());
                     return true;
                 } else if (itemId == R.id.useChildProfile) {
                     Toast.makeText(

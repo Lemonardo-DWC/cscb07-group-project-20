@@ -11,6 +11,10 @@ public class ChildItem {
     public int pb;
 
     public BasicInformation basicInformation;
+
+    public ControllerItem controller;
+    public RescueItem rescue;
+
     public Map<String, String> parentList;
     public Map<String, DailyCheckIn> DailyCheckIn;
     public Map<String, ControllerLogs> controllerLogs;

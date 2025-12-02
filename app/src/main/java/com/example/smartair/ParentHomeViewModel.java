@@ -229,4 +229,18 @@ public class ParentHomeViewModel extends ViewModel {
         );
     }
 
+    public void updateChildRescue(ChildItem childItem) {
+        dataManager.writeTo(
+                dataManager.getUserReference(childItem.getUid()).child(AppConstants.RESCUE),
+                childItem.rescue
+        );
+    }
+
+    public void updateChildController(ChildItem childItem) {
+        dataManager.writeTo(
+                dataManager.getUserReference(childItem.getUid()).child(AppConstants.CONTROLLER),
+                childItem.controller
+        );
+    }
+
 }
