@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
@@ -58,7 +59,6 @@ public class ProviderHomeFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_provider_home, container, false);
-        // Todo: Add onboarding setting, when first login, the first_time_login is null, then bring to onboarding page
         menuButton = view.findViewById(R.id.menu_button);
         providerChildRecycler = view.findViewById(R.id.providerChildRecycler);
 
@@ -81,7 +81,34 @@ public class ProviderHomeFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
+        String providerId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        DatabaseReference logRef = db.getReference("users").child(providerId);
+        DatabaseReference firstLoginRef = logRef.child("firstLogin");
+
+        firstLoginRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Boolean firstLogin = snapshot.getValue(Boolean.class);
+
+                if (firstLogin == null || firstLogin) {
+                    ((MainActivity) requireActivity()).loadFragment(new OnboardingProviderFragment());
+                    return;
+                }
+
+                setupRecycler();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
     private void setupRecycler() {
         providerChildRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new ProviderChildAdapter(sharedChildren, (childUid, childName) -> {

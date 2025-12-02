@@ -134,7 +134,7 @@ public class ChildHomeFragment extends Fragment {
 
                 // If ture or null → jump to Onboarding page
                 if (firstLogin == null || firstLogin) {
-                    // 跳到 Onboarding Fragment
+                    // jump to Onboarding Fragment
                     ((MainActivity) requireActivity()).loadFragment(new OnboardingChildFragment());
 
                     return;
