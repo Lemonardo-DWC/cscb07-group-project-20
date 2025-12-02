@@ -144,7 +144,7 @@ public class RewardsFragment extends Fragment {
 
                                     if (badge.unlocked) {
                                         switch (badge.title) {
-                                            case "First Perfect Week":
+                                            case "First controller Perfect Week":
                                                 ivBadge.setImageResource(R.drawable.ic_badge_perfect_week);
                                                 break;
                                             case "10 High-Quality Technique Sessions":
