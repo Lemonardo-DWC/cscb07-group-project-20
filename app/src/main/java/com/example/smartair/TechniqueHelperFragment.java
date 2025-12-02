@@ -25,6 +25,10 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTube
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+
 
 
 public class TechniqueHelperFragment extends Fragment {
@@ -94,63 +98,72 @@ public class TechniqueHelperFragment extends Fragment {
                 .child(userId)
                 .child("techniqueSessions");
 
-        DatabaseReference streakRef = FirebaseDatabase.getInstance()
+        DatabaseReference streakBaseRef = FirebaseDatabase.getInstance()
                 .getReference("users")
                 .child(userId)
-                .child("streaks")
-                .child("techniqueStreak");
+                .child("streaks");
 
-        sessionsRef.addListenerForSingleValueEvent(new com.google.firebase.database.ValueEventListener() {
+        sessionsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull com.google.firebase.database.DataSnapshot snapshot) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                long todayStart = getStartOfDay(System.currentTimeMillis());
-                long yesterdayStart = todayStart - 24L * 60L * 60L * 1000L;
+                long now = System.currentTimeMillis();
+                long todayStart = getStartOfDay(now);
 
-                final AtomicBoolean didToday = new AtomicBoolean(false);
-                final AtomicBoolean didYesterday = new AtomicBoolean(false);
+                AtomicBoolean didToday = new AtomicBoolean(false);
 
-                for (com.google.firebase.database.DataSnapshot s : snapshot.getChildren()) {
+                for (DataSnapshot s : snapshot.getChildren()) {
                     Long ts = s.child("timestamp").getValue(Long.class);
-                    if (ts == null) continue;
-
-                    if (ts >= todayStart) {
+                    if (ts != null && ts >= todayStart) {
                         didToday.set(true);
-                    } else if (ts >= yesterdayStart && ts < todayStart) {
-                        didYesterday.set(true);
+                        break;
                     }
                 }
 
-                streakRef.addListenerForSingleValueEvent(new com.google.firebase.database.ValueEventListener() {
+
+                streakBaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onDataChange(@NonNull com.google.firebase.database.DataSnapshot snapshot2) {
+                    public void onDataChange(@NonNull DataSnapshot streakSnap) {
 
-                        Integer currentStreakObj = snapshot2.getValue(Integer.class);
-                        int currentStreak = (currentStreakObj != null ? currentStreakObj : 0);
+                        Integer streak = streakSnap.child("techniqueStreak").getValue(Integer.class);
+                        Integer lastUpdated = streakSnap.child("techniqueLastUpdated").getValue(Integer.class);
 
-                        int newStreak;
+                        if (streak == null) streak = 0;
 
-                        if (didToday.get()) {
-                            if (didYesterday.get()) {
-                                newStreak = currentStreak + 1;
-                            } else {
-                                newStreak = 1;
-                            }
-                        } else {
-                            newStreak = 0;
+                        int todayInt = getDayInt(now);
+
+                        if (lastUpdated != null && lastUpdated != todayInt) {
+                            streak = 0;
                         }
 
-                        streakRef.setValue(newStreak);
+
+                        if (didToday.get()) {
+                            if (lastUpdated == null || lastUpdated != todayInt) {
+                                streak += 1;
+                                streakBaseRef.child("techniqueLastUpdated").setValue(todayInt);
+                            }
+                        }
+
+                        streakBaseRef.child("techniqueStreak").setValue(streak);
                     }
 
                     @Override
-                    public void onCancelled(@NonNull com.google.firebase.database.DatabaseError error) {}
+                    public void onCancelled(@NonNull DatabaseError error) {}
                 });
             }
 
             @Override
-            public void onCancelled(@NonNull com.google.firebase.database.DatabaseError error) {}
+            public void onCancelled(@NonNull DatabaseError error) {}
         });
+    }
+
+    private int getDayInt(long ts) {
+        java.util.Calendar c = java.util.Calendar.getInstance();
+        c.setTimeInMillis(ts);
+        int y = c.get(java.util.Calendar.YEAR);
+        int m = c.get(java.util.Calendar.MONTH) + 1;
+        int d = c.get(java.util.Calendar.DAY_OF_MONTH);
+        return y * 10000 + m * 100 + d;
     }
 
     private long getStartOfDay(long ts) {
