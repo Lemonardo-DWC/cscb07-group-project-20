@@ -17,6 +17,10 @@
         android:title="Use Child Profile"/>
 
     <item
+        android:id="@+id/shareWithProvider"
+        android:title="Share with Provider" />
+
+    <item
         android:id="@+id/logout"
         android:title="Logout"/>
 </menu>

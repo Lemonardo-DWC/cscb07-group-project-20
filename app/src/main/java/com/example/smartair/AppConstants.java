@@ -36,7 +36,7 @@ public class AppConstants {
     public static final String CHILDLIST = "childrenList";
     public static final String PARENT = "parent";
     public static final String CHILD = "child";
-    public static final String PROVIDER = "provider";
+    public static final String PROVIDER = "healthcare provider";
 
     /// year range endpoints
     public static final int YEARSTART = 2000;

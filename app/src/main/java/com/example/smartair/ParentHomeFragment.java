@@ -96,6 +96,9 @@ public class ParentHomeFragment
                             Toast.LENGTH_SHORT
                     ).show();
                     return true;
+                } else if (itemId == R.id.shareWithProvider) {
+                    ((MainActivity) requireActivity()).loadFragment(new ShareWithProviderFragment());
+                    return true;
                 } else if (itemId == R.id.logout) {
                     phvm.logout();
                     ((MainActivity) requireActivity()).loadFragment(new LoginFragment());

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#e6d4f4"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/inviteTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Invite Provider"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:layout_marginBottom="12dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="12dp"
+            android:background="#cdebc3"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Provider Email"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/providerEmailEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:hint="example@provider.com" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Choose what to share"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="12dp"
+            android:background="#cdebc3">
+
+            <CheckBox
+                android:id="@+id/checkRescue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rescue logs"
+                android:checked="true" />
+
+            <CheckBox
+                android:id="@+id/checkController"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Controller adherence summary"
+                android:checked="true" />
+
+            <CheckBox
+                android:id="@+id/checkSymptoms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Symptoms"
+                android:checked="true" />
+
+            <CheckBox
+                android:id="@+id/checkTriggers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Triggers"
+                android:checked="true" />
+
+            <CheckBox
+                android:id="@+id/checkPEF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Peak Flow (PEF)"
+                android:checked="true" />
+
+            <CheckBox
+                android:id="@+id/checkTriage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Triage incidents"
+                android:checked="true" />
+
+            <CheckBox
+                android:id="@+id/checkCharts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Summary charts"
+                android:checked="true" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/generateInviteButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Send Invitation"
+            android:layout_marginTop="20dp" />
+
+        <TextView
+            android:id="@+id/inviteCodeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="16sp"
+            android:layout_marginTop="12dp" />
+
+    </LinearLayout>
+
+</ScrollView>

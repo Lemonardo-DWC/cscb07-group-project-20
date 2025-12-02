@@ -75,4 +75,12 @@ dependencies {
 
     // Youtube Player
     implementation("com.pierfrancescosoffritti.androidyoutubeplayer:core:13.0.0")
+
+    //send invitation link
+    implementation("com.google.firebase:firebase-functions:20.3.1")
+
+    implementation("com.android.volley:volley:1.2.1")
+
+    implementation("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0")
+
 }
