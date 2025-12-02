@@ -85,7 +85,7 @@ public class RewardsFragment extends Fragment {
 
                 // --- Perfect week badge ---
                 boolean perfectWeek = controllerStreak >= PERFECT_WEEK_DAYS;
-                badges.add(new BadgeItem("First Perfect Week", perfectWeek));
+                badges.add(new BadgeItem("First controller Perfect Week", perfectWeek));
 
 
                 // --- Technique badge  ---
