@@ -13,10 +13,6 @@
         android:title="Inventory"/>
 
     <item
-        android:id="@+id/useChildProfile"
-        android:title="Use Child Profile"/>
-
-    <item
         android:id="@+id/shareWithProvider"
         android:title="Share with Provider" />
 
