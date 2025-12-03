@@ -176,52 +176,53 @@ public class ControllerLogsFragment extends Fragment {
                 .child(childId)
                 .child("controllerLogs");
 
-        DatabaseReference streakRef = FirebaseDatabase.getInstance()
+        DatabaseReference streakBaseRef = FirebaseDatabase.getInstance()
                 .getReference("users")
                 .child(childId)
-                .child("streaks")
-                .child("controllerStreak");
+                .child("streaks");
 
         logsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                long todayStart = getStartOfDay(System.currentTimeMillis());
-                long yesterdayStart = todayStart - 24L * 60L * 60L * 1000L;
+                long now = System.currentTimeMillis();
+                long todayStart = getStartOfDay(now);
 
-                final AtomicBoolean didToday = new AtomicBoolean(false);
-                final AtomicBoolean didYesterday = new AtomicBoolean(false);
+                AtomicBoolean didToday = new AtomicBoolean(false);
 
                 for (DataSnapshot s : snapshot.getChildren()) {
                     Long ts = s.child("timestamp").getValue(Long.class);
-                    if (ts == null) continue;
-
-                    if (ts >= todayStart) {
+                    if (ts != null && ts >= todayStart) {
                         didToday.set(true);
-                    } else if (ts >= yesterdayStart && ts < todayStart) {
-                        didYesterday.set(true);
+                        break;
                     }
                 }
 
-                streakRef.addListenerForSingleValueEvent(new ValueEventListener() {
+
+                streakBaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot2) {
-                        Integer currentStreakObj = snapshot2.getValue(Integer.class);
-                        int currentStreak = (currentStreakObj != null) ? currentStreakObj : 0;
+                    public void onDataChange(@NonNull DataSnapshot streakSnap) {
 
-                        int newStreak;
+                        Integer streak = streakSnap.child("controllerStreak").getValue(Integer.class);
+                        Integer lastUpdated = streakSnap.child("controllerLastUpdated").getValue(Integer.class);
 
-                        if (didToday.get()) {
-                            if (didYesterday.get()) {
-                                newStreak = currentStreak + 1;
-                            } else {
-                                newStreak = 1;
-                            }
-                        } else {
-                            newStreak = 0;
+                        if (streak == null) streak = 0;
+
+                        int todayInt = getDayInt(now);
+
+
+                        if (lastUpdated != null && lastUpdated != todayInt) {
+                            streak = 0;
                         }
 
-                        streakRef.setValue(newStreak);
+                        if (didToday.get()) {
+                            if (lastUpdated == null || lastUpdated != todayInt) {
+                                streak += 1;
+                                streakBaseRef.child("controllerLastUpdated").setValue(todayInt);
+                            }
+                        }
+
+                        streakBaseRef.child("controllerStreak").setValue(streak);
                     }
 
                     @Override
@@ -233,6 +234,16 @@ public class ControllerLogsFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError error) {}
         });
     }
+
+    private int getDayInt(long ts) {
+        java.util.Calendar c = java.util.Calendar.getInstance();
+        c.setTimeInMillis(ts);
+        int y = c.get(java.util.Calendar.YEAR);
+        int m = c.get(java.util.Calendar.MONTH) + 1;
+        int d = c.get(java.util.Calendar.DAY_OF_MONTH);
+        return y * 10000 + m * 100 + d;
+    }
+
 
     private long getStartOfDay(long ts) {
         java.util.Calendar c = java.util.Calendar.getInstance();

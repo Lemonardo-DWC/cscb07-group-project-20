@@ -121,11 +121,7 @@ public class ChildDetailsFragment extends Fragment {
         historyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(
-                        requireContext(),
-                        "View history",
-                        Toast.LENGTH_SHORT
-                ).show();
+                ((MainActivity) requireActivity()).loadFragment(new ChildHistoryFragment());
             }
         });
 
@@ -221,12 +217,12 @@ public class ChildDetailsFragment extends Fragment {
                     "Last rescue log: %s\n" +
                             "    - Doses: %d\n" +
                             "    - Pre/post rating: %d / %d\n" +
-                            "    - Post status: %d",
+                            "    - Post status: %s",
                     timeHelper.formatTime(AppConstants.DATE_HMMDY, rescue.gettimestamp()),
                     rescue.dose,
                     rescue.preBreathRating,
                     rescue.postBreathRating,
-                    rescue.postStatus);
+                    rescue.parsePostStatus());
         }
 
         pef = childItemHelper.getLastGenericLog(selectedChildItem.pefLogs,

@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
-public class PefLogs implements SystemTimeTimestamp {
+public class PefLogs extends AlertItem {
 
     public int pef;
     public String timestamp;
@@ -21,4 +21,8 @@ public class PefLogs implements SystemTimeTimestamp {
 
     }
 
+    @Override
+    public int getType() {
+        return AlertItem.TYPE_PEF;
+    }
 }

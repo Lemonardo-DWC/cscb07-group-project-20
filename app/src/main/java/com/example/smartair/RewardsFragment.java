@@ -85,7 +85,7 @@ public class RewardsFragment extends Fragment {
 
                 // --- Perfect week badge ---
                 boolean perfectWeek = controllerStreak >= PERFECT_WEEK_DAYS;
-                badges.add(new BadgeItem("First Perfect Week", perfectWeek));
+                badges.add(new BadgeItem("First controller Perfect Week", perfectWeek));
 
 
                 // --- Technique badge  ---
@@ -144,7 +144,7 @@ public class RewardsFragment extends Fragment {
 
                                     if (badge.unlocked) {
                                         switch (badge.title) {
-                                            case "First Perfect Week":
+                                            case "First controller Perfect Week":
                                                 ivBadge.setImageResource(R.drawable.ic_badge_perfect_week);
                                                 break;
                                             case "10 High-Quality Technique Sessions":

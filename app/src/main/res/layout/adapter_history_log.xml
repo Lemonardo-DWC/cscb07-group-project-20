@@ -12,7 +12,7 @@
     app:strokeColor="@color/black"
     app:strokeWidth="1dp"
 
-    tools:context=".ChildItemListAdapter">
+    tools:context=".HistoryAdapter">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -21,11 +21,11 @@
         android:background="@color/bg1">
 
         <TextView
-            android:id="@+id/childName"
+            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="name"
-            android:textSize="@dimen/nameFontSize"
+            android:text="textView"
+            android:textSize="@dimen/fontSizeDefault"
             android:textStyle="bold"
 
             android:ellipsize="none"

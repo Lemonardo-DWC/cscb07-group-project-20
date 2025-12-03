@@ -211,10 +211,6 @@ public class ParentHomeViewModel extends ViewModel {
         _selectedItem.setValue(childItem);
     }
 
-    public LiveData<ChildItem> getSelectedItem() {
-        return selectedItem;
-    }
-
     public void updateChildNote(ChildItem childItem) {
         dataManager.writeTo(
                 dataManager.getUserReference(childItem.getUid()).child(AppConstants.NOTES),
@@ -226,6 +222,20 @@ public class ParentHomeViewModel extends ViewModel {
         dataManager.writeTo(
                 dataManager.getUserReference(childItem.getUid()).child(AppConstants.PB_PATH),
                 childItem.getPb()
+        );
+    }
+
+    public void updateChildRescue(ChildItem childItem) {
+        dataManager.writeTo(
+                dataManager.getUserReference(childItem.getUid()).child(AppConstants.RESCUE),
+                childItem.rescue
+        );
+    }
+
+    public void updateChildController(ChildItem childItem) {
+        dataManager.writeTo(
+                dataManager.getUserReference(childItem.getUid()).child(AppConstants.CONTROLLER),
+                childItem.controller
         );
     }
 

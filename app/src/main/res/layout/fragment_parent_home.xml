@@ -133,9 +133,6 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
@@ -252,9 +249,12 @@
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/buttonSevenDay"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="35dp"
                     android:textColor="@color/black"
                     android:text="7 Day"
+
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
 
                     app:shapeAppearanceOverlay="@style/material_button_style_1"
                     app:strokeColor="@color/black"
@@ -265,9 +265,12 @@
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/buttonThirtyDay"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="30 Day"
+                    android:layout_height="35dp"
                     android:textColor="@color/black"
+                    android:text="30 Day"
+
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
 
                     app:shapeAppearanceOverlay="@style/material_button_style_1"
                     app:strokeColor="@color/black"
@@ -276,6 +279,28 @@
                     android:elevation="4dp"/>
 
             </com.google.android.material.button.MaterialButtonToggleGroup>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+
+                android:layout_marginTop="10dp"
+                android:padding="@dimen/view_group_padding"
+
+                app:layout_constraintTop_toBottomOf="@id/trendRangeToggleGroup"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/bg8"
+
+                    android:id="@+id/pefTrendChart"/>
+
+            </com.google.android.material.card.MaterialCardView>
+
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
