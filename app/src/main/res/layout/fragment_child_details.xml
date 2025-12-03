@@ -385,7 +385,7 @@
                         android:id="@+id/latestDailyCheckIn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="3dp"
                         android:text="Last check in - hh:mm, dd/MM\n    Activity Limit: y/n\n    Cough/wheeze: y/n\n    Night waking: y/n\n    Triggers: #n"
 
                         app:layout_constraintTop_toBottomOf="@id/personalBest"
@@ -395,7 +395,7 @@
                         android:id="@+id/latestControllerLog"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="3dp"
                         android:text="Last controller log - hh:mm, dd/MM\n    Doses - #n"
 
                         app:layout_constraintStart_toStartOf="parent"
@@ -405,7 +405,7 @@
                         android:id="@+id/latestRescueLog"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="3dp"
                         android:text="Last rescue log - hh:mm, dd/MM\n    Dose - #n\n    Pre/post rating - #n/#n\n    Post status - TEXT"
 
                         app:layout_constraintStart_toStartOf="parent"
@@ -415,7 +415,7 @@
                         android:id="@+id/latestPefLog"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="3dp"
                         android:text="Last PEF log - hh:mm, dd/MM\n    PEF - #n"
 
                         app:layout_constraintStart_toStartOf="parent"
@@ -425,11 +425,21 @@
                         android:id="@+id/latestTriageSession"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="3dp"
                         android:text="Last triage session - hh:mm, dd/MM\n    Blue lips/nails: y/n\n    Chest pulling in: y/n\n    Dizzy/scared: y/n\n    Red flag: y/n\n    Speak in full sentences: y/n\n    Used rescure medication: y/n"
 
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/latestPefLog"/>
+
+                    <TextView
+                        android:id="@+id/adherenceInfo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:text="Controller schedule adherence:\n    #n%"
+
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/latestTriageSession"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
