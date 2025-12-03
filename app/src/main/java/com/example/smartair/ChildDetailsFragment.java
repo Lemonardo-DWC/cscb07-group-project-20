@@ -50,7 +50,8 @@ public class ChildDetailsFragment extends Fragment {
                     lastControllerField,
                     lastRescueField,
                     lastPefField,
-                    lastTriageField;
+                    lastTriageField,
+                    adherenceField;
 
     // input views
     private TextInputEditText noteEditText, setPbEditText;
@@ -92,6 +93,7 @@ public class ChildDetailsFragment extends Fragment {
         lastRescueField = view.findViewById(R.id.latestRescueLog);
         lastPefField = view.findViewById(R.id.latestPefLog);
         lastTriageField = view.findViewById(R.id.latestTriageSession);
+        adherenceField = view.findViewById(R.id.adherenceInfo);
 
         // button views
         backButton = view.findViewById(R.id.child_details_back_button);
@@ -189,16 +191,21 @@ public class ChildDetailsFragment extends Fragment {
                 controllerText,
                 rescueText,
                 pefText,
-                triageText;
+                triageText,
+                adherenceText;
 
         DailyCheckIn checkIn;
         ControllerLogs controller;
         RescueLogs rescue;
         PefLogs pef;
         TriageSessions triage;
+        List<Long> plannedControllerSchedule;
 
+
+        // pb
         pbText = "Personal best: " + selectedChildItem.getPb();
 
+        // daily check in
         checkIn = childItemHelper.getLastGenericLog(selectedChildItem.DailyCheckIn,
                 ChildItemHelper.getDescendingTimeComparator());
 
@@ -225,6 +232,7 @@ public class ChildDetailsFragment extends Fragment {
             );
         }
 
+        // controller
         controller = childItemHelper.getLastGenericLog(selectedChildItem.controllerLogs,
                 ChildItemHelper.getDescendingTimeComparator());
 
@@ -240,6 +248,7 @@ public class ChildDetailsFragment extends Fragment {
                     controller.dose);
         }
 
+        // rescue
         rescue = childItemHelper.getLastGenericLog(selectedChildItem.rescueLogs,
                 ChildItemHelper.getDescendingTimeComparator());
 
@@ -262,6 +271,7 @@ public class ChildDetailsFragment extends Fragment {
                     rescue.parsePostStatus());
         }
 
+        // pef
         pef = childItemHelper.getLastGenericLog(selectedChildItem.pefLogs,
                 ChildItemHelper.getDescendingTimeComparator());
 
@@ -277,6 +287,7 @@ public class ChildDetailsFragment extends Fragment {
                     pef.pef);
         }
 
+        // triage
         triage = childItemHelper.getLastGenericLog(selectedChildItem.triageSessions,
                 ChildItemHelper.getDescendingTimeComparator());
 
@@ -307,13 +318,74 @@ public class ChildDetailsFragment extends Fragment {
                     triage.used_rescue_meds);
         }
 
+        // adherence
+        plannedControllerSchedule = selectedChildItem.plannedControllerDates;
+
+        if (plannedControllerSchedule == null) {
+            adherenceText = "Controller schedule adherence:";
+        } else {
+            List<Long> controllerLogMsList = getControllerLogMsList();
+
+            adherenceText
+                    = String.format(Locale.getDefault(),
+                    "Controller schedule adherence:\n" +
+                            "    %.0f%%",
+                    calculateAdherence(controllerLogMsList, plannedControllerSchedule));
+        }
+
         pbField.setText(pbText);
         dailyCheckInField.setText(checkInText);
         lastControllerField.setText(controllerText);
         lastRescueField.setText(rescueText);
         lastPefField.setText(pefText);
         lastTriageField.setText(triageText);
+        adherenceField.setText(adherenceText);
 
+    }
+
+    private List<Long> getControllerLogMsList() {
+
+        List<Long> output = new ArrayList<>();
+        List<ControllerLogs> controllerLogs
+                = childItemHelper.getGenericLog(selectedChildItem.controllerLogs,
+                ChildItemHelper.getAscendingTimeComparator());
+
+        for (ControllerLogs log : controllerLogs) {
+            output.add(log.gettimestamp());
+        }
+
+        return output;
+
+    }
+
+    private double calculateAdherence(List<Long> controllerLogMs, List<Long> plannedSchedule) {
+
+        int upToPresentScheduledDates = 0;
+        long currTime = System.currentTimeMillis();
+
+        for (long ms : plannedSchedule) {
+            if (ms <= currTime) {
+                upToPresentScheduledDates++;
+            }
+        }
+
+        if (upToPresentScheduledDates == 0) return 0.0;
+
+        List<Long> uniqueDayAdjustedLogs = new ArrayList<>();
+        int controllerMatchScheduledDates = 0;
+
+        for (long logMs : controllerLogMs) {
+
+            logMs = logMs - logMs % AppConstants.MS_DAY;
+
+            if (!uniqueDayAdjustedLogs.contains(logMs) && plannedSchedule.contains(logMs)) {
+                uniqueDayAdjustedLogs.add(logMs);
+                controllerMatchScheduledDates++;
+            }
+
+        }
+
+        return (double) controllerMatchScheduledDates / (double) upToPresentScheduledDates * 100;
     }
 
     private void showEditNotePopup() {
@@ -354,7 +426,7 @@ public class ChildDetailsFragment extends Fragment {
         setPbEditText = popupView.findViewById(R.id.setPbEditText);
 
         new AlertDialog.Builder(requireContext())
-                .setTitle("Set New PB for" + selectedChildItem.getFirstName())
+                .setTitle("Set New PB for " + selectedChildItem.getFirstName())
                 .setView(popupView)
                 .setPositiveButton("Save", (dialog, which) -> {
                     String temp = setPbEditText.getText().toString().trim();
@@ -477,7 +549,6 @@ public class ChildDetailsFragment extends Fragment {
                 .setNegativeButton("Cancel", null)
                 .show();
     }
-
 
     private void showAdherencePicker() {
         LayoutInflater inflater = LayoutInflater.from(requireContext());
