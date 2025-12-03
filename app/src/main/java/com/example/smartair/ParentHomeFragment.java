@@ -22,6 +22,12 @@ import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -89,6 +95,31 @@ public class ParentHomeFragment
         // button initialization
         menuButton = view.findViewById(R.id.menu_button);
         trendRangeToggleGroup = view.findViewById(R.id.trendRangeToggleGroup);
+
+        //check if it is users' fist login
+        String parentId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        DatabaseReference logRef = db.getReference("users").child(parentId);
+        DatabaseReference firstLoginRef = logRef.child("firstLogin");
+
+        firstLoginRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Boolean firstLogin = snapshot.getValue(Boolean.class);
+
+                // If ture or null → jump to Onboarding page
+                if (firstLogin == null || firstLogin) {
+                    // jump to Onboarding Fragment
+                    ((MainActivity) requireActivity()).loadFragment(new OnboardingParentFragment());
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
+
 
         // button behaviour
         menuButton.setOnClickListener(v -> {
