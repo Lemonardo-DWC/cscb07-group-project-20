@@ -45,6 +45,7 @@ public class ChildPDFDownloadFragment extends Fragment {
     private Button threeMonthBtn, sixMonthBtn;
     private String childId;
     private File latestPdfFile;
+    private List<Long> plannedControllerDates = new ArrayList<>();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,8 +81,15 @@ public class ChildPDFDownloadFragment extends Fragment {
                 int rescueCount = countSince(snapshot.child("rescueLogs"), start);
                 int controllerCount = countSince(snapshot.child("controllerLogs"), start);
 
-                DataSnapshot planSnapshot = snapshot.child("controllerPlanDays");
-                int planDays = planSnapshot.exists() ? planSnapshot.getValue(Integer.class) : months * 30;
+                plannedControllerDates.clear();
+                for (DataSnapshot d : snapshot.child("plannedControllerDates").getChildren()) {
+                    Long ts = d.getValue(Long.class);
+                    if (ts != null && ts >= start) {
+                        plannedControllerDates.add(ts);
+                    }
+                }
+
+                int planDays = plannedControllerDates.size();
 
                 int symptomCount = 0;
                 List<Integer> symptomTrend = new ArrayList<>();
@@ -159,7 +167,10 @@ public class ChildPDFDownloadFragment extends Fragment {
             doc.add(new Paragraph("Date: " + new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date())));
             doc.add(new Paragraph("\nRescue uses: " + rescue));
             doc.add(new Paragraph("Controller uses: " + controller));
-            doc.add(new Paragraph("Adherence: " + (controller * 100 / Math.max(planDays, 1)) + "% of " + planDays + " days"));
+            double adherence = planDays == 0 ? 0 : (controller * 100.0 / planDays);
+            doc.add(new Paragraph(String.format(Locale.getDefault(),
+                    "Adherence: %.1f%% (%d of %d planned days)",
+                    adherence, controller, planDays)));
             doc.add(new Paragraph("\nSymptom days: " + symptoms));
             doc.add(new Paragraph("Zones → Green: " + g + ", Yellow: " + y + ", Red: " + r));
             doc.add(new Paragraph("\nTriage incidents:"));
