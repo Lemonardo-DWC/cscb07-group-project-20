@@ -138,13 +138,6 @@ public class ParentHomeFragment
                 } else if (itemId == R.id.viewInventory) {
                     ((MainActivity) requireActivity()).loadFragment(new ParentInventoryFragment());
                     return true;
-                } else if (itemId == R.id.useChildProfile) {
-                    Toast.makeText(
-                            requireContext(),
-                            "use child profile",
-                            Toast.LENGTH_SHORT
-                    ).show();
-                    return true;
                 } else if (itemId == R.id.shareWithProvider) {
                     ((MainActivity) requireActivity()).loadFragment(new ShareWithProviderFragment());
                     return true;

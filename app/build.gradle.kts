@@ -92,4 +92,8 @@ dependencies {
     // chart
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
+
+    // multi select calendar
+    implementation("com.applandeo:material-calendar-view:1.9.0")
+
 }

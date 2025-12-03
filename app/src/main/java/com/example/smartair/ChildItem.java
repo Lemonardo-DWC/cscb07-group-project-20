@@ -1,5 +1,6 @@
 package com.example.smartair;
 
+import java.util.List;
 import java.util.Map;
 
 public class ChildItem {
@@ -14,6 +15,8 @@ public class ChildItem {
 
     public ControllerItem controller;
     public RescueItem rescue;
+
+    public List<Long> plannedControllerDates;
 
     public Map<String, String> parentList;
     public Map<String, DailyCheckIn> DailyCheckIn;

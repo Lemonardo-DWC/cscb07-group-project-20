@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,10 @@ import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DatabaseReference;
 
+import com.applandeo.materialcalendarview.CalendarView;
+
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -54,7 +56,8 @@ public class ChildDetailsFragment extends Fragment {
     private TextInputEditText noteEditText, setPbEditText;
 
     // button views
-    private MaterialButton backButton, editNoteButton, setPbButton, historyButton, checkInButton;
+    private MaterialButton backButton, editNoteButton, setPbButton, historyButton, checkInButton,
+                            setAdherenceScheduleButton;
 
     // parent assisted check in
     MaterialButtonToggleGroup nwToggleGroup, alToggleGroup, cwToggleGroup;
@@ -96,6 +99,7 @@ public class ChildDetailsFragment extends Fragment {
         setPbButton = view.findViewById(R.id.buttonSetPb);
         historyButton = view.findViewById(R.id.viewHistoryButton);
         checkInButton = view.findViewById(R.id.logCheckInButton);
+        setAdherenceScheduleButton = view.findViewById(R.id.setAdherenceSchedule);
 
         return view;
     }
@@ -148,6 +152,13 @@ public class ChildDetailsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 showCheckInPopup();
+            }
+        });
+
+        setAdherenceScheduleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAdherencePicker();
             }
         });
 
@@ -465,8 +476,44 @@ public class ChildDetailsFragment extends Fragment {
                 }))
                 .setNegativeButton("Cancel", null)
                 .show();
-
-
     }
 
+
+    private void showAdherencePicker() {
+        LayoutInflater inflater = LayoutInflater.from(requireContext());
+        View popupView = inflater.inflate(R.layout.popup_set_adherence_schedule, null);
+
+        CalendarView calendarView = popupView.findViewById(R.id.calendarView);
+
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Set planned controller dates")
+                .setView(popupView)
+                .setPositiveButton("Save", (dialog, which) -> {
+
+                    List<Calendar> selectedDates = calendarView.getSelectedDates();
+                    List<Long> selectedDatesMS = new ArrayList<>();
+
+                    for (Calendar date : selectedDates) {
+                        long dateMS = date.getTimeInMillis();
+                        selectedDatesMS.add(dateMS);
+                    }
+
+                    DatabaseReference plannedControllerDatesRef
+                            = dataManager.getUserReference(selectedChildItem.uid)
+                            .child("plannedControllerDates");
+
+                    dataManager.writeTo(plannedControllerDatesRef, selectedDatesMS);
+
+                    Toast.makeText(
+                            requireContext(),
+                            "New controller schedule for "
+                                    + selectedChildItem.getFirstName()
+                                    + " set",
+                            Toast.LENGTH_SHORT
+                    ).show();
+
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
 }
