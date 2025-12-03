@@ -9,16 +9,24 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.database.DatabaseReference;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class ChildDetailsFragment extends Fragment {
 
@@ -26,6 +34,7 @@ public class ChildDetailsFragment extends Fragment {
     private ChildItem selectedChildItem;
     private final ChildItemHelper childItemHelper = new ChildItemHelper();
     private final TimeHelper timeHelper = new TimeHelper();
+    private final DataManager dataManager = new DataManager();
 
     // basic information views
     private TextView navigationTitle;
@@ -45,7 +54,16 @@ public class ChildDetailsFragment extends Fragment {
     private TextInputEditText noteEditText, setPbEditText;
 
     // button views
-    private MaterialButton backButton, editNoteButton, setPbButton, historyButton;
+    private MaterialButton backButton, editNoteButton, setPbButton, historyButton, checkInButton;
+
+    // parent assisted check in
+    MaterialButtonToggleGroup nwToggleGroup, alToggleGroup, cwToggleGroup;
+    String nwText = "";
+    String alText = "";
+    String cwText = "";
+
+    CheckBox exerciseTrigger, coldAirTrigger, dustTrigger, petsTrigger, smokeTrigger,
+            illnessTrigger, cleanerTrigger, smellTrigger;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -77,6 +95,7 @@ public class ChildDetailsFragment extends Fragment {
         editNoteButton = view.findViewById(R.id.editNoteButton);
         setPbButton = view.findViewById(R.id.buttonSetPb);
         historyButton = view.findViewById(R.id.viewHistoryButton);
+        checkInButton = view.findViewById(R.id.logCheckInButton);
 
         return view;
     }
@@ -122,6 +141,13 @@ public class ChildDetailsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 ((MainActivity) requireActivity()).loadFragment(new ChildHistoryFragment());
+            }
+        });
+
+        checkInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showCheckInPopup();
             }
         });
 
@@ -339,6 +365,108 @@ public class ChildDetailsFragment extends Fragment {
                 })
                 .setNegativeButton("Cancel", null)
                 .show();
+    }
+
+    private void showCheckInPopup() {
+
+        LayoutInflater inflater = LayoutInflater.from(requireContext());
+        View popupView = inflater.inflate(R.layout.popup_parent_check_in, null);
+
+        nwToggleGroup = popupView.findViewById(R.id.nightWakingGroup);
+        alToggleGroup = popupView.findViewById(R.id.activityLimitGroup);
+        cwToggleGroup = popupView.findViewById(R.id.coughWheezeGroup);
+
+        nwToggleGroup.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
+            @Override
+            public void onButtonChecked(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
+                if (isChecked) {
+                    if (checkedId == R.id.nightWakingYes){
+                        nwText = "Yes";
+                    } else if (checkedId == R.id.nightWakingNo) {
+                        nwText = "No";
+                    }
+                }
+            }
+        });
+
+        alToggleGroup.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
+            @Override
+            public void onButtonChecked(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
+                if (isChecked) {
+                    if (checkedId == R.id.activityLimitYes){
+                        alText = "Yes";
+                    } else if (checkedId == R.id.activityLimitNo) {
+                        alText = "No";
+                    }
+                }
+            }
+        });
+
+        cwToggleGroup.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
+            @Override
+            public void onButtonChecked(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
+                if (isChecked) {
+
+                    if (checkedId == R.id.coughWheezeNone){
+                        cwText = "None";
+                    } else if (checkedId == R.id.coughWheezeMild) {
+                        cwText = "Mild";
+                    } else if (checkedId == R.id.coughWheezeModerate){
+                        cwText = "Moderate";
+                    } else if (checkedId == R.id.coughWheezeSevere) {
+                        cwText = "Severe";
+                    }
+                }
+            }
+        });
+
+        exerciseTrigger = popupView.findViewById(R.id.triggerExercise);
+        coldAirTrigger = popupView.findViewById(R.id.triggerColdAir);
+        dustTrigger = popupView.findViewById(R.id.triggerDust);
+        petsTrigger = popupView.findViewById(R.id.triggerPets);
+        smokeTrigger = popupView.findViewById(R.id.triggerSmoke);
+        illnessTrigger = popupView.findViewById(R.id.triggerIllness);
+        cleanerTrigger = popupView.findViewById(R.id.triggerCleaners);
+        smellTrigger = popupView.findViewById(R.id.triggerOdors);
+
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Parent-assisted Check-In")
+                .setView(popupView)
+                .setPositiveButton("Save", ((dialog, which) -> {
+
+                    List<String> triggers = new ArrayList<>();
+                    String childUid = selectedChildItem.getUid();
+                    DatabaseReference logRef
+                            = dataManager.getUserReference(childUid).child("DailyCheckIn");
+
+                    if (exerciseTrigger.isChecked()) triggers.add("Exercise");
+                    if (coldAirTrigger.isChecked()) triggers.add("Cold air");
+                    if (dustTrigger.isChecked()) triggers.add("Dust");
+                    if (petsTrigger.isChecked()) triggers.add("Pets");
+                    if (smokeTrigger.isChecked()) triggers.add("Smoke");
+                    if (illnessTrigger.isChecked()) triggers.add("Illness");
+                    if (cleanerTrigger.isChecked()) triggers.add("Cleaners");
+                    if (smellTrigger.isChecked()) triggers.add("Perfume / Strong odors");
+
+                    Map<String, Object> data = new HashMap<>();
+                    data.put("nightWaking", nwText);
+                    data.put("activityLimit", alText);
+                    data.put("coughWheeze", cwText);
+                    data.put("triggers", triggers);
+                    data.put("author", "Parent");
+                    data.put("timestamp", System.currentTimeMillis());
+
+                    logRef.push().setValue(data)
+                            .addOnSuccessListener(unused ->
+                                    Toast.makeText(requireContext(), "Saved!", Toast.LENGTH_SHORT).show())
+                            .addOnFailureListener(e ->
+                                    Toast.makeText(requireContext(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+
+                }))
+                .setNegativeButton("Cancel", null)
+                .show();
+
+
     }
 
 }

@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_marginHorizontal="20dp"
+    android:orientation="vertical"
+    android:padding="@dimen/view_group_padding"
+
+    app:strokeWidth="3dp"
+    app:strokeColor="@color/bg6"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/view_group_padding"
+
+        android:background="@color/bg8">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/controllerContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:backgroundTint="@color/bg4"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:padding="@dimen/view_group_padding">
+
+                <TextView
+                    android:id="@+id/nightWaking"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="Night waking:"
+                    android:textSize="@dimen/fontSizeSubTitle"
+
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <com.google.android.material.button.MaterialButtonToggleGroup
+                    android:id="@+id/nightWakingGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="10dp"
+
+                    app:singleSelection="true"
+                    app:selectionRequired="true"
+                    app:checkedButton="@id/nightWakingNo"
+
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/nightWaking">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/nightWakingNo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:text="No"
+                        android:textColor="@color/black"
+
+                        app:strokeColor="@color/black"
+                        app:strokeWidth="1dp"
+                        android:backgroundTint="@color/btn_toggle_colors"
+                        app:shapeAppearanceOverlay="@style/material_button_style_1"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/nightWakingYes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:text="Yes"
+                        android:textColor="@color/black"
+
+                        app:strokeColor="@color/black"
+                        app:strokeWidth="1dp"
+                        android:backgroundTint="@color/btn_toggle_colors"
+                        app:shapeAppearanceOverlay="@style/material_button_style_1"/>
+
+                </com.google.android.material.button.MaterialButtonToggleGroup>
+
+                <TextView
+                    android:id="@+id/activityLimit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+
+                    android:text="Activity Limit:"
+                    android:textSize="@dimen/fontSizeSubTitle"
+
+                    app:layout_constraintTop_toBottomOf="@id/nightWakingGroup"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <com.google.android.material.button.MaterialButtonToggleGroup
+                    android:id="@+id/activityLimitGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    app:singleSelection="true"
+                    app:selectionRequired="true"
+                    app:checkedButton="@id/activityLimitNo"
+
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/activityLimit">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/activityLimitNo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:text="No"
+                        android:textColor="@color/black"
+
+                        app:strokeColor="@color/black"
+                        app:strokeWidth="1dp"
+                        android:backgroundTint="@color/btn_toggle_colors"
+                        app:shapeAppearanceOverlay="@style/material_button_style_1"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/activityLimitYes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:text="Yes"
+                        android:textColor="@color/black"
+
+                        app:strokeColor="@color/black"
+                        app:strokeWidth="1dp"
+                        android:backgroundTint="@color/btn_toggle_colors"
+                        app:shapeAppearanceOverlay="@style/material_button_style_1"/>
+
+                </com.google.android.material.button.MaterialButtonToggleGroup>
+
+                <TextView
+                    android:id="@+id/coughWheeze"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+
+                    android:text="Coughing/wheezing:"
+                    android:textSize="@dimen/fontSizeSubTitle"
+
+                    app:layout_constraintTop_toBottomOf="@id/activityLimitGroup"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <com.google.android.material.button.MaterialButtonToggleGroup
+                    android:id="@+id/coughWheezeGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    app:singleSelection="true"
+                    app:selectionRequired="true"
+                    app:checkedButton="@id/coughWheezeNone"
+                    
+                    android:orientation="vertical"
+
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/coughWheeze">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/coughWheezeNone"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        
+                        android:insetLeft="0dp"
+                        android:insetRight="0dp"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+
+                        android:text="None"
+                        android:textColor="@color/black"
+
+                        app:strokeColor="@color/black"
+                        app:strokeWidth="1dp"
+                        android:backgroundTint="@color/btn_toggle_colors"
+                        app:shapeAppearanceOverlay="@style/material_button_style_1"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/coughWheezeMild"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+
+                        android:insetLeft="0dp"
+                        android:insetRight="0dp"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+
+                        android:text="Mild"
+                        android:textColor="@color/black"
+
+                        app:strokeColor="@color/black"
+                        app:strokeWidth="1dp"
+                        android:backgroundTint="@color/btn_toggle_colors"
+                        app:shapeAppearanceOverlay="@style/material_button_style_1"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/coughWheezeModerate"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+
+                        android:insetLeft="0dp"
+                        android:insetRight="0dp"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+
+                        android:text="Moderate"
+                        android:textColor="@color/black"
+
+                        app:strokeColor="@color/black"
+                        app:strokeWidth="1dp"
+                        android:backgroundTint="@color/btn_toggle_colors"
+                        app:shapeAppearanceOverlay="@style/material_button_style_1"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/coughWheezeSevere"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+
+                        android:insetLeft="0dp"
+                        android:insetRight="0dp"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+
+                        android:text="Severe"
+                        android:textColor="@color/black"
+
+                        app:strokeColor="@color/black"
+                        app:strokeWidth="1dp"
+                        android:backgroundTint="@color/btn_toggle_colors"
+                        app:shapeAppearanceOverlay="@style/material_button_style_1"/>
+
+                </com.google.android.material.button.MaterialButtonToggleGroup>
+
+                <TextView
+                    android:id="@+id/triggerTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+
+                    android:text="Triggers:"
+                    android:textSize="@dimen/fontSizeSubTitle"
+
+                    app:layout_constraintTop_toBottomOf="@id/coughWheezeGroup"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <View
+                    android:id="@+id/vertDivider_1"
+                    android:layout_width="1dp"
+                    android:layout_height="0dp"
+
+                    app:layout_constraintHorizontal_bias="0.4"
+
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <CheckBox
+                    android:id="@+id/triggerExercise"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="Exercise"
+
+                    app:layout_constraintTop_toBottomOf="@id/triggerTitle"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <CheckBox
+                    android:id="@+id/triggerColdAir"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="Cold air"
+
+                    app:layout_constraintTop_toBottomOf="@id/triggerExercise"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <CheckBox
+                    android:id="@+id/triggerDust"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="Dust"
+
+                    app:layout_constraintTop_toBottomOf="@id/triggerColdAir"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <CheckBox
+                    android:id="@+id/triggerPets"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="Pets"
+
+                    app:layout_constraintTop_toBottomOf="@id/triggerDust"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <CheckBox
+                    android:id="@+id/triggerSmoke"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="Smoke"
+
+                    app:layout_constraintTop_toBottomOf="@id/triggerTitle"
+                    app:layout_constraintStart_toEndOf="@id/vertDivider_1"/>
+
+                <CheckBox
+                    android:id="@+id/triggerIllness"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="Illness"
+
+                    app:layout_constraintTop_toBottomOf="@id/triggerSmoke"
+                    app:layout_constraintStart_toStartOf="@id/vertDivider_1"/>
+
+                <CheckBox
+                    android:id="@+id/triggerCleaners"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="Cleaners"
+
+                    app:layout_constraintTop_toBottomOf="@id/triggerIllness"
+                    app:layout_constraintStart_toStartOf="@id/vertDivider_1"/>
+
+                <CheckBox
+                    android:id="@+id/triggerOdors"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="Perfume/Strong Odors"
+
+                    app:layout_constraintTop_toBottomOf="@id/triggerCleaners"
+                    app:layout_constraintStart_toStartOf="@id/vertDivider_1"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>
