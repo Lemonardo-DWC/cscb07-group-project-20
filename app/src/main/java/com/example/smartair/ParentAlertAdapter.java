@@ -1,5 +1,6 @@
 package com.example.smartair;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,8 +40,9 @@ public class ParentAlertAdapter
 
     private void populateAlertList(ChildItem childItem) {
 
-        long todayMS
-                = System.currentTimeMillis() - System.currentTimeMillis() % AppConstants.MS_DAY;
+        long nowMs = System.currentTimeMillis();
+
+        long todayMS = nowMs - nowMs % AppConstants.MS_DAY + AppConstants.MS_DAY;
         long weekAgoMS = todayMS - AppConstants.MS_WEEK;
 
         if (childItem.pefLogs != null) {
@@ -68,6 +70,8 @@ public class ParentAlertAdapter
         }
 
         if (childItem.rescueLogs != null) {
+            Log.d("Rescue Monitor", "event");
+
             List<RescueLogs> rescueLogsList
                     = childItemHelper.getRangeGenericLog(
                             childItem.rescueLogs,
@@ -76,8 +80,11 @@ public class ParentAlertAdapter
             );
 
             RescueLogs rapidRescue = findRapidRescue(rescueLogsList);
+            Log.d("Rescue Monitor", "rapid rescue initialization: " + rapidRescue);
 
             if (rapidRescue != null) {
+                Log.d("Rescue Monitor", "rapid rescue");
+
                 String alert = "More than 2 rescues within 3 hours @ "
                         + timeHelper.formatTime(
                                 AppConstants.DATE_HMMDY, rapidRescue.gettimestamp());
@@ -87,6 +94,8 @@ public class ParentAlertAdapter
             }
 
             if (rescueLogsList.get(0).postStatus == -1) {
+                Log.d("Rescue Monitor", "event");
+
                 String alert = "Worse after dose @ "
                         + timeHelper.formatTime(
                                 AppConstants.DATE_HMMDY, rescueLogsList.get(0).gettimestamp());
@@ -105,7 +114,7 @@ public class ParentAlertAdapter
 
             long expireDateMS = parseDateToMillis(childItem.controller.expiryDate);
 
-            if (expireDateMS > System.currentTimeMillis()) {
+            if (expireDateMS < System.currentTimeMillis()) {
                 nameList.add(childItem.getFirstName());
                 alertList.add("Controller expired");
             }
@@ -119,7 +128,7 @@ public class ParentAlertAdapter
 
             long expireDateMS = parseDateToMillis(childItem.rescue.expiryDate);
 
-            if (expireDateMS > System.currentTimeMillis()) {
+            if (expireDateMS < System.currentTimeMillis()) {
                 nameList.add(childItem.getFirstName());
                 alertList.add("Rescue expired");
             }
@@ -128,6 +137,10 @@ public class ParentAlertAdapter
     }
 
     private long parseDateToMillis(String dateStr) {
+        if (dateStr == null || dateStr.isEmpty()) {
+            return System.currentTimeMillis();
+        }
+
         DateTimeFormatter[] formatters = new DateTimeFormatter[] {
                 DateTimeFormatter.ofPattern("dd/MM/yyyy"),
                 DateTimeFormatter.ofPattern("dd/MM/yy")
@@ -144,40 +157,34 @@ public class ParentAlertAdapter
         return System.currentTimeMillis();
     }
 
+
     private RescueLogs findRapidRescue(List<RescueLogs> rescueLogsList) {
+        if (rescueLogsList.size() < 3) return null;
 
-        RescueLogs rapidStartLog = null;
-
-        for (int i = 0; i + 2 < rescueLogsList.size(); i++) {
-
+        for (int i = 0; i <= rescueLogsList.size() - 3; i++) {
             long startTime = rescueLogsList.get(i).gettimestamp();
-            long endTime = startTime + 3 * AppConstants.MS_HOUR;
+            int count = 1;
+            RescueLogs rapidRescueRoot = rescueLogsList.get(i);
 
-            int rescueCount = 1;
+            for (int j = i + 1; j < rescueLogsList.size(); j++) {
+                long logTime = rescueLogsList.get(j).gettimestamp();
 
-            int j = i + 1;
-
-            while (j < rescueLogsList.size()) {
-                if (startTime <= rescueLogsList.get(j).gettimestamp()
-                        && rescueLogsList.get(j).gettimestamp() <= endTime) {
-                    rescueCount++;
+                if (startTime - logTime <= 3 * AppConstants.MS_HOUR) {
+                    count++;
+                    rapidRescueRoot = rescueLogsList.get(j);
                 } else {
                     break;
                 }
-
-                j++;
             }
 
-            if (rescueCount >= 3) {
-                rapidStartLog = rescueLogsList.get(j - 1);
-                break;
+            if (count >= 3) {
+                return rapidRescueRoot;
             }
-
         }
 
-        return rapidStartLog;
-
+        return null;
     }
+
 
     @NonNull
     @Override
