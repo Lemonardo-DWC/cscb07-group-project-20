@@ -217,6 +217,15 @@ public class ChildDetailsFragment extends Fragment {
                     "    - Night waking:\n" +
                     "    - Triggers:";
         } else {
+
+            int triggerCount;
+
+            if (checkIn.triggers != null) {
+                triggerCount = checkIn.triggers.size();
+            } else {
+                triggerCount = 0;
+            }
+
             checkInText = String.format(
                     Locale.getDefault(),
                     "Last check-in: %s\n" +
@@ -228,7 +237,7 @@ public class ChildDetailsFragment extends Fragment {
                     checkIn.activityLimit,
                     checkIn.coughWheeze,
                     checkIn.nightWaking,
-                    checkIn.triggers.size()
+                    triggerCount
             );
         }
 

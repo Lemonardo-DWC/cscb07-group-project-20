@@ -205,17 +205,34 @@ public class ChildHistoryFragment extends Fragment {
                 setLogAdapter(
                         dailyCheckIns,
                         log -> {
-                            String entry =
-                                    timeHelper.formatTime(
-                                            AppConstants.DATE_HMMDY,
-                                            ((DailyCheckIn) log).gettimestamp()
-                                    ) + "\n"
-                                    + "Author: " + ((DailyCheckIn) log).author + "\n\n"
-                                    + "Activity limit: " + ((DailyCheckIn) log).activityLimit + "\n"
-                                    + "Cough/wheeze: " + ((DailyCheckIn) log).coughWheeze + "\n"
-                                    + "Night/waking: " + ((DailyCheckIn) log).nightWaking + "\n"
-                                    + "Triggers: "
-                                    + String.join(", ", ((DailyCheckIn) log).triggers);
+
+                            String entry;
+
+                            if (((DailyCheckIn) log).triggers != null) {
+                                entry =
+                                        timeHelper.formatTime(
+                                                AppConstants.DATE_HMMDY,
+                                                ((DailyCheckIn) log).gettimestamp()
+                                        ) + "\n"
+                                                + "Author: " + ((DailyCheckIn) log).author + "\n\n"
+                                                + "Activity limit: " + ((DailyCheckIn) log).activityLimit + "\n"
+                                                + "Cough/wheeze: " + ((DailyCheckIn) log).coughWheeze + "\n"
+                                                + "Night/waking: " + ((DailyCheckIn) log).nightWaking + "\n"
+                                                + "Triggers: "
+                                                + String.join(", ", ((DailyCheckIn) log).triggers);
+                            } else {
+                                entry =
+                                        timeHelper.formatTime(
+                                                AppConstants.DATE_HMMDY,
+                                                ((DailyCheckIn) log).gettimestamp()
+                                        ) + "\n"
+                                                + "Author: " + ((DailyCheckIn) log).author + "\n\n"
+                                                + "Activity limit: " + ((DailyCheckIn) log).activityLimit + "\n"
+                                                + "Cough/wheeze: " + ((DailyCheckIn) log).coughWheeze + "\n"
+                                                + "Night/waking: " + ((DailyCheckIn) log).nightWaking + "\n"
+                                                + "Triggers: "
+                                                + "none";
+                            }
 
                             return entry;
                         });
@@ -334,10 +351,15 @@ public class ChildHistoryFragment extends Fragment {
 
             // Check triggers
             if (!triggerFilterList.isEmpty()) {
-                for (String filter : triggerFilterList) {
-                    if (!log.triggers.contains(filter)) {
-                        include = false; // exclude if any filter is missing
-                        break;
+                if (log.triggers == null || log.triggers.isEmpty()) {
+                    include = false; // if no triggers, cannot match any filter
+                } else {
+                    for (String filter : triggerFilterList) {
+                        if (filter == null) continue; // ignore null filter
+                        if (!log.triggers.contains(filter)) {
+                            include = false; // exclude if any filter is missing
+                            break;
+                        }
                     }
                 }
             }
