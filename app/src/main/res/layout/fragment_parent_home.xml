@@ -100,7 +100,7 @@
                 android:id="@+id/alertTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Alerts"
+                android:text="Latest Alerts For Past 7 Days"
                 android:textSize="@dimen/fontSizeSubTitle"
 
                 app:layout_constraintStart_toStartOf="parent"

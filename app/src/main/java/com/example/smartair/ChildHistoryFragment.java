@@ -186,7 +186,8 @@ public class ChildHistoryFragment extends Fragment {
                 break;
         }
 
-        long todayMillis = System.currentTimeMillis();
+        long nowMs = System.currentTimeMillis();
+        long todayMillis = nowMs - nowMs % AppConstants.MS_DAY + AppConstants.MS_DAY;
         long pastMillis = todayMillis - days * AppConstants.MS_DAY;
 
         String type = logTypeSpinner.getSelectedItem().toString();
