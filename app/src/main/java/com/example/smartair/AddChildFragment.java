@@ -17,6 +17,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.material.button.MaterialButton;
+
 import java.util.ArrayList;
 
 public class AddChildFragment extends Fragment {
@@ -120,7 +122,7 @@ public class AddChildFragment extends Fragment {
         yearSpinner.setOnItemSelectedListener(monthYearListener);
 
         // button variables
-        Button buttonAddChild = view.findViewById(R.id.exampleButton);
+        MaterialButton buttonAddChild = view.findViewById(R.id.exampleButton);
         buttonAddChild.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -132,6 +134,14 @@ public class AddChildFragment extends Fragment {
 
                 acvm.createChildRequest(username, password, firstName, middleName, lastName);
 
+            }
+        });
+
+        MaterialButton backButton = view.findViewById(R.id.add_children_back_button);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getParentFragmentManager().popBackStack();
             }
         });
 
